@@ -1,5 +1,5 @@
 ---
-name: epic
+name: task
 about: Issue for epics
 title: ''
 labels: Task
