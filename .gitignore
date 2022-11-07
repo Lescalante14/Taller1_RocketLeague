@@ -30,8 +30,7 @@
 *.exe
 *.out
 *.app
-client
-server
+build
 
 # Mac
 .DS_Store
