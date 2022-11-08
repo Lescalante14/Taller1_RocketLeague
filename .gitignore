@@ -30,8 +30,6 @@
 *.exe
 *.out
 *.app
-client
-server
 
 # Mac
 .DS_Store
@@ -46,3 +44,6 @@ server
 #IDE
 .idea
 .vscode
+
+# Folders
+build
