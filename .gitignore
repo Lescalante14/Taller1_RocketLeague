@@ -30,7 +30,6 @@
 *.exe
 *.out
 *.app
-build
 
 # Mac
 .DS_Store
@@ -46,3 +45,6 @@ build
 .idea
 .vscode
 cmake-build-debug
+
+# Folders
+build
