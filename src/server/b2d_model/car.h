@@ -3,7 +3,6 @@
 
 class Car{
 	private:
-	float x, y;
 	b2Body *chassis;
 
 	b2Body *rear_wh_bd;
