@@ -16,9 +16,9 @@
 #define WH_Y_POS(_y) _y + W_RADIUS - CAR_HEIGHT / 2
 
 
-Car::Car(b2World &world, float x_pos, float y_pos) : x(x_pos), y(y_pos) {
-	set_chassis(world);
-	set_wheels(world);
+Car::Car(b2World &world, float x_pos, float y_pos) {
+	set_chassis(world, x_pos, y_pos);
+	set_wheels(world, x_pos, y_pos);
 	
 	b2Vec2 spring_axis(0.0f, 1.0f);
 	b2WheelJointDef wheel_axis;
@@ -64,7 +64,7 @@ Car::Car(b2World &world, float x_pos, float y_pos) : x(x_pos), y(y_pos) {
 }
 
 
-void Car::set_wheels(b2World &world) {
+void Car::set_wheels(b2World &world, float x, float, y) {
 	b2CircleShape circle;
 	circle.m_radius = W_RADIUS;
 	
@@ -76,13 +76,13 @@ void Car::set_wheels(b2World &world) {
 	b2BodyDef wheelDef;
 	wheelDef.type = b2_dynamicBody;
 	
-	wheelDef.position.Set(REAR_WH_X_POS(this->x),
-						  WH_Y_POS(this->y));
+	wheelDef.position.Set(REAR_WH_X_POS(x),
+						  WH_Y_POS(y));
 	this->rear_wh_bd = world.CreateBody(&wheelDef);
 	this->rear_wh_bd->CreateFixture(&fd);
 
-	wheelDef.position.Set(FRONT_WH_X_POS(this->x),
-						  WH_Y_POS(this->y));
+	wheelDef.position.Set(FRONT_WH_X_POS(x),
+						  WH_Y_POS(y));
 	this->front_wh_bd = world.CreateBody(&wheelDef);
 	this->front_wh_bd->CreateFixture(&fd);
 
@@ -90,10 +90,10 @@ void Car::set_wheels(b2World &world) {
 }
 
 
-void Car::set_chassis(b2World &world) {
+void Car::set_chassis(b2World &world, float x, float y) {
 	b2BodyDef chassisDef;
 	chassisDef.type = b2_dynamicBody;
-	chassisDef.position.Set(this->x, this->y + W_RADIUS);
+	chassisDef.position.Set(x, y + W_RADIUS);
 	
 	this->chassis = world.CreateBody(&chassisDef);
 	
@@ -101,11 +101,6 @@ void Car::set_chassis(b2World &world) {
 	skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
 
 	this->chassis->CreateFixture(&skin, DENSITY);
-}
-
-
-void Car::setDirection(b2Vec2 &dir) {
-
 }
 
 
@@ -123,5 +118,37 @@ void Car::stop() {
 	this->rear_wh->SetMotorSpeed(0.0f);
 }
 
+
+void Car::rotateLeft() {
+	this->chassis->SetAngularSpeed(FLIP_SPEED);
+}
+
+
+void Car::rotateRight() {
+	this->chassis->SetAngularSpeed(-FLIP_SPEED);
+}
+
+
+void Car::jump() {
+
+	if (this->GetWorldCenter().y == W_RADIUS) {
+		this->d_jmpd = false;
+	
+	} else if (this->d_jmpd) {
+		return;
+	}
+
+	// if the car has significative angular velocity,
+	// performs a flip, i.e. increase angular velocity
+	if (abs(m_car->GetAngularVelocity()) > 3) {
+      	this->chassis->ApplyAngularImpulse(10 * this->chassis->GetAngularVelocity(),
+							     true);
+
+	}
+	// performs the upward impulse
+	this->chassis->SetLinearImpulse(b2Vec(0, 60),
+						  this->chassis.GetWorldCenter(),
+						  true)
+}
 
 Car::~Car() {}

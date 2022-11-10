@@ -17,10 +17,12 @@ class Car{
 
 	public:
 	Car(b2World &world, float x_pos, float y_pos);
-	void setDirection(b2Vec2 &dir);
 	void goForward();
 	void goBackward();
 	void stop();
+	void jump();
+	void rotateLeft();
+	void rotateRight();
 
 	~Car();
 };
