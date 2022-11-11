@@ -16,10 +16,12 @@ target_include_directories(server PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../lib)
 # 	client_src/client.cpp
 # 	client_src/client_main.cpp
 # )
-
+#[[
 set(CLIENT_SRC_FILES
-		client/client_main.cpp
-		)
+		client/*.cpp
+		#client/ClientRocketLeague.cpp
+		)]]
+file(GLOB CLIENT_SRC_FILES client/*.cpp)
 add_executable(client ${CLIENT_SRC_FILES})
 
 # Agrego la libreria SDL2pp habilitando manejo de imagenes y de letras
