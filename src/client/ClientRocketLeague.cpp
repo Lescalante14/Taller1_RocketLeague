@@ -6,10 +6,10 @@
 #include <SDL2pp/SDL2pp.hh>
 #include <iostream>
 
-#define CAR_PIC_WIDTH 529
-#define CAR_PIC_HEIGHT 165
-#define CAR_WIDTH (CAR_PIC_WIDTH/5)
-#define CAR_HEIGHT (CAR_PIC_HEIGHT/5)
+#define CAR_PIC_WIDTH 971
+#define CAR_PIC_HEIGHT 442
+#define CAR_WIDTH (CAR_PIC_WIDTH/8)
+#define CAR_HEIGHT (CAR_PIC_HEIGHT/8)
 
 void ClientRocketLeague::start(std::istream &input) {
     std::cout << "Hello client" << std::endl;
@@ -18,7 +18,7 @@ void ClientRocketLeague::start(std::istream &input) {
     // Creo una ventana dinamica con titulo "Hello world"
     SDL2pp::Window window("Rocket League", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                           800, 600,
-                          SDL_WINDOW_RESIZABLE);
+                          SDL_WINDOW_RESIZABLE | SDL_WINDOW_FULLSCREEN);
 
     // Creo renderer
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -28,7 +28,7 @@ void ClientRocketLeague::start(std::istream &input) {
                              SDL2pp::Surface("./assets/Field.png").SetColorKey(true, 0));
     // Usar factory
     SDL2pp::Texture carImg(renderer,
-                           SDL2pp::Surface("./assets/CarF1.png").SetColorKey(true, 0));
+                           SDL2pp::Surface("./assets/car1.png").SetColorKey(true, 0));
     //Car car(carImg);
     // Clear screen
     renderer.Clear();
@@ -45,7 +45,7 @@ void ClientRocketLeague::start(std::istream &input) {
     );
     renderer.Copy(carImg,
                   SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
-                  SDL2pp::Rect(renderer.GetOutputWidth()-50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
+                  SDL2pp::Rect(renderer.GetOutputWidth()-CAR_WIDTH-50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
                   0.0,                // don't rotate
                   SDL2pp::NullOpt,    // rotation center - not needed
                   SDL_FLIP_HORIZONTAL
