@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/santiago/Documents/FIUBA/taller1/tps/rl
+CMAKE_SOURCE_DIR = "/home/lescalante/Documents/Universidad/2C-2022/Taller 1/TPS/TpGrupal/Taller1_RocketLeague"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/santiago/Documents/FIUBA/taller1/tps/rl/build
+CMAKE_BINARY_DIR = "/home/lescalante/Documents/Universidad/2C-2022/Taller 1/TPS/TpGrupal/Taller1_RocketLeague/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/santiago/Documents/FIUBA/taller1/tps/rl/build/CMakeFiles /home/santiago/Documents/FIUBA/taller1/tps/rl/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/lescalante/Documents/Universidad/2C-2022/Taller 1/TPS/TpGrupal/Taller1_RocketLeague/build/CMakeFiles" "/home/lescalante/Documents/Universidad/2C-2022/Taller 1/TPS/TpGrupal/Taller1_RocketLeague/build//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/santiago/Documents/FIUBA/taller1/tps/rl/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/lescalante/Documents/Universidad/2C-2022/Taller 1/TPS/TpGrupal/Taller1_RocketLeague/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -129,6 +129,32 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/server.dir/build.make src/CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+#=============================================================================
+# Target rules for targets named client
+
+# Build rule for target.
+client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client
+.PHONY : client
+
+# fast build rule for target.
+client/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/client.dir/build.make src/CMakeFiles/client.dir/build
+.PHONY : client/fast
+
+#=============================================================================
+# Target rules for targets named SDL2pp
+
+# Build rule for target.
+SDL2pp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL2pp
+.PHONY : SDL2pp
+
+# fast build rule for target.
+SDL2pp/fast:
+	$(MAKE) $(MAKESILENT) -f build/CMakeFiles/SDL2pp.dir/build.make build/CMakeFiles/SDL2pp.dir/build
+.PHONY : SDL2pp/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -137,6 +163,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... SDL2pp"
+	@echo "... client"
 	@echo "... server"
 .PHONY : help
 
