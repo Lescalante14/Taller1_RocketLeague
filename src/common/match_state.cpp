@@ -1,6 +1,7 @@
 #include "match_state.h"
 #include <sstream>
 #include <algorithm>
+#include <utility>
 
 #define MATCH_STATE_SIZE 22
 
@@ -68,7 +69,7 @@ MatchState::MatchState(
     float _ball_direction_y,
     float _ball_position_x,
     float _ball_position_y,
-    std::vector<CarState>& _cars
+    std::vector<CarState> _cars
 ) : time(_time),
     playing(_playing),
     scorer_1(_scorer_1),
@@ -78,7 +79,7 @@ MatchState::MatchState(
     ball_direction_y(_ball_direction_y),
     ball_position_x(_ball_position_x),
     ball_position_y(_ball_position_y),
-    cars(_cars) { }
+    cars(std::move(_cars)) { }
 
 uint16_t MatchState::get_time() {
     return this->time;

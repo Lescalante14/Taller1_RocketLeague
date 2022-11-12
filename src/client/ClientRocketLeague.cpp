@@ -11,6 +11,6 @@ ClientRocketLeague::ClientRocketLeague(const char *hostname, const char *servNam
 {}
 
 void ClientRocketLeague::start(std::istream &input) {
-    lobby.start(input);
+    lobby.start(input); // maybe this returns the id of game and the id of player?
     game.start(input);
 }

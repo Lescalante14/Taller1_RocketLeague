@@ -11,7 +11,7 @@
 int main(int argc, char** argv) {
     std::cout << "Hello world" << std::endl;
     try {
-        ClientRocketLeague game;
+        ClientRocketLeague game{};
         game.start(std::cin);
         /*if (argc == CantParams) {
             ClientRocketLeague game(HOSTNAME, SERV_NAME);
