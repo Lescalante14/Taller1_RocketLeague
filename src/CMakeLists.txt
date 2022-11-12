@@ -21,8 +21,10 @@ set(CLIENT_SRC_FILES
 		client/*.cpp
 		#client/ClientRocketLeague.cpp
 		)]]
+file(GLOB CLIENT_COMMON_FILES common/*.cpp)
+
 file(GLOB CLIENT_SRC_FILES client/*.cpp)
-add_executable(client ${CLIENT_SRC_FILES})
+add_executable(client ${CLIENT_SRC_FILES} ${CLIENT_COMMON_FILES} )
 
 # Agrego la libreria SDL2pp habilitando manejo de imagenes y de letras
 SET(SDL2PP_WITH_IMAGE YES)

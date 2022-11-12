@@ -7,10 +7,18 @@
 
 
 #include <istream>
+#include "../common/protocol.h"
+#include "Game.h"
+#include "LobbyClient.h"
 
 class ClientRocketLeague {
-
+private:
+    //Protocol protocol;
+    LobbyClient lobby;
+    Game game;
 public:
+    ClientRocketLeague() = default;
+    ClientRocketLeague(const char *hostname, const char *servName);
     void start(std::istream &input);
 };
 
