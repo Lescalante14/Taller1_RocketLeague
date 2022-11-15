@@ -9,6 +9,9 @@ set(SERVER_SRC_FILES
 
 add_executable(server ${SERVER_SRC_FILES})
 
+target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/server)
+target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/common)
+target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/client)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../inc)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../lib)
 

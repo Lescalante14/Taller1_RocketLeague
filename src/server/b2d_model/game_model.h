@@ -1,7 +1,7 @@
 #include <inc/box2d/box2d.h>
 #include <list>
 
-#include "car.h"
+#include "common/match_state.h"
 #include "car.h"
 #include "ball.h"
 
@@ -15,6 +15,7 @@ class GameModel {
 	public:
 	GameModel();
 	void step();
-	void update_game(MatchState &s);
+	void updateGame(MatchState &s);
+	MatchState getState();
 	~GameModel();
 };

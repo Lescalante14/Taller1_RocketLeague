@@ -10,6 +10,7 @@
 #define DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
+#define FLIP_SPEED 5 /* in radians */
 
 #define FRONT_WH_X_POS(_x) _x - 2 * W_RADIUS + CAR_WIDTH / 2
 #define REAR_WH_X_POS(_x) _x + 2 * W_RADIUS - CAR_WIDTH / 2
@@ -64,7 +65,7 @@ Car::Car(b2World &world, float x_pos, float y_pos) {
 }
 
 
-void Car::set_wheels(b2World &world, float x, float, y) {
+void Car::set_wheels(b2World &world, float x, float y) {
 	b2CircleShape circle;
 	circle.m_radius = W_RADIUS;
 	
@@ -103,52 +104,63 @@ void Car::set_chassis(b2World &world, float x, float y) {
 	this->chassis->CreateFixture(&skin, DENSITY);
 }
 
+/*    Actions    */
 
 void Car::goForward() {
 	this->rear_wh->SetMotorSpeed(MAX_MOTOR_SPEED);
 }
 
-
 void Car::goBackward() {
 	this->rear_wh->SetMotorSpeed(-MAX_MOTOR_SPEED);
 }
-
 
 void Car::stop() {
 	this->rear_wh->SetMotorSpeed(0.0f);
 }
 
-
 void Car::rotateLeft() {
-	this->chassis->SetAngularSpeed(FLIP_SPEED);
+	this->chassis->SetAngularVelocity(FLIP_SPEED);
 }
-
 
 void Car::rotateRight() {
-	this->chassis->SetAngularSpeed(-FLIP_SPEED);
+	this->chassis->SetAngularVelocity(-FLIP_SPEED);
 }
-
 
 void Car::jump() {
 
-	if (this->GetWorldCenter().y == W_RADIUS) {
-		this->d_jmpd = false;
+	if (this->chassis->GetWorldCenter().y == W_RADIUS) {
+		this->d_jumpd = false;
 	
-	} else if (this->d_jmpd) {
+	} else if (this->d_jumpd) {
 		return;
 	}
 
 	// if the car has significative angular velocity,
 	// performs a flip, i.e. increase angular velocity
-	if (abs(m_car->GetAngularVelocity()) > 3) {
+	if (abs(this->chassis->GetAngularVelocity()) > 3) {
       	this->chassis->ApplyAngularImpulse(10 * this->chassis->GetAngularVelocity(),
-							     true);
+							    		   true);
 
 	}
 	// performs the upward impulse
-	this->chassis->SetLinearImpulse(b2Vec(0, 60),
-						  this->chassis.GetWorldCenter(),
-						  true)
+	this->chassis->ApplyLinearImpulse(b2Vec2(0, 60),
+						  			  this->chassis->GetWorldCenter(),
+						  			  true);
 }
+
+/*    Stats    */
+
+b2Vec2 Car::getPosition() {
+	return this->chassis->GetPosition();
+}
+
+float Car::getAngle() {
+	return this->chassis->GetAngle();
+}
+
+float Car::getSpeed() {
+	return this->chassis->GetLinearVelocity().Length();
+}
+
 
 Car::~Car() {}
