@@ -27,15 +27,10 @@ public:
     std::string serialize() override;
 
     int get_field_length();
-
     int get_field_height();
-
     int get_goal_height();
-
     int get_ball_size();
-
     int get_car_size();
-
     uint8_t get_cars_quantity();
 };
 

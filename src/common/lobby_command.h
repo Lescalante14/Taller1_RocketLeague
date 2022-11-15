@@ -1,44 +1,32 @@
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef LOBBY_COMMAND_H
+#define LOBBY_COMMAND_H
 
+#include "transferable.h"
 #include <string>
-#include "lobby.h"
 
-#define COMMAND_SUCCESS_CODE 0x00
-#define COMMAND_FAILURE_CODE 0x01
+#define LIST_CODE 0x00
+#define CREATE_CODE 0x01
+#define JOIN_CODE 0x02
+#define COMMAND_SUCCESS_CODE 0
+#define COMMAND_FAILURE_CODE 1
 
-/*
- * Clase abstracta que representa comandos a ser
- * ejecutados por el servidor de Rocket League
- * sobre un lobby de partidas
- * */
-class Command {
-    private:
+class LobbyCommand: public Transferable {
+private:
     uint8_t code;
+    std::string payload;
 
-    protected:
-    explicit Command(uint8_t _code);
+public:
+    LobbyCommand(
+        uint8_t _code,
+        std::string _payload = "");
 
-    public:
-    /*
-    * devuelve el mensaje que representa al comando
-    * para ser enviado al servidor
-    * */
-   uint8_t get_command_code();
+    explicit LobbyCommand(std::string result);
 
-    /*
-    * devuelve el resultado de un comando dependiendo
-    * del éxito en su aplicación
-    * */
-   uint8_t get_command_result_code(bool success);
-    
-    /*
-    * Ejecuta el comando sobre el lobby recibido por 
-    * parámetro
-    * */
-    virtual std::string run(Lobby* _lobby) = 0;
+    std::string serialize() override;
 
-    virtual ~Command();
+    uint8_t get_code();
+    bool is_successful();
+    std::string get_payload();
 };
-#endif
 
+#endif
