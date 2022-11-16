@@ -9,6 +9,7 @@ private:
     uint8_t id;
     uint8_t nitro_activated;
     uint8_t nitro_percentage;
+    uint8_t facing_right;
     int position_x;
     int position_y;
     int direction_x;
@@ -19,6 +20,7 @@ public:
         uint8_t _id,
         uint8_t _nitro_activated,
         uint8_t _nitro_percentage,
+        uint8_t _facing_right,
         float _position_x,
         float _position_y,
         float _direction_x,
@@ -31,6 +33,7 @@ public:
     uint8_t get_id();
     uint8_t get_nitro_percentage();
     uint8_t get_nitro_activated();
+    uint8_t get_facing_right();
     int get_position_x();
     int get_position_y();
     int get_direction_x();

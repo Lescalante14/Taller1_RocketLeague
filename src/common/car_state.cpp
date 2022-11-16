@@ -1,7 +1,7 @@
 #include "car_state.h"
 #include <netinet/in.h>
 
-#define CAR_STATE_SIZE 19
+#define CAR_STATE_SIZE 20
 
 std::string CarState::serialize() {
     char buf[CAR_STATE_SIZE];
@@ -13,6 +13,7 @@ std::string CarState::serialize() {
     buf[16] = this->id;
     buf[17] = this->nitro_activated;
     buf[18] = this->nitro_percentage;
+    buf[19] = this->facing_right;
     std::string message(buf, CAR_STATE_SIZE);
     return message;
 }
@@ -27,12 +28,14 @@ CarState::CarState(std::string &state) {
     this->id = buf[16];
     this->nitro_activated = buf[17];
     this->nitro_percentage = buf[18];
+    this->facing_right = buf[19];
 }
 
 CarState::CarState(
     uint8_t _id,
     uint8_t _nitro_activated,
     uint8_t _nitro_percentage,
+    uint8_t _facing_right,
     float _position_x,
     float _position_y,
     float _direction_x,
@@ -40,6 +43,7 @@ CarState::CarState(
 ) : id(_id),
     nitro_activated(_nitro_activated),
     nitro_percentage(_nitro_percentage),
+    facing_right(_facing_right),
     position_x(_position_x),
     position_y(_position_y),
     direction_x(_direction_x),
@@ -55,6 +59,10 @@ uint8_t CarState::get_nitro_activated() {
 
 uint8_t CarState::get_nitro_percentage() {
     return this->nitro_percentage;
+}
+
+uint8_t CarState::get_facing_right() {
+    return this->facing_right;
 }
 
 int CarState::get_position_x() {
