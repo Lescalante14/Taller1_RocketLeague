@@ -9,12 +9,10 @@
 
 void Server::start(const char *servname) { 
     Socket skt(servname);
-    BlockingQueue<LobbyMatch*>* matchs_to_start = new BlockingQueue<LobbyMatch*>();
+    BlockingQueue<LobbyMatch*> matchs_to_start;
+    Lobby lobby(matchs_to_start);
 
-try {
-    Lobby lobby(*matchs_to_start);
-
-    ThreadMatchsHandler matchs_handler(*matchs_to_start);
+    ThreadMatchsHandler matchs_handler(matchs_to_start);
     matchs_handler.start();
 
     bool keep_accepting(true);
@@ -30,10 +28,7 @@ try {
     keep_accepting = false;
     skt.shutdown(2);
     skt.close();
-    matchs_to_start->close();
+    matchs_to_start.close();
     acceptor.join();
     matchs_handler.join();
-    delete matchs_to_start;
-} catch (...) {
-    delete matchs_to_start;
-} }
+}
