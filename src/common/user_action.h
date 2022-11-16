@@ -7,8 +7,8 @@
 
 #define LEFT_PUSH 0x01
 #define LEFT_RELEASE 0x02
-#define RIGHT_PUSH 0x3
-#define RIGHT_RELEASE 0x4
+#define RIGHT_PUSH 0x03
+#define RIGHT_RELEASE 0x04
 #define UP_PUSH 0x05
 #define UP_RELEASE 0x06
 #define DOWN_PUSH 0x07
