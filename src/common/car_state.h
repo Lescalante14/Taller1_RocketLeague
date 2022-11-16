@@ -1,7 +1,7 @@
 #ifndef CAR_STATE_H
 #define CAR_STATE_H
 
-#include "transferable.h"
+#include "Transferable.h"
 #include <string>
 
 class CarState: public Transferable {
@@ -9,22 +9,20 @@ private:
     uint8_t id;
     uint8_t nitro_activated;
     uint8_t nitro_percentage;
-    uint8_t facing_right;
+    uint8_t inverted;
+    uint16_t angle;
     int position_x;
     int position_y;
-    int direction_x;
-    int direction_y;
 
 public:
     CarState(
-        uint8_t _id,
-        uint8_t _nitro_activated,
-        uint8_t _nitro_percentage,
-        uint8_t _facing_right,
-        float _position_x,
-        float _position_y,
-        float _direction_x,
-        float _direction_y);
+            uint8_t _id,
+            uint8_t _nitro_activated,
+            uint8_t _nitro_percentage,
+            uint8_t _inverted,
+            uint16_t _angle,
+            float _position_x,
+            float _position_y);
 
     explicit CarState(std::string &state);
 
@@ -33,11 +31,10 @@ public:
     uint8_t get_id();
     uint8_t get_nitro_percentage();
     uint8_t get_nitro_activated();
-    uint8_t get_facing_right();
+    uint8_t is_inverted();
+    uint16_t get_angle();
     int get_position_x();
     int get_position_y();
-    int get_direction_x();
-    int get_direction_y();
 };
 
 #endif
