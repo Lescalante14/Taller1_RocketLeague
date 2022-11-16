@@ -20,10 +20,10 @@ std::string CarState::serialize() {
 CarState::CarState(std::string &state) {
     const char* buf = state.c_str();
     int* fbuf = (int*)buf;
-    int* auxbuf = (int*)buf;
+    uint16_t* auxbuf = (uint16_t*)buf;
     this->position_x = ntohl(fbuf[0]);
     this->position_y = ntohl(fbuf[1]);
-    this->angle = ntohl(auxbuf[4]);
+    this->angle = ntohl(auxbuf[4]); //chequear si colocando esto así ocupa la pos 8 y 9 ??
     this->id = buf[10];
     this->nitro_activated = buf[11];
     this->nitro_percentage = buf[12];
