@@ -12,11 +12,13 @@ template<typename T> class NonBlockingQueue {
     std::queue<T> internal;
     std::mutex mutex;
     bool is_closed;
+    std::condition_variable cv;
 
     public:
     void push(T &element) {
         std::unique_lock<std::mutex> lock(mutex);
         internal.push(element);
+        cv.notify_all();
     }
 
     T pop() {
@@ -26,6 +28,19 @@ template<typename T> class NonBlockingQueue {
         }
         if (is_closed) {
             throw QueueClosedException();
+        }
+        T element = internal.front();
+        internal.pop();
+        return element;
+    }
+
+    T blocking_pop() {
+        std::unique_lock<std::mutex> lock(this->mutex);
+        while (internal.empty()) {
+            if (is_closed) {
+                throw QueueClosedException();
+            }
+            cv.wait(lock);
         }
         T element = internal.front();
         internal.pop();
