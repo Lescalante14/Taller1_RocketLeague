@@ -14,7 +14,10 @@
 class ClientCarState {
 private:
     CarState wrappeeState;
-
+    bool _isRightPush;
+    bool _isLeftPush;
+    bool _isUpPush;
+    bool _isDownPush;
 public:
     explicit ClientCarState(CarState state);
 
@@ -29,6 +32,10 @@ public:
     int convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &renderer);
 
     bool facingRight();
+
+    [[nodiscard]] bool isRightPush() const;
+
+    void setRightIsPushed(bool isPushed);
 };
 
 

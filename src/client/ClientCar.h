@@ -21,6 +21,10 @@ public:
     int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer);
 
     int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer);
+
+    bool isRightPush();
+
+    void setRightIsPushed(bool isPushed);
 };
 
 

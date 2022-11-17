@@ -55,3 +55,11 @@ int ClientCarState::convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &render
 bool ClientCarState::facingRight() {
     return wrappeeState.get_id() == 1;
 }
+
+bool ClientCarState::isRightPush() const {
+    return _isRightPush;
+}
+
+void ClientCarState::setRightIsPushed(bool isPushed) {
+    _isRightPush = isPushed;
+}

@@ -7,11 +7,15 @@
 
 
 #include <istream>
+#include "MockProvider.h"
+#include "ClientMatch.h"
 
 class Game {
 
 public:
     void start(std::istream &input);
+
+    bool handleEvents(ClientMatch &match);
 };
 
 

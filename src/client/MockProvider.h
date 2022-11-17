@@ -14,6 +14,7 @@ class MockProvider {
             CarState(2,0,100, 39000, 0, 0, 0)
     };
     const MatchState initialMatchState;
+
 public:
     [[nodiscard]] const MatchState &getInitialMatchState() const;
     MockProvider();

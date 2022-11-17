@@ -23,7 +23,7 @@ void ClientCar::render(SDL2pp::Renderer &renderer) {
                   SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
                   //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
                   SDL2pp::Rect(posX, posY, CAR_WIDTH, CAR_HEIGHT),
-                  state.get_angle(),                // don't rotate
+                  -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   state.facingRight() ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL
     );
@@ -38,4 +38,12 @@ int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer) {
 
 int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer) {
     return state.get_position_y(renderer);
+}
+
+bool ClientCar::isRightPush() {
+    return state.isRightPush();
+}
+
+void ClientCar::setRightIsPushed(bool isPushed) {
+    state.setRightIsPushed(isPushed);
 }
