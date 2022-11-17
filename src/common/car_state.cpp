@@ -6,9 +6,10 @@
 std::string CarState::serialize() {
     char buf[CAR_STATE_SIZE];
     int* fbuf = (int*)buf;
+    uint16_t* auxbuf = (uint16_t*)buf;
     fbuf[0] = htonl(this->position_x);
     fbuf[1] = htonl(this->position_y);
-    buf[8] = this->angle; // chequear si colocando esto así ocupa la pos 8 y 9 ??
+    auxbuf[4] = htons(this->angle);
     buf[10] = this->id;
     buf[11] = this->nitro_activated;
     buf[12] = this->nitro_percentage;
@@ -23,7 +24,7 @@ CarState::CarState(std::string &state) {
     uint16_t* auxbuf = (uint16_t*)buf;
     this->position_x = ntohl(fbuf[0]);
     this->position_y = ntohl(fbuf[1]);
-    this->angle = ntohl(auxbuf[4]); //chequear si colocando esto así ocupa la pos 8 y 9 ??
+    this->angle = ntohs(auxbuf[4]);
     this->id = buf[10];
     this->nitro_activated = buf[11];
     this->nitro_percentage = buf[12];
