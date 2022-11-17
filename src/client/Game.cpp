@@ -4,8 +4,8 @@
 
 #include "Game.h"
 #include "MockProvider.h"
-#include "ClientMatchState.h"
-#include "ClientMatch.h"
+#include "model/ClientMatchState.h"
+#include "presentation/ClientMatch.h"
 #include <SDL2pp/SDL2pp.hh>
 #include <csignal>
 

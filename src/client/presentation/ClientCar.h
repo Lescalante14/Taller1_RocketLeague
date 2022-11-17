@@ -6,8 +6,8 @@
 #define ROCKET_LEAGUE_CLIENTCAR_H
 
 
-#include <SDL2pp/SDL2pp.hh>
-#include "ClientCarState.h"
+#include "SDL2pp/SDL2pp.hh"
+#include "../model/ClientCarState.h"
 
 class ClientCar {
     SDL2pp::Texture texture;
