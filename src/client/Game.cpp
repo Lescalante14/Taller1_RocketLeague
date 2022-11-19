@@ -3,7 +3,7 @@
 //
 
 #include "Game.h"
-#include "MockProvider.h"
+#include "helpers/MockProvider.h"
 #include "model/ClientMatchState.h"
 #include "presentation/ClientMatch.h"
 #include <SDL2pp/SDL2pp.hh>

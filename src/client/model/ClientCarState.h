@@ -28,9 +28,6 @@ public:
     int get_position_y(SDL2pp::Renderer &renderer);
     int get_angle();
 
-    int convert_CM_to_PX_In_X_axis(int pos, SDL2pp::Renderer &renderer);
-    int convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &renderer);
-
     bool facingRight();
 
     [[nodiscard]] bool isRightPush() const;

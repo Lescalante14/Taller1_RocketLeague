@@ -4,8 +4,11 @@
 
 #include "ClientMatchState.h"
 
+#include <utility>
+
 ClientMatchState::ClientMatchState(MatchState state)
-: wrappeeState(state), cars()
+: ballState(state.get_ball_position_x(), state.get_ball_position_y(), 0),
+wrappeeState(std::move(state)), cars()
 {
     for (auto &car : wrappeeState.get_cars()) {
         cars.emplace_back(CarState(car));
@@ -32,16 +35,16 @@ uint8_t ClientMatchState::get_cars_quantity() {
     return wrappeeState.get_cars_quantity();
 }
 
-int ClientMatchState::get_ball_position_x() {
+int ClientMatchState::get_ball_position_x(SDL2pp::Renderer &renderer) {
     return wrappeeState.get_ball_position_x();
-}
+} // maybe getBall()??
 
-int ClientMatchState::get_ball_position_y() {
+int ClientMatchState::get_ball_position_y(SDL2pp::Renderer &renderer) {
     return wrappeeState.get_ball_position_y();
 }
 
 int ClientMatchState::get_ball_angle() {
-    return 0;//wrappeeState.get_ball_angle();
+    return ballState.get_angle();//wrappeeState.get_ball_angle();
 }
 
 std::vector<ClientCarState> ClientMatchState::get_cars() {

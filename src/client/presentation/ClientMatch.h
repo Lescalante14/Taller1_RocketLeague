@@ -9,10 +9,12 @@
 #include "../model/ClientMatchState.h"
 #include "Field.h"
 #include "ClientCar.h"
+#include "ClientBall.h"
 
 class ClientMatch {
     ClientMatchState state;
     Field field;
+    ClientBall ball;
     std::vector<ClientCar> cars;
 
 public:

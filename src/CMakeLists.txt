@@ -23,7 +23,7 @@ set(CLIENT_SRC_FILES
 		)]]
 file(GLOB CLIENT_COMMON_FILES common/*.cpp)
 
-file(GLOB CLIENT_SRC_FILES client/*.cpp client/presentation/*.cpp client/model/*.cpp)
+file(GLOB CLIENT_SRC_FILES client/*.cpp client/presentation/*.cpp client/model/*.cpp client/helpers/*.cpp)
 add_executable(client ${CLIENT_SRC_FILES} ${CLIENT_COMMON_FILES} )
 
 # Agrego la libreria SDL2pp habilitando manejo de imagenes y de letras
