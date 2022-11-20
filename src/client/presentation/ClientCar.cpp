@@ -38,13 +38,16 @@ int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer) {
     int pos = converter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
     if (pos + CAR_WIDTH/2 > renderer.GetOutputWidth())
         return renderer.GetOutputWidth()-CAR_WIDTH;
-    return 0;
+    return pos;
 }
 
 int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer) {
     int cmPos = state.get_position_y();
     PositionConverter converter;
-    return converter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+    int posPx = converter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+    if (posPx + CAR_HEIGHT > renderer.GetOutputHeight())
+        return renderer.GetOutputHeight() - CAR_HEIGHT;
+    return posPx;
 }
 
 bool ClientCar::isRightPush() {

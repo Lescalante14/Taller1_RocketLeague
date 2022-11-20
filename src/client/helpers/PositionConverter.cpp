@@ -16,5 +16,5 @@ int PositionConverter::convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &ren
     if (inverseSize == 0)
         return 0;
     double f = (double)20000/(double)inverseSize; // 20000 => matchSetup.field_height
-    return (int)((double)renderer.GetOutputHeight()/f)-100; // 100 is the ground
+    return (int)((double)renderer.GetOutputHeight()/f) - 100; // 100 is the ground
 }

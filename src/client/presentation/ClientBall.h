@@ -15,6 +15,10 @@ public:
     ClientBall(ClientBallState state, SDL2pp::Renderer &renderer);
 
     void render(SDL2pp::Renderer &renderer);
+
+    int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer);
+
+    int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer);
 };
 
 

@@ -17,8 +17,8 @@ class ClientBallState {
 public:
 
     ClientBallState(int position_x, int position_y, int angle);
-    int get_position_x(SDL2pp::Renderer &renderer);
-    int get_position_y(SDL2pp::Renderer &renderer);
+    int get_position_x();
+    int get_position_y();
     int get_angle();
 };
 
