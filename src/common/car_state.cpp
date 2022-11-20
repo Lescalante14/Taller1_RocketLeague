@@ -13,7 +13,7 @@ std::string CarState::serialize() {
     buf[10] = this->id;
     buf[11] = this->nitro_activated;
     buf[12] = this->nitro_percentage;
-    buf[13] = this->inverted;
+    buf[13] = this->oriented_right;
     std::string message(buf, CAR_STATE_SIZE);
     return message;
 }
@@ -28,21 +28,21 @@ CarState::CarState(std::string &state) {
     this->id = buf[10];
     this->nitro_activated = buf[11];
     this->nitro_percentage = buf[12];
-    this->inverted = buf[13];
+    this->oriented_right = buf[13];
 }
 
 CarState::CarState(
     uint8_t _id,
     uint8_t _nitro_activated,
     uint8_t _nitro_percentage,
-    uint8_t _inverted,
+    uint8_t _oriented_right,
     uint16_t _angle,
     float _position_x,
     float _position_y
 ) : id(_id),
     nitro_activated(_nitro_activated),
     nitro_percentage(_nitro_percentage),
-    inverted(_inverted),
+    oriented_right(_oriented_right),
     position_x(_position_x),
     position_y(_position_y),
     angle(_angle) { }
@@ -67,8 +67,8 @@ int CarState::get_position_y() {
     return this->position_y;
 }
 
-uint8_t CarState::is_inverted() {
-    return this->inverted;
+uint8_t CarState::is_oriented_right() {
+    return this->oriented_right;
 }
 
 uint16_t CarState::get_angle() {
