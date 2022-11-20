@@ -17,18 +17,18 @@ ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
         , state(std::move(state)){}
 
 void ClientCar::render(SDL2pp::Renderer &renderer) {
-    //renderer.Copy(texture);
     int posX = calculatePositionInXWithBorder(renderer);
     int posY = calculatePositionInYWithBorder(renderer);
-    bool facingLeft = (state.get_angle()>=90 && state.get_angle()<=270);
-    bool flipV = (facingLeft && !state.is_inverted()) || (!facingLeft && state.is_inverted());
+
+    bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
+    bool flipH = (inverted && state.is_oriented_right()) || (!inverted && !state.is_oriented_right());
     renderer.Copy(texture,
                   SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
                   //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
                   SDL2pp::Rect(posX, posY, CAR_WIDTH, CAR_HEIGHT),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
-                  flipV ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE
+                  flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
     );
 }
 

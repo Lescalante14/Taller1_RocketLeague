@@ -28,7 +28,7 @@ public:
     int get_position_y();
     int get_angle();
 
-    bool is_inverted();
+    bool is_oriented_right();
 
     [[nodiscard]] bool isRightPush() const;
 

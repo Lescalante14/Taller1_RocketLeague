@@ -33,8 +33,8 @@ int ClientCarState::get_angle() {
     return wrappeeState.get_angle();
 }
 
-bool ClientCarState::is_inverted() {
-    return wrappeeState.is_inverted();
+bool ClientCarState::is_oriented_right() {
+    return wrappeeState.is_oriented_right();
 }
 
 bool ClientCarState::isRightPush() const {
