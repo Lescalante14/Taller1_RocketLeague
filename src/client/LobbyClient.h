@@ -11,7 +11,7 @@
 class LobbyClient {
 
 public:
-    void start(std::istream &input);
+    void start(std::istream &input, const char *hostname, const char *servname);
 };
 
 
