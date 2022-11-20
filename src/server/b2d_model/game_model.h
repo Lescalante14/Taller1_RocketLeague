@@ -1,5 +1,5 @@
 #include <inc/box2d/box2d.h>
-#include <list>
+#include <map>
 
 #include "common/match_state.h"
 #include "car.h"
@@ -9,7 +9,7 @@ class GameModel {
 	private:
 	b2World world;
 
-	std::list<Car> cars;
+	std::map<int, Car> cars;
 	Ball ball;
 
 	public:

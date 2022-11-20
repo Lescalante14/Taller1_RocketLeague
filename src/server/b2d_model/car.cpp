@@ -11,6 +11,7 @@
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
 #define FLIP_SPEED 5 /* in radians */
+#define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
 
 #define FRONT_WH_X_POS(_x) _x - 2 * W_RADIUS + CAR_WIDTH / 2
 #define REAR_WH_X_POS(_x) _x + 2 * W_RADIUS - CAR_WIDTH / 2
@@ -106,11 +107,11 @@ void Car::set_chassis(b2World &world, float x, float y) {
 
 /*    Actions    */
 
-void Car::goForward() {
+void Car::goLeft() {
 	this->rear_wh->SetMotorSpeed(MAX_MOTOR_SPEED);
 }
 
-void Car::goBackward() {
+void Car::goRight() {
 	this->rear_wh->SetMotorSpeed(-MAX_MOTOR_SPEED);
 }
 
@@ -118,20 +119,24 @@ void Car::stop() {
 	this->rear_wh->SetMotorSpeed(0.0f);
 }
 
-void Car::rotateLeft() {
+void Car::rotateCCW() {
 	this->chassis->SetAngularVelocity(FLIP_SPEED);
 }
 
-void Car::rotateRight() {
+void Car::rotateCW() {
 	this->chassis->SetAngularVelocity(-FLIP_SPEED);
 }
 
 void Car::jump() {
-
+	// is in the ground
 	if (this->chassis->GetWorldCenter().y == W_RADIUS) {
 		this->d_jumpd = false;
 	
-	} else if (this->d_jumpd) {
+	// in the air and not double jumped
+	} else if (!this->d_jumpd) {
+		this->d_jumpd = true;
+	
+	} else {
 		return;
 	}
 
@@ -140,13 +145,14 @@ void Car::jump() {
 	if (abs(this->chassis->GetAngularVelocity()) > 3) {
       	this->chassis->ApplyAngularImpulse(10 * this->chassis->GetAngularVelocity(),
 							    		   true);
-
 	}
 	// performs the upward impulse
-	this->chassis->ApplyLinearImpulse(b2Vec2(0, 60),
-						  			  this->chassis->GetWorldCenter(),
-						  			  true);
+	float rad_angle = this->chassis->GetAngle();
+	b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
+	i *= JUMP_IMPULSE;
+	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
 }
+
 
 /*    Stats    */
 

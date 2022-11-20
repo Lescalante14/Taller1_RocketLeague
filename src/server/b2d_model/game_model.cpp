@@ -3,8 +3,8 @@
 #define VEL_ITER 6
 #define POS_ITER 2
 
-GameModel::GameModel() : world(b2Vec2(0.0f, -10.0f)) {
-
+GameModel::GameModel(std::list<uint8_t> cars) : world(b2Vec2(0.0f, -10.0f)) {
+	
 }
 
 void GameModel::updateGame(MatchState &s) {
@@ -22,7 +22,6 @@ void GameModel::step() {
 
 
 MatchState GameModel::getState() {
-	devuelvo
 }
 
 GameModel::~GameModel() {}

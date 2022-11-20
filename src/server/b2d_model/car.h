@@ -19,12 +19,12 @@ class Car{
 	Car(b2World &world, float x_pos, float y_pos);
 	
 	/* Actions */
-	void goForward();
-	void goBackward();
+	void goLeft();
+	void goRight();
 	void stop();
 	void jump();
-	void rotateLeft();
-	void rotateRight();
+	void rotateCCW();
+	void rotateCW();
 
 	/* Stats */
 	b2Vec2 getPosition();

@@ -12,7 +12,7 @@
  * */
 class CommandHandler {
     private:
-    Command* command;
+    Command* command = nullptr;
 
     public:
     explicit CommandHandler(
