@@ -24,11 +24,11 @@ public:
     uint8_t get_id();
     uint8_t get_nitro_percentage();
     bool get_nitro_activated();
-    int get_position_x(SDL2pp::Renderer &renderer);
-    int get_position_y(SDL2pp::Renderer &renderer);
+    int get_position_x();
+    int get_position_y();
     int get_angle();
 
-    bool facingRight();
+    bool is_inverted();
 
     [[nodiscard]] bool isRightPush() const;
 

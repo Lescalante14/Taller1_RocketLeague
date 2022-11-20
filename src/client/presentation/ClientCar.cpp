@@ -3,6 +3,7 @@
 //
 
 #include "ClientCar.h"
+#include "../helpers/PositionConverter.h"
 
 #include <utility>
 
@@ -17,27 +18,33 @@ ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
 
 void ClientCar::render(SDL2pp::Renderer &renderer) {
     //renderer.Copy(texture);
-    int posX = calculatePositionInXWithBorder(renderer);//state.get_position_x(renderer);
-    int posY = calculatePositionInYWithBorder(renderer);//state.get_position_y(renderer);
+    int posX = calculatePositionInXWithBorder(renderer);
+    int posY = calculatePositionInYWithBorder(renderer);
+    bool facingLeft = (state.get_angle()>=90 && state.get_angle()<=270);
+    bool flipV = (facingLeft && !state.is_inverted()) || (!facingLeft && state.is_inverted());
     renderer.Copy(texture,
                   SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
                   //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
                   SDL2pp::Rect(posX, posY, CAR_WIDTH, CAR_HEIGHT),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
-                  state.facingRight() ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL
+                  flipV ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE
     );
 }
 
 int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer) {
-    int pos = state.get_position_x(renderer);
+    int cmPos = state.get_position_x();
+    PositionConverter converter;
+    int pos = converter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
     if (pos + CAR_WIDTH/2 > renderer.GetOutputWidth())
         return renderer.GetOutputWidth()-CAR_WIDTH;
     return 0;
 }
 
 int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer) {
-    return state.get_position_y(renderer);
+    int cmPos = state.get_position_y();
+    PositionConverter converter;
+    return converter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
 }
 
 bool ClientCar::isRightPush() {

@@ -23,13 +23,10 @@ Pseudo Loop:
 */
 void Game::start(std::istream &input) {
     std::cout << "Hello client" << std::endl;
-    // Inicializo biblioteca de SDL
     SDL2pp::SDL sdl(SDL_INIT_VIDEO);
-    // Creo una ventana dinamica con titulo "Hello world"
     SDL2pp::Window window("Rocket League", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                           800, 600,
                           SDL_WINDOW_RESIZABLE);
-    // Creo renderer
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     MockProvider mockProvider;
@@ -45,8 +42,6 @@ void Game::start(std::istream &input) {
 
 
     bool running = true;
-    // Gameloop, notar como tenemos desacoplado el procesamiento de los inputs (handleEvents)
-    // del update del modelo.
     while (running) {
         running = handleEvents(match); // push inside
         // state = multiple pops()

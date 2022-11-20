@@ -3,7 +3,6 @@
 //
 
 #include "ClientCarState.h"
-#include "../helpers/PositionConverter.h"
 
 #include <utility>
 
@@ -22,24 +21,20 @@ uint8_t ClientCarState::get_nitro_percentage() {
     return wrappeeState.get_nitro_percentage();
 }
 
-int ClientCarState::get_position_x(SDL2pp::Renderer &renderer) {
-    int cmPos = wrappeeState.get_position_x();
-    PositionConverter converter;
-    return converter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
+int ClientCarState::get_position_x() {
+    return wrappeeState.get_position_x();
 }
 
-int ClientCarState::get_position_y(SDL2pp::Renderer &renderer) {
-    int cmPos = wrappeeState.get_position_y();
-    PositionConverter converter;
-    return converter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+int ClientCarState::get_position_y() {
+    return wrappeeState.get_position_y();
 }
 
 int ClientCarState::get_angle() {
-    return 0;//wrappeeState.angle();
+    return wrappeeState.get_angle();
 }
 
-bool ClientCarState::facingRight() {
-    return wrappeeState.get_id() == 1;
+bool ClientCarState::is_inverted() {
+    return wrappeeState.is_inverted();
 }
 
 bool ClientCarState::isRightPush() const {

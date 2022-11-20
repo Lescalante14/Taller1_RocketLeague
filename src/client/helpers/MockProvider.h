@@ -10,8 +10,8 @@
 
 class MockProvider {
     std::vector<CarState> initialCars = {
-            CarState(1,0,100, 1000, 0, 0, 0),
-            CarState(2,0,100, 39000, 0, 0, 0)
+            CarState(1,0,100, 0, 0, 1000, 0),
+            CarState(2,0,100, 1, 180, 39000, 0)
     };
     const MatchState initialMatchState;
 
