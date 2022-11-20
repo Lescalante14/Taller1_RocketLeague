@@ -1,27 +1,55 @@
 #include "lobby_match.h"
 #include "lobby_match_error.h"
 #include <sstream>
+#include <algorithm>
+#include <utility>
 
 LobbyMatch::LobbyMatch(
-    const std::string& _name, size_t _players_limit
-): name(_name), 
+    const std::string& _name, 
+    size_t _players_limit,
+    BlockingQueue<std::string>* output_queue
+):  name(_name), 
     players(1), 
-    players_limit(_players_limit) { }
+    players_limit(_players_limit) { 
+        this->output_queues.push_back(output_queue);
+    }
 
 std::string LobbyMatch::get_description() const {
     std::stringstream description;
-    description << this->name 
-        << " " << this->players 
-        << "/" << this->players_limit;
+    description << this->players 
+        << " " << this->players_limit 
+        << " " << this->name;
     return description.str();
 }
 
-bool LobbyMatch::add_player() {
+uint8_t LobbyMatch::add_player(
+    BlockingQueue<std::string>* output_queue,
+    bool* has_to_start
+) {
     if (this->players >= this->players_limit) {
         throw LobbyMatchError("The match is full.");
     }
 
     this->players++;
+    this->output_queues.push_back(output_queue);
 
-    return this->players == this->players_limit;
+    *has_to_start = this->players == this->players_limit;
+    return (this->players - 1);
+}
+
+NonBlockingQueue<UserAction>* LobbyMatch::get_match_input_queue() {
+    return &(this->input_queue);
+}
+
+UserAction LobbyMatch::pop_from_input_queue() {
+    return this->input_queue.pop();
+}
+
+void LobbyMatch::push_to_output_queues(std::string state) {
+    std::for_each(
+        this->output_queues.begin(), 
+        this->output_queues.end(), 
+        [&state] (BlockingQueue<std::string>* queue) { 
+            queue->push(state);
+        });
 }

@@ -2,8 +2,6 @@
 #define MATCH_STATE_H
 
 #include <vector>
-#include <algorithm>
-#include <netinet/in.h>
 #include <string>
 #include "Transferable.h"
 #include "car_state.h"
