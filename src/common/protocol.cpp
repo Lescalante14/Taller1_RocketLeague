@@ -10,77 +10,6 @@
 Protocol::Protocol(Socket _skt)
     : skt(std::move(_skt)), rem("") { }
 
-// std::string Protocol::recv_lobby_action(
-//     bool* was_closed,
-//     uint8_t* code
-// ) {
-//     this->skt.recvall(code, 1, was_closed);
-
-//     if (*was_closed) {
-//         return "";
-//     }
-
-//     uint16_t payload_length_recv;
-//     this->skt.recvall(&payload_length_recv, 2, was_closed);
-
-//     if (*was_closed) {
-//         return "";
-//     }
-
-//     uint16_t payload_length = ntohs(payload_length_recv);
-
-//     if (payload_length == 0) return "";
-
-//     std::vector<char> buf(payload_length);
-//     int sz = this->skt.recvall(&buf[0], payload_length, was_closed);
-
-//     if (*was_closed) {
-//         return "";
-//     }
-
-//     std::string message(&buf[0], sz);
-//     return message;
-// }
-
-// void Protocol::send_lobby_action(
-//     uint8_t code,
-//     const std::string& message
-// ) {
-//     bool was_closed = false; 
-    
-//     this->skt.sendall(
-//         &code, 
-//         1, 
-//         &was_closed);
-
-//     if (was_closed) {
-//         throw CustomError("socket was closed by the other end.");
-//     }
-
-//     size_t payload_length = message.size();
-
-//     uint16_t payload_length_to_send = htons(payload_length);
-//     this->skt.sendall(
-//         &payload_length_to_send, 
-//         2, 
-//         &was_closed);
-
-//     if (was_closed) {
-//         throw CustomError("socket was closed by the other end.");
-//     }
-
-//     if (payload_length > 0) {
-//         this->skt.sendall(
-//             &message[0], 
-//             message.size(), 
-//             &was_closed);
-//     }
-
-//     if (was_closed) {
-//         throw CustomError("socket was closed by the other end.");
-//     }
-// }
-
 void Protocol::send_message(std::string message) {
     bool was_closed = false; 
 
@@ -108,47 +37,7 @@ void Protocol::send_message(std::string message) {
     }
 }
 
-void Protocol::send_lobby_command(LobbyCommand command) {
-    this->send_transferable_state(command);
-}
-
-LobbyCommand Protocol::recv_lobby_command(bool *was_closed) {
-    std::string ms_serialized(this->recv_transferable_state(was_closed));
-
-    LobbyCommand ms(ms_serialized);
-    return ms;
-}
-
-void Protocol::send_transferable_state(Transferable& t) {
-    bool was_closed = false; 
-
-    std::string t_serialized = t.serialize();
-
-    size_t payload_length = t_serialized.size();
-
-    uint16_t payload_length_to_send = htons(payload_length);
-    this->skt.sendall(
-        &payload_length_to_send, 
-        2, 
-        &was_closed);
-
-    if (was_closed) {
-        throw CustomError("socket was closed by the other end.");
-    }
-
-    if (payload_length == 0) return;
-    
-    this->skt.sendall(
-        &t_serialized[0],
-        payload_length, 
-        &was_closed);
-
-    if (was_closed) {
-        throw CustomError("socket was closed by the other end.");
-    }
-}
-
-std::string Protocol::recv_transferable_state(bool *was_closed) {
+std::string Protocol::recv_message(bool* was_closed) {
     uint16_t payload_length_recv;
     this->skt.recvall(&payload_length_recv, 2, was_closed);
 
@@ -168,8 +57,25 @@ std::string Protocol::recv_transferable_state(bool *was_closed) {
         throw CustomError("socket was closed by the other end.");
     }
 
-    std::string t_serialized(&buf[0], sz);
-    return t_serialized;
+    std::string result(&buf[0], sz);
+    return result;
+}
+
+void Protocol::send_lobby_command(LobbyCommand command) {
+    this->send_transferable_state(command);
+}
+
+LobbyCommand Protocol::recv_lobby_command(bool *was_closed) {
+    std::string ms_serialized(this->recv_message(was_closed));
+
+    LobbyCommand ms(ms_serialized);
+    return ms;
+}
+
+void Protocol::send_transferable_state(Transferable& t) {
+    std::string t_serialized = t.serialize();
+
+    this->send_message(t_serialized);
 }
 
 void Protocol::send_match_state(MatchState& ms) {
@@ -177,7 +83,7 @@ void Protocol::send_match_state(MatchState& ms) {
 }
 
 MatchState Protocol::recv_match_state(bool *was_closed) {
-    std::string ms_serialized(this->recv_transferable_state(was_closed));
+    std::string ms_serialized(this->recv_message(was_closed));
 
     MatchState ms(ms_serialized);
     return ms;
@@ -188,7 +94,7 @@ void Protocol::send_match_setup(MatchSetup& ms) {
 }
 
 MatchSetup Protocol::recv_match_setup(bool *was_closed) {
-    std::string ms_serialized(this->recv_transferable_state(was_closed));
+    std::string ms_serialized(this->recv_message(was_closed));
 
     MatchSetup ms(ms_serialized);
     return ms;
@@ -199,7 +105,7 @@ void Protocol::send_user_action(UserAction action) {
 }
 
 UserAction Protocol::recv_user_action(bool *was_closed) { 
-    std::string action_serialized(this->recv_transferable_state(was_closed));
+    std::string action_serialized(this->recv_message(was_closed));
 
     UserAction action(action_serialized);
     return action;
