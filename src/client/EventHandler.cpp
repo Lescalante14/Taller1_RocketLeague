@@ -4,6 +4,9 @@
 
 #include "EventHandler.h"
 
+EventHandler::EventHandler(BlockingQueue<std::string> &queue)
+:exit_queue(queue), isDownPush(false), isUpPush(false), isLeftPush(false), isRightPush(false){}
+
 // TODO: add logic to multiple pushActions with limit
 bool EventHandler::handleEvents(ClientMatch &match) {
     SDL_Event event;
@@ -94,5 +97,9 @@ bool EventHandler::handleEvents(ClientMatch &match) {
 }
 
 void EventHandler::pushAction(UserAction action) {
-    std::cout << unsigned(action.get_car_id()) << std::endl;
+    std::string actionStr = action.serialize();
+    UserAction newAction(actionStr);
+    /*exit_queue.push(actionStr);
+    std::string popAction = exit_queue.pop();*/
+    std::cout << unsigned(newAction.get_car_id()) << std::endl;
 }

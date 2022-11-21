@@ -8,9 +8,11 @@
 
 #include "ClientMatch.h"
 #include "../common/user_action.h"
+#include "../common/blocking_queue.h"
 
 class EventHandler {
 private:
+    BlockingQueue <std::string> &exit_queue;
     bool isRightPush;
     bool isLeftPush;
     bool isUpPush;
@@ -18,6 +20,8 @@ private:
 
     void pushAction(UserAction action);
 public:
+
+    explicit EventHandler(BlockingQueue<std::string> &queue);
 
     bool handleEvents(ClientMatch &match);
 };

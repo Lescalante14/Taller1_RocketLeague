@@ -39,20 +39,25 @@ void Game::start(std::istream &input) {
     //renderer.Get
 
     MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
-    const MatchState& matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
+    MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
 
     ClientMatchState clientMatchState(matchState);
     ClientMatch match(clientMatchState, renderer, std::move(matchSetup)); // Primer capa de presentacion
 
     match.render(renderer);
 
-    EventHandler eventHandler{};
+    EventHandler eventHandler(exit_queue);
     bool running = true;
 
     while (running) {
         running = eventHandler.handleEvents(match); // push inside
         // state = multiple pops()
+
+        /*std::string newState = input_queue.pop();
+        MatchState newMatchState(newState);
         //update(state, FRAME_RATE);
+        ClientMatchState newClientState(newMatchState);*/
+
         match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
