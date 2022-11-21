@@ -8,15 +8,12 @@ add_executable(server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/server)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/common)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/client)
+
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../inc)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../lib)
 
-<<<<<<< HEAD
 target_link_libraries(server PUBLIC libbox2d.a)
 target_link_libraries(server PUBLIC libyaml-cpp.a)
-=======
-target_link_libraries(server PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../lib/libbox2d.a)
->>>>>>> main
 
 # set(CLIENT_SRC_FILES
 # 	client_src/client.h
