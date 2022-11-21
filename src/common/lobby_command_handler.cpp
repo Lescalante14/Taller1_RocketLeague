@@ -38,6 +38,7 @@ std::string CommandHandler::run(Lobby* lobby) {
 CommandHandler::~CommandHandler() {
     if (this->command != nullptr)
     	delete this->command;
+
 }
 
 CommandHandler::CommandHandler(CommandHandler &&other) {

@@ -1,10 +1,7 @@
-
-
-
 set(SERVER_SRC_FILES
-	server_src/server.h
-	server_src/server.cpp
-	server_src/server_main.cpp
+#server_src/server.h
+#server_src/server.cpp
+	server/server_main.cpp
 )
 
 add_executable(server ${SERVER_SRC_FILES})
