@@ -10,7 +10,7 @@
 /*
 * Hilo encargado de manejar la conexión con un cliente
 * */
-class ThreadSender: public Thread {
+class ClientThreadSender: public Thread {
 private:
     Protocol& protocol;
     BlockingQueue<std::string>& exit_queue;
@@ -19,12 +19,12 @@ protected:
     void run() override;
 
 public:
-    ThreadSender(
+    ClientThreadSender(
         Protocol& _protocol,
         BlockingQueue<std::string>& _exit_queue);
 
-    ThreadSender(const ThreadSender&) = delete;
-    ThreadSender& operator=(const ThreadSender&) = delete;
+    ClientThreadSender(const ClientThreadSender&) = delete;
+    ClientThreadSender& operator=(const ClientThreadSender&) = delete;
 };
 
 #endif

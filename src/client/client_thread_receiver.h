@@ -7,7 +7,7 @@
 #include "../common/non_blocking_queue.h"
 #include <string>
 
-class ThreadReceiver: public Thread {
+class ClientThreadReceiver: public Thread {
 private:
     Protocol& protocol;
     NonBlockingQueue<std::string>& input_queue;
@@ -16,12 +16,12 @@ protected:
     void run() override;
 
 public:
-    ThreadReceiver(
+    ClientThreadReceiver(
         Protocol& _protocol, 
         NonBlockingQueue<std::string>& _input_queue);
 
-    ThreadReceiver(const ThreadReceiver&) = delete;
-    ThreadReceiver& operator=(const ThreadReceiver&) = delete;
+    ClientThreadReceiver(const ClientThreadReceiver&) = delete;
+    ClientThreadReceiver& operator=(const ClientThreadReceiver&) = delete;
 };
 
 #endif

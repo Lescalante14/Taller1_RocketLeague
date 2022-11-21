@@ -13,6 +13,10 @@
 
 #define FRAME_RATE 1000000.0f/25.0f
 
+Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
+: input_queue(input_queue), exit_queue(exit_queue) {}
+
+
 /*
 Pseudo Loop:
      while() {
