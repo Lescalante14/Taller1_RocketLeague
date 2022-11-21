@@ -4,9 +4,12 @@
 std::string LobbyCommand::serialize() {
     std::stringstream oss;
 
-    oss << (int)this->code
-        << " "
-        << this->payload;
+    oss << (int)this->code;
+
+    if (this->payload.size()) {
+        oss << " "
+            << this->payload;
+    }
 
     return oss.str();
 }
