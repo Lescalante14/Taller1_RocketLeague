@@ -37,8 +37,8 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         }
                         break;
                 }
-            } // Fin KEY_DOWN
                 break;
+            } // Fin KEY_DOWN
             case SDL_KEYUP: {
                 auto keyEvent = (SDL_KeyboardEvent&) event;
                 switch (keyEvent.keysym.sym) {
@@ -62,8 +62,8 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         std::cout << "Quit :(" << std::endl;
                         return false;
                 }
-            }// Fin KEY_UP
                 break;
+            }// Fin KEY_UP
             case SDL_MOUSEBUTTONDOWN: {
                 auto mouseEvent = (SDL_MouseButtonEvent &) event;
                 switch (mouseEvent.button) {
@@ -75,7 +75,7 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         break;
                 }
                 break;
-            }// Fin MOUSE_DOWN
+            } // Fin MOUSE_DOWN
             case SDL_MOUSEBUTTONUP: {
                 auto mouseEvent = (SDL_MouseButtonEvent &) event;
                 switch (mouseEvent.button) {
