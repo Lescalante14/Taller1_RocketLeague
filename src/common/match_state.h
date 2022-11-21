@@ -2,10 +2,8 @@
 #define MATCH_STATE_H
 
 #include <vector>
-#include <algorithm>
-#include <netinet/in.h>
 #include <string>
-#include "transferable.h"
+#include "Transferable.h"
 #include "car_state.h"
 
 class MatchState: public Transferable {
