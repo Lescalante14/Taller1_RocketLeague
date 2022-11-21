@@ -4,6 +4,7 @@
 
 #include "EventHandler.h"
 
+// TODO: add logic to multiple pushActions with limit
 bool EventHandler::handleEvents(ClientMatch &match) {
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
@@ -63,6 +64,27 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 }
             }// Fin KEY_UP
                 break;
+            case SDL_MOUSEBUTTONDOWN: {
+                auto mouseEvent = (SDL_MouseButtonEvent &) event;
+                switch (mouseEvent.button) {
+                    case SDL_BUTTON_LEFT:
+                        pushAction(UserAction(NITRO_PUSH, 5));
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        pushAction(UserAction(JUMP, 6));
+                        break;
+                }
+                break;
+            }// Fin MOUSE_DOWN
+            case SDL_MOUSEBUTTONUP: {
+                auto mouseEvent = (SDL_MouseButtonEvent &) event;
+                switch (mouseEvent.button) {
+                    case SDL_BUTTON_LEFT:
+                        pushAction(UserAction(NITRO_RELEASE, 5));
+                        break;
+                }
+                break;
+            }// Fin MOUSE_UP
             case SDL_QUIT:
                 std::cout << "Quit :(" << std::endl;
                 return false;
