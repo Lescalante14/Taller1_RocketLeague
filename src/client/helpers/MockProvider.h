@@ -21,7 +21,7 @@ public:
     [[nodiscard]] const MatchState &getInitialMatchState() const;
     MockProvider();
 
-    const MatchSetup &getMatchSetup();
+    MatchSetup getMatchSetup();
 };
 
 

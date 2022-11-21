@@ -10,15 +10,17 @@
 #include "Field.h"
 #include "ClientCar.h"
 #include "ClientBall.h"
+#include "../../common/match_setup.h"
 
 class ClientMatch {
     ClientMatchState state;
+    MatchSetup matchSetup;
     Field field;
     ClientBall ball;
     std::vector<ClientCar> cars;
 
 public:
-    explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer);
+    explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup setup);
 
     void render(SDL2pp::Renderer &renderer);
 };

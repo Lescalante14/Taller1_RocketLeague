@@ -8,6 +8,7 @@
 
 #include "SDL2pp/SDL2pp.hh"
 #include "../model/ClientCarState.h"
+#include "../../common/match_setup.h"
 
 class ClientCar {
     SDL2pp::Texture texture;
@@ -15,11 +16,11 @@ class ClientCar {
 public:
     ClientCar(ClientCarState state, SDL2pp::Renderer &renderer);
 
-    void render(SDL2pp::Renderer &renderer);
+    void render(SDL2pp::Renderer &renderer, const MatchSetup& setup);
 
-    int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer);
+    int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, const MatchSetup& setup);
 
-    int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer);
+    int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, const MatchSetup& setup);
 };
 
 

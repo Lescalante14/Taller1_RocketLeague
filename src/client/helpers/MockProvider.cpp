@@ -13,6 +13,6 @@ const MatchState &MockProvider::getInitialMatchState() const {
     return initialMatchState;
 }
 
-const MatchSetup &MockProvider::getMatchSetup() {
+MatchSetup MockProvider::getMatchSetup() {
     return matchSetup;
 }
