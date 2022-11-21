@@ -9,7 +9,7 @@ private:
     uint8_t id;
     uint8_t nitro_activated;
     uint8_t nitro_percentage;
-    uint8_t inverted;
+    uint8_t oriented_right;
     uint16_t angle;
     int position_x;
     int position_y;
@@ -31,7 +31,7 @@ public:
     uint8_t get_id();
     uint8_t get_nitro_percentage();
     uint8_t get_nitro_activated();
-    uint8_t is_inverted();
+    uint8_t is_oriented_right();
     uint16_t get_angle();
     int get_position_x();
     int get_position_y();
