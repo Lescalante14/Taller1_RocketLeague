@@ -15,7 +15,7 @@ class Game {
 public:
     void start(std::istream &input);
 
-    bool handleEvents(ClientMatch &match);
+    //bool handleEvents(ClientMatch &match);
 };
 
 

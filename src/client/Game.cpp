@@ -40,7 +40,7 @@ void Game::start(std::istream &input) {
     match.render(renderer);
     renderer.Present();
     //SDL_Delay(10000);
-    EventHandler eventHandler;
+    EventHandler eventHandler{};
 
 
     bool running = true;
@@ -55,6 +55,7 @@ void Game::start(std::istream &input) {
         usleep(FRAME_RATE);
     }
 }
+/*
 
 // Puede que este metodo sea responsabilidad de ClientMatch por GRASP
 bool Game::handleEvents(ClientMatch &match) {
@@ -111,4 +112,5 @@ bool Game::handleEvents(ClientMatch &match) {
     }
     return true;
 }
+*/
 

@@ -7,6 +7,7 @@
 
 
 #include "ClientMatch.h"
+#include "../common/user_action.h"
 
 class EventHandler {
 private:
@@ -15,7 +16,7 @@ private:
     bool isUpPush;
     bool isDownPush;
 
-    void pushAction(const char *string);
+    void pushAction(UserAction action);
 public:
 
     bool handleEvents(ClientMatch &match);

@@ -13,25 +13,25 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 switch (keyEvent.keysym.sym) {
                     case SDLK_RIGHT:
                         if (!isRightPush) {
-                            pushAction("rightPush");
+                            pushAction(UserAction(RIGHT_PUSH, 1));
                             isRightPush = true;
                         }
                         break;
                     case SDLK_LEFT:
                         if (!isLeftPush) {
-                            pushAction("LeftPush");
+                            pushAction(UserAction(LEFT_PUSH, 2));
                             isLeftPush = true;
                         }
                         break;
                     case SDLK_UP:
                         if (!isUpPush) {
-                            pushAction("UpPush");
+                            pushAction(UserAction(UP_PUSH, 3));
                             isUpPush = true;
                         }
                         break;
                     case SDLK_DOWN:
                         if (!isDownPush) {
-                            pushAction("DownPush");
+                            pushAction(UserAction(DOWN_PUSH, 4));
                             isDownPush = true;
                         }
                         break;
@@ -42,19 +42,19 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 auto keyEvent = (SDL_KeyboardEvent&) event;
                 switch (keyEvent.keysym.sym) {
                     case SDLK_RIGHT:
-                        pushAction("rightRelease");
+                        pushAction(UserAction(RIGHT_RELEASE, 1));
                         isRightPush = false;
                         break;
                     case SDLK_LEFT:
-                        std::cout << "leftRelease" << std::endl;
+                        pushAction(UserAction(LEFT_RELEASE, 2));
                         isLeftPush = false;
                         break;
                     case SDLK_UP:
-                        std::cout << "upRelease" << std::endl;
+                        pushAction(UserAction(UP_RELEASE, 3));
                         isUpPush = false;
                         break;
                     case SDLK_DOWN:
-                        std::cout << "downRelease" << std::endl;
+                        pushAction(UserAction(DOWN_RELEASE, 4));
                         isDownPush = false;
                         break;
                     case SDLK_q:
@@ -71,6 +71,6 @@ bool EventHandler::handleEvents(ClientMatch &match) {
     return true;
 }
 
-void EventHandler::pushAction(const char *string) {
-    std::cout << string << std::endl;
+void EventHandler::pushAction(UserAction action) {
+    std::cout << unsigned(action.get_car_id()) << std::endl;
 }
