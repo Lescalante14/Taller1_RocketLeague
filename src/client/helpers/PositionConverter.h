@@ -7,10 +7,14 @@
 
 
 #include "SDL2pp/Renderer.hh"
+#include "../../common/match_setup.h"
 
 class PositionConverter {
+    MatchSetup matchSetup;
 
 public:
+
+    explicit PositionConverter(MatchSetup &setup);
 
     int convert_CM_to_PX_In_X_axis(int pos, SDL2pp::Renderer &renderer);
     int convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &renderer);

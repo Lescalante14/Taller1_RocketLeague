@@ -5,7 +5,7 @@
 #include "ClientMatch.h"
 
 ClientMatch::ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup setup)
-: state(state), field(renderer), matchSetup(std::move(setup)),
+: state(state), field(renderer), matchSetup(std::move(setup)), positionConverter(matchSetup),
 ball(ClientBallState(state.get_ball_position_x(renderer),state.get_ball_position_y(renderer),0), renderer)
 {
     for (auto &car : state.get_cars()) {
@@ -16,9 +16,9 @@ ball(ClientBallState(state.get_ball_position_x(renderer),state.get_ball_position
 void ClientMatch::render(SDL2pp::Renderer &renderer) {
     renderer.Clear();
     field.render(renderer);
-    ball.render(renderer);
+    ball.render(renderer, positionConverter);
     for (auto &car : cars) {
-        car.render(renderer, matchSetup);
+        car.render(renderer, positionConverter);
     }
     renderer.Present();
 }

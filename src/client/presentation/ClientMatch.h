@@ -11,6 +11,7 @@
 #include "ClientCar.h"
 #include "ClientBall.h"
 #include "../../common/match_setup.h"
+#include "../helpers/PositionConverter.h"
 
 class ClientMatch {
     ClientMatchState state;
@@ -18,6 +19,7 @@ class ClientMatch {
     Field field;
     ClientBall ball;
     std::vector<ClientCar> cars;
+    PositionConverter positionConverter;
 
 public:
     explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup setup);

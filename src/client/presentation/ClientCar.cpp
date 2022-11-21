@@ -16,9 +16,9 @@ ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
         : texture(renderer, SDL2pp::Surface("./assets/car.png").SetColorKey(true, 0))
         , state(std::move(state)){}
 
-void ClientCar::render(SDL2pp::Renderer &renderer, const MatchSetup& setup) {
-    int posX = calculatePositionInXWithBorder(renderer, setup);
-    int posY = calculatePositionInYWithBorder(renderer, setup);
+void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
+    int posX = calculatePositionInXWithBorder(renderer, positionConverter);
+    int posY = calculatePositionInYWithBorder(renderer, positionConverter);
 
     bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
     bool flipH = (inverted && state.is_oriented_right()) || (!inverted && !state.is_oriented_right());
@@ -32,19 +32,17 @@ void ClientCar::render(SDL2pp::Renderer &renderer, const MatchSetup& setup) {
 }
 
 // TODO: logic with setup sizes
-int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, const MatchSetup& setup) {
+int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_x();
-    PositionConverter converter;
-    int pos = converter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
+    int pos = positionConverter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
     if (pos + CAR_WIDTH/2 > renderer.GetOutputWidth())
         return renderer.GetOutputWidth()-CAR_WIDTH;
     return pos;
 }
 
-int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, const MatchSetup& setup) {
+int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_y();
-    PositionConverter converter;
-    int posPx = converter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+    int posPx = positionConverter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
     if (posPx + CAR_HEIGHT > renderer.GetOutputHeight())
         return renderer.GetOutputHeight() - CAR_HEIGHT;
     return posPx;
