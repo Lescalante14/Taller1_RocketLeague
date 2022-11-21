@@ -7,6 +7,7 @@
 
 
 #include "../../common/match_state.h"
+#include "../../common/match_setup.h"
 
 class MockProvider {
     std::vector<CarState> initialCars = {
@@ -14,11 +15,13 @@ class MockProvider {
             CarState(2,0,100, 0, 180, 39000, 0)
     };
     const MatchState initialMatchState;
+    const MatchSetup matchSetup;
 
 public:
     [[nodiscard]] const MatchState &getInitialMatchState() const;
     MockProvider();
 
+    const MatchSetup &getMatchSetup();
 };
 
 

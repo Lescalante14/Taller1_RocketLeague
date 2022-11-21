@@ -6,8 +6,13 @@
 
 MockProvider::MockProvider()
 : initialMatchState(120, 1, 0, 0, 2, 0, 0, 20000, 0
-             , std::vector<CarState>(initialCars)){}
+             , std::vector<CarState>(initialCars))
+             , matchSetup(40000,20000,10000,5000,2500,2){}
 
 const MatchState &MockProvider::getInitialMatchState() const {
     return initialMatchState;
+}
+
+const MatchSetup &MockProvider::getMatchSetup() {
+    return matchSetup;
 }
