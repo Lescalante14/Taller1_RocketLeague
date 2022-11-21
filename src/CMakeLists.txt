@@ -16,6 +16,7 @@ target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../inc)
 target_include_directories(server ${CMAKE_CURRENT_LIST_DIR}/../lib)
 
 target_link_libraries(server PUBLIC libbox2d.a)
+target_link_libraries(server PUBLIC libyaml-cpp.a)
 
 # set(CLIENT_SRC_FILES
 # 	client_src/client.h
