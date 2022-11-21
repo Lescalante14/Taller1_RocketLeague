@@ -21,12 +21,6 @@ public:
     explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer);
 
     void render(SDL2pp::Renderer &renderer);
-
-    bool clientCarHasRightPush();
-
-    void setRightIsPushed(bool isPushed);
-
-    void pushAction(const std::string& action);
 };
 
 

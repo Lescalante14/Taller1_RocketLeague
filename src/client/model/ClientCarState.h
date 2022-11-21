@@ -14,10 +14,6 @@
 class ClientCarState {
 private:
     CarState wrappeeState;
-    bool _isRightPush;
-    bool _isLeftPush;
-    bool _isUpPush;
-    bool _isDownPush;
 public:
     explicit ClientCarState(CarState state);
 
@@ -29,10 +25,6 @@ public:
     int get_angle();
 
     bool is_oriented_right();
-
-    [[nodiscard]] bool isRightPush() const;
-
-    void setRightIsPushed(bool isPushed);
 };
 
 

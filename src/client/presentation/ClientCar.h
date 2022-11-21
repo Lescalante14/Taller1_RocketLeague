@@ -14,17 +14,12 @@ class ClientCar {
     ClientCarState state;
 public:
     ClientCar(ClientCarState state, SDL2pp::Renderer &renderer);
-    //ClientCar(const std::string& imgPath, SDL2pp::Renderer &renderer);
 
     void render(SDL2pp::Renderer &renderer);
 
     int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer);
 
     int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer);
-
-    bool isRightPush();
-
-    void setRightIsPushed(bool isPushed);
 };
 
 

@@ -22,16 +22,3 @@ void ClientMatch::render(SDL2pp::Renderer &renderer) {
     }
     renderer.Present();
 }
-
-bool ClientMatch::clientCarHasRightPush() {
-    return cars.at(0).isRightPush();
-}
-
-void ClientMatch::setRightIsPushed(bool isPushed) {
-    cars.at(0).setRightIsPushed(isPushed);
-}
-
-// Despues recibirá un UserAction
-void ClientMatch::pushAction(const std::string& action) {
-    std::cout << action << std::endl;
-}

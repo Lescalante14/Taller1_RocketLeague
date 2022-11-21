@@ -6,6 +6,7 @@
 #include "helpers/MockProvider.h"
 #include "model/ClientMatchState.h"
 #include "presentation/ClientMatch.h"
+#include "EventHandler.h"
 #include <SDL2pp/SDL2pp.hh>
 #include <csignal>
 
@@ -39,11 +40,12 @@ void Game::start(std::istream &input) {
     match.render(renderer);
     renderer.Present();
     //SDL_Delay(10000);
+    EventHandler eventHandler;
 
 
     bool running = true;
     while (running) {
-        running = handleEvents(match); // push inside
+        running = eventHandler.handleEvents(match); // push inside
         // state = multiple pops()
         match.render(renderer);
         //update(car, FRAME_RATE);

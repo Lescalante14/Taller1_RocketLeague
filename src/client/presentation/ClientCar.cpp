@@ -24,7 +24,6 @@ void ClientCar::render(SDL2pp::Renderer &renderer) {
     bool flipH = (inverted && state.is_oriented_right()) || (!inverted && !state.is_oriented_right());
     renderer.Copy(texture,
                   SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
-                  //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, CAR_WIDTH, CAR_HEIGHT),
                   SDL2pp::Rect(posX, posY, CAR_WIDTH, CAR_HEIGHT),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
@@ -48,12 +47,4 @@ int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer) {
     if (posPx + CAR_HEIGHT > renderer.GetOutputHeight())
         return renderer.GetOutputHeight() - CAR_HEIGHT;
     return posPx;
-}
-
-bool ClientCar::isRightPush() {
-    return state.isRightPush();
-}
-
-void ClientCar::setRightIsPushed(bool isPushed) {
-    state.setRightIsPushed(isPushed);
 }
