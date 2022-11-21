@@ -21,7 +21,7 @@ class GameModel {
 	public:
 	GameModel(uint8_t cars_amount);
 	void step();
-	// void updateGame(UserAction a);
+	void updateGame(UserAction a);
 	MatchState getState();
 	~GameModel();
 };
