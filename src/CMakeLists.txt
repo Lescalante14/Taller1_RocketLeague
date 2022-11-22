@@ -31,7 +31,7 @@ add_subdirectory(../lib/libSDL2pp ../build)
 file(COPY client/assets DESTINATION ${CMAKE_BINARY_DIR}/src)
 
 # Agrego la carpeta con los headers autogenerados a los includes
-include_directories(${PROJECT_SOURCE_DIR}../lib)
+include_directories(${PROJECT_SOURCE_DIR}/../lib)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/src/client/presentation)
 

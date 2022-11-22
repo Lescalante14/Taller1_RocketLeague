@@ -15,11 +15,11 @@
 
 class ClientMatch {
     ClientMatchState state;
-    MatchSetup matchSetup;
     Field field;
+    MatchSetup matchSetup;
+    PositionConverter positionConverter;
     ClientBall ball;
     std::vector<ClientCar> cars;
-    PositionConverter positionConverter;
 
 public:
     explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup setup);

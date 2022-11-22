@@ -5,7 +5,7 @@
 #include "EventHandler.h"
 
 EventHandler::EventHandler(BlockingQueue<std::string> &queue)
-:exit_queue(queue), isDownPush(false), isUpPush(false), isLeftPush(false), isRightPush(false){}
+:exit_queue(queue) {}
 
 // TODO: add logic to multiple pushActions with limit
 bool EventHandler::handleEvents(ClientMatch &match) {

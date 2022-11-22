@@ -13,10 +13,10 @@
 class EventHandler {
 private:
     BlockingQueue <std::string> &exit_queue;
-    bool isRightPush;
-    bool isLeftPush;
-    bool isUpPush;
-    bool isDownPush;
+    bool isRightPush = false;
+    bool isLeftPush = false;
+    bool isUpPush = false;
+    bool isDownPush = false;
 
     void pushAction(UserAction action);
 public:

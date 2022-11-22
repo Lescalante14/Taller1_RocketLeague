@@ -14,8 +14,8 @@
 
 class ClientMatchState {
 private:
-    MatchState wrappeeState;
     ClientBallState ballState;
+    MatchState wrappeeState;
     std::vector<ClientCarState> cars;
 public:
     explicit ClientMatchState(MatchState state);

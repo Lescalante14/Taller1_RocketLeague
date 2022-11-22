@@ -2,9 +2,9 @@
 // Created by lescalante on 12/11/22.
 //
 
+#include <utility>
 #include "ClientMatchState.h"
 
-#include <utility>
 
 ClientMatchState::ClientMatchState(MatchState state)
 : ballState(state.get_ball_position_x(), state.get_ball_position_y(), 0),
