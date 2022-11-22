@@ -11,26 +11,26 @@ Dependencies:
 
 To install dependencies on Linux:
 ```shell
-$ sudo apt install cmake
-$ sudo apt install libsdl2-dev
-$ sudo apt install libsdl2-image-dev
-$ sudo apt install libsdl2-mixer-dev
-$ sudo apt install libsdl2-ttf-dev
+sudo apt install cmake
+sudo apt install libsdl2-dev
+sudo apt install libsdl2-image-dev
+sudo apt install libsdl2-mixer-dev
+sudo apt install libsdl2-ttf-dev
 ```
 
 To build the project:
 ```shell
-$ cd build
-$ cmake ..
-$ make
+cd build
+cmake ..
+make
 ```
 
 ## Usage 
 ```shell
 server_host@128.0.0.0
-$ ./rl_server <PORT>
+./rl_server <PORT>
 
 client@192.168.x.x:
-$ ./rocket_league <HOST> <PORT>
+./rocket_league <HOST> <PORT>
 ```
 To run the client you must be in the build/src directory.
