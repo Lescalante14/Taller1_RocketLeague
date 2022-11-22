@@ -7,7 +7,8 @@
 #include "common/queue_empty_exception.h"
 #include "server/b2d_model/game_model.h"
 
-#define STEP_FREQ 3e9 * 50e-6 /* in cpu ticks (update every 50us aprox.) */
+#define STEP_FREQ 1 / 50e-6 /* 20kHz (every 50us) */
+#define STEP_TICK_FREQ 3e9 / 50e-6 /* in cpu ticks */
 
 ThreadMatchHandler::ThreadMatchHandler(
     LobbyMatch& _match
@@ -16,20 +17,21 @@ ThreadMatchHandler::ThreadMatchHandler(
 
 void ThreadMatchHandler::run() {
     NonBlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
-	GameModel game(this->match.get_size());
+	GameModel game_model(this->match.get_size(), STEP_FREQ);
+	this->match.push_to_output_queues(game_model.getSetup());
+
 	clock_t now = clock();
 
     while (1) {
         try {
             UserAction action = input_queue.pop();
-            game.updateGame(action);
+            game_model.updateGame(action);
 			
-			if (clock() - now >= STEP_FREQ) {
+			if (clock() - now >= STEP_TICK_FREQ) {
 				now = clock();
-				game.step();
+				game_model.step();
+				this->match.push_to_output_queues(game_model.getState());
 			}
-			// enviar aca el MatchState?
-			// game.getState();
 			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
 
         } catch(const QueueEmptyException& err) {

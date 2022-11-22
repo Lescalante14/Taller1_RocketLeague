@@ -12,13 +12,19 @@
 #define CAR_XPOS_OFFSET 2.0f
 
 #define WALL_THICKNESS 10.0f
+#define SCORER_WIDTH 2.0f
+#define SCORER_HEIGHT 8
+
 #define MAX_CARS 4
 
-#define NITRO_REFILL_FREQ 20
+#define NITRO_REFILL_FREQ 5 /* in seconds */
 
 
-GameModel::GameModel(size_t cars_amount) : world(b2Vec2(0.0f, -10.0f)),
-										   ball(this->world, 0, 0, ball_size::MED_BALL) {
+GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
+			: world(b2Vec2(0.0f, -10.0f)),
+			  step_freq(_step_freq),
+			  ball(this->world, 0, 0, ball_size::MED_BALL) {
+	
 	YAML::Node config = YAML::LoadFile(".config.yaml");	
 	int xcar_offset = 0;
 
@@ -38,11 +44,20 @@ GameModel::GameModel(size_t cars_amount) : world(b2Vec2(0.0f, -10.0f)),
 
 	this->ball.move(config["camp_length"].as<int>() / 2, 
 					config["camp_height"].as<int>() / 2);
+	this->ball.resize((ball_size) config["ball_size"].as<int>());
 
-	this->height = config["height"].as<int>();
-	this->length = config["length"].as<int>();
+
+	this->length = config["camp_length"].as<int>();
+	this->height = config["camp_height"].as<int>();
 	this->setLimits();
 
+	if (config["scorer_height"].as<int>() > this->height) {
+		this->scorer_height = SCORER_HEIGHT;
+	}
+
+	if (config["match_duration"].as<size_t>() <= 300) {
+		this->timer = config["match_duration"].as<uint16_t>();
+	}
 }
 
 
@@ -80,6 +95,15 @@ void GameModel::setLimits() {
 }
 
 
+bool GameModel::isInsideLScorer(const b2Vec2 &pos) {
+	return pos.x < SCORER_WIDTH && pos.y < this->scorer_height;
+}
+
+bool GameModel::isInsideRScorer(const b2Vec2 &pos) {
+	return pos.x > this->length - SCORER_WIDTH && pos.y < this->scorer_height;
+}
+
+
 void GameModel::updateGame(UserAction &a) {
 	uint8_t id = a.get_car_id();
 	Car &car = this->cars.at(id);
@@ -110,23 +134,30 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-	if (step_count >= NITRO_REFILL_FREQ) {
+	if (!timer) {
+		return;
+	}
+
+	if (!(timer % NITRO_REFILL_FREQ)) {
 		for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
 			it->second.nitroRefill();
 		}
-		step_count = 0;
 	}
 
-	if (this->ball.getPosition().y <= this->ball.getRadius()) {
+	if (this->isInsideLScorer(this->ball.getPosition())) {
 		this->l_scorer++;
 
-	} else if (this->ball.getPosition().y >= this->length - this->ball.getRadius()) {
+	} else if (this->isInsideRScorer(this->ball.getPosition())) {
 		this->r_scorer++;
 	}
 
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->last_shot = shot_type::NONE;
-	this->step_count += 1;
+	this->step_count++;
+
+	if (this->step_count % this->step_freq) {
+		this->timer--;
+	}
 }
 
 
@@ -144,11 +175,19 @@ MatchState GameModel::getState() {
 								c.getPosition().y);
 	}
 
-	return MatchState(0, true,
+	return MatchState(this->timer, true,
 					  this->l_scorer, this->r_scorer, cars.size(),
 					  this->ball.getVelocity().x, this->ball.getVelocity().y,
 					  this->ball.getPosition().x, this->ball.getPosition().y,
 					  car_states);
 }
+
+
+MatchSetup GameModel::getSetup() {
+	return MatchSetup((float) this->length, (float) this->height,
+					  (float) this->scorer_height, this->ball.getRadius(),
+					  3, this->cars.size());
+}
+
 
 GameModel::~GameModel() {}
