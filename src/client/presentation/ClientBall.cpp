@@ -17,7 +17,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
             //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, BALL_WIDTH, BALL_HEIGHT),
-                  SDL2pp::Rect(posX, posY, radiusBall, radiusBall),
+                  SDL2pp::Rect(posX-radiusBall, posY, radiusBall*2, radiusBall*2),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   SDL_FLIP_NONE
@@ -29,8 +29,8 @@ int ClientBall::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, Posit
     int pos = positionConverter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
     int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
 
-    if (pos + radiusBall/2 > renderer.GetOutputWidth())
-        return renderer.GetOutputWidth()-radiusBall;
+    if (pos + radiusBall*2 > renderer.GetOutputWidth())
+        return renderer.GetOutputWidth()-radiusBall*2;
     return pos;
 }
 
@@ -39,8 +39,8 @@ int ClientBall::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, Posit
     int posPx = positionConverter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
     int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
 
-    if (posPx + radiusBall > renderer.GetOutputHeight())
-        return renderer.GetOutputHeight() - radiusBall;
+    if (posPx + radiusBall*2 > renderer.GetOutputHeight())
+        return renderer.GetOutputHeight() - radiusBall*2;
     return posPx;
 }
 

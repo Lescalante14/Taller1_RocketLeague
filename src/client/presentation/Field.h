@@ -9,12 +9,13 @@
 #include <string>
 #include "SDL2pp/SDL2pp.hh"
 #include "../helpers/PositionConverter.h"
+#include "Scorer.h"
 
 class Field {
     SDL2pp::Texture fieldTexture;
     SDL2pp::Texture goalTexture1;
     SDL2pp::Texture goalTexture2;
-    SDL2pp::Texture scorerTexture;
+    Scorer scorer;
 public:
     explicit Field(SDL2pp::Renderer &renderer);
 
