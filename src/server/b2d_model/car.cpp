@@ -1,6 +1,7 @@
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_circle_shape.h>
 #include <box2d/b2_fixture.h>
+#include <box2d/b2_contact.h>
 
 #include "car.h"
 
@@ -10,7 +11,8 @@
 #define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
-#define FLIP_SPEED 5 /* in radians */
+#define ROTATION_SPEED 5 /* in radians */
+#define FLIP_IMPULSE 10
 #define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
 #define NITRO_IMPULSE 20
 
@@ -20,6 +22,8 @@
 
 
 Car::Car(Car&& other) : d_jumpd(other.d_jumpd),
+						flipped(other.flipped),
+						_facing(other._facing),
 						nitro_ptge(other.nitro_ptge),
 						chassis(other.chassis), 
 						rear_wh_bd(other.rear_wh_bd),
@@ -41,6 +45,8 @@ Car& Car::operator=(Car&& other) {
 		return *this;
 	}
 	this->d_jumpd = other.d_jumpd;
+	this->flipped = other.flipped;
+	this->_facing = other._facing;
 	this->nitro_ptge = other.nitro_ptge;
 	this->chassis = other.chassis;
 	this->rear_wh_bd = other.rear_wh_bd;
@@ -58,7 +64,7 @@ Car& Car::operator=(Car&& other) {
 }
 
 
-Car::Car(b2World &world, float x_pos, float y_pos) {
+Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 	set_chassis(world, x_pos, y_pos);
 	set_wheels(world, x_pos, y_pos);
 	
@@ -144,15 +150,16 @@ void Car::set_wheels(b2World &world, float x, float y) {
 }
 
 
-
 /*    Actions    */
 
 void Car::goLeft() {
 	this->rear_wh->SetMotorSpeed(MAX_MOTOR_SPEED);
+	this->_facing = facing::F_LEFT;
 }
 
 void Car::goRight() {
 	this->rear_wh->SetMotorSpeed(-MAX_MOTOR_SPEED);
+	this->_facing = facing::F_RIGHT;
 }
 
 void Car::stop() {
@@ -160,54 +167,63 @@ void Car::stop() {
 }
 
 void Car::rotateCCW() {
-	this->chassis->SetAngularVelocity(FLIP_SPEED);
+	this->chassis->SetAngularVelocity(ROTATION_SPEED);
 }
 
 void Car::rotateCW() {
-	this->chassis->SetAngularVelocity(-FLIP_SPEED);
+	this->chassis->SetAngularVelocity(-ROTATION_SPEED);
 }
 
-void Car::nitro() {
+void Car::triggerNitro() {
 	if (nitro_ptge < 10) {
 		return;
 	}
+	float rad_angle = this->chassis->GetAngle();
+	b2Vec2 i(cos(-rad_angle), sin(-rad_angle));
+	i *= NITRO_IMPULSE;
 
-	b2Vec2 i = this->chassis->GetLinearVelocity();
-	i *= NITRO_IMPULSE / i.Length();
 	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
-	nitro_ptge -= 10;
+	this->nitro_ptge -= 10;
+	this->nitro_trigg = true;
 }
 
+void Car::releaseNitro() {
+	this->nitro_trigg = false;
+}
 
 void Car::nitroRefill() {
 	this->nitro_ptge = 100;
 }
 
-
 void Car::jump() {
-	// is in the ground
-	if (this->chassis->GetWorldCenter().y == W_RADIUS) {
+	// in the ground
+	if (this->rear_wh_bd->GetWorldCenter().y == W_RADIUS ||
+		this->front_wh_bd->GetWorldCenter().y == W_RADIUS) {
 		this->d_jumpd = false;
 	
-	// in the air and not double jumped
+	// in the air but not double jumped
 	} else if (!this->d_jumpd) {
 		this->d_jumpd = true;
 	
 	} else {
 		return;
 	}
-
 	// if the car has significative angular velocity,
 	// performs a flip, i.e. increase angular velocity
 	if (abs(this->chassis->GetAngularVelocity()) > 3) {
-      	this->chassis->ApplyAngularImpulse(10 * this->chassis->GetAngularVelocity(),
-							    		   true);
+      	float new_a_vel = FLIP_IMPULSE * this->chassis->GetAngularVelocity();
+		this->chassis->ApplyAngularImpulse(new_a_vel, true);
+		this->flipped = true;
+	
+	} else {
+		this->flipped = false;
 	}
-	// performs the upward impulse
+
+	// performs an impulse perpendicular to the body (locally)
 	float rad_angle = this->chassis->GetAngle();
 	b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
 	i *= JUMP_IMPULSE;
-	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
+	this->chassis->ApplyLinearImpulseToCenter(i, true);
 }
 
 
@@ -221,8 +237,34 @@ float Car::getAngle() {
 	return this->chassis->GetAngle();
 }
 
-float Car::getSpeed() {
-	return this->chassis->GetLinearVelocity().Length();
+facing Car::getFacing() {
+	return this->_facing;
+}
+
+b2Vec2 Car::getVelocity() {
+	return this->chassis->GetLinearVelocity();
+}
+
+bool Car::hasFlipped() {
+	return this->flipped;
+}
+
+bool Car::isPointingTo(const b2Vec2 &coord) {
+	b2Vec2 d = coord - this->chassis->GetPosition();
+
+	if (d.y < 0) {
+		return this->_facing == facing::F_LEFT;
+	}
+	return this->_facing == facing::F_RIGHT;
+}
+
+
+bool Car::nitroTriggered() {
+	return this->nitro_trigg;
+}
+
+uint8_t Car::remainingNitro() {
+	return this->nitro_ptge;
 }
 
 

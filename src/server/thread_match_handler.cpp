@@ -28,6 +28,8 @@ void ThreadMatchHandler::run() {
 				now = clock();
 				game.step();
 			}
+			// enviar aca el MatchState?
+			// game.getState();
 			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
 
         } catch(const QueueEmptyException& err) {
