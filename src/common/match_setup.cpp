@@ -2,7 +2,7 @@
 #include <netinet/in.h>
 #include <sstream>
 
-#define MATCH_SETUP_SIZE 21
+#define MATCH_SETUP_SIZE 22
 
 std::string MatchSetup::serialize() {
     char buf[MATCH_SETUP_SIZE];
@@ -13,6 +13,7 @@ std::string MatchSetup::serialize() {
     fbuf[3] = htonl(this->ball_size);
     fbuf[4] = htonl(this->car_size);
     buf[20] = this->cars_quantity;
+    buf[21] = this->car_id_assigned;
     std::string message(buf, MATCH_SETUP_SIZE);
     return message;
 }
@@ -26,6 +27,7 @@ MatchSetup::MatchSetup(std::string &setup) {
     this->ball_size = ntohl(fbuf[3]);
     this->car_size = ntohl(fbuf[4]);
     this->cars_quantity = buf[20];
+    this->car_id_assigned = buf[21];
 }
 
 MatchSetup::MatchSetup(
@@ -40,7 +42,8 @@ MatchSetup::MatchSetup(
     goal_height(_goal_height),
     ball_size(_ball_size),
     car_size(_car_size),
-    cars_quantity(_cars_quantity) { }
+    cars_quantity(_cars_quantity),
+    car_id_assigned(0) { }
 
 
 int MatchSetup::get_field_length() {
@@ -65,4 +68,12 @@ int MatchSetup::get_car_size() {
 
 uint8_t MatchSetup::get_cars_quantity() {
     return this->cars_quantity;
+}
+
+uint8_t MatchSetup::get_car_id_assigned() {
+    return this->car_id_assigned;
+}
+
+void MatchSetup::set_car_id_assigned(uint8_t id) {
+    this->car_id_assigned = id;
 }

@@ -6,6 +6,8 @@
 #include "blocking_queue.h"
 #include "non_blocking_queue.h"
 #include "user_action.h"
+#include "match_setup.h"
+#include "match_state.h"
 
 class LobbyMatch {
 private:
@@ -38,6 +40,8 @@ public:
 
     UserAction pop_from_input_queue();
 
-    void push_to_output_queues(std::string state);
+    void push_to_output_queues(MatchSetup state);
+
+    void push_to_output_queues(MatchState state);
 };
 #endif
