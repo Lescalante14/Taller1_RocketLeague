@@ -7,9 +7,6 @@
 
 #include <utility>
 
-#define CAR_PIC_WIDTH 971
-#define CAR_PIC_HEIGHT 442
-
 ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
         : texture(renderer, SDL2pp::Surface("./assets/car.png").SetColorKey(true, 0))
         , state(std::move(state)){}
@@ -22,7 +19,7 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
     bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
     bool flipH = (inverted && state.is_oriented_right()) || (!inverted && !state.is_oriented_right());
     renderer.Copy(texture,
-                  SDL2pp::Rect(0, 0, CAR_PIC_WIDTH, CAR_PIC_HEIGHT),
+                  SDL2pp::NullOpt,
                   SDL2pp::Rect(posX, posY, carWidth, carWidth/2),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed

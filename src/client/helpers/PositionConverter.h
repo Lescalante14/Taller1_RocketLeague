@@ -12,7 +12,7 @@
 class PositionConverter {
     MatchSetup matchSetup;
 
-public:
+public: // TODO: make &renderer attr
 
     explicit PositionConverter(MatchSetup &setup);
 
@@ -24,6 +24,8 @@ public:
     int get_car_height_in_PX(SDL2pp::Renderer &renderer);
 
     int get_radius_ball_in_PX(SDL2pp::Renderer &renderer);
+
+    int get_goal_height_in_PX(SDL2pp::Renderer &renderer);
 };
 
 

@@ -36,7 +36,6 @@ void Game::start(std::istream &input) {
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     MockProvider mockProvider;
-    //renderer.Get
 
     MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
     MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego

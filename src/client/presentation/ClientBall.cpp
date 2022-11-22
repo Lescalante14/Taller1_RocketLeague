@@ -5,11 +5,8 @@
 #include "ClientBall.h"
 #include "../helpers/PositionConverter.h"
 
-#define BALL_PIC_WIDTH 840
-#define BALL_PIC_HEIGHT 859
-
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
-: texture(renderer, SDL2pp::Surface("./assets/ball1.png").SetColorKey(true, 0))
+: texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))
         , state(state){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
@@ -18,7 +15,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
     int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
 
     renderer.Copy(texture,
-                  SDL2pp::Rect(0, 0, BALL_PIC_WIDTH, BALL_PIC_HEIGHT),
+                  SDL2pp::NullOpt,
             //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, BALL_WIDTH, BALL_HEIGHT),
                   SDL2pp::Rect(posX, posY, radiusBall, radiusBall),
                   -state.get_angle(),

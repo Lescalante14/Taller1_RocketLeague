@@ -15,7 +15,7 @@ ball(ClientBallState(state.get_ball_position_x(renderer),state.get_ball_position
 
 void ClientMatch::render(SDL2pp::Renderer &renderer) {
     renderer.Clear();
-    field.render(renderer);
+    field.render(renderer, positionConverter);
     ball.render(renderer, positionConverter);
     for (auto &car : cars) {
         car.render(renderer, positionConverter);

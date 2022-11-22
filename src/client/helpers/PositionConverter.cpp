@@ -37,3 +37,8 @@ int PositionConverter::get_radius_ball_in_PX(SDL2pp::Renderer &renderer) {
     double f = (double)matchSetup.get_field_length()/(double)renderer.GetOutputWidth();
     return (int)(matchSetup.get_ball_size()/f);
 }
+
+int PositionConverter::get_goal_height_in_PX(SDL2pp::Renderer &renderer) {
+    double f = (double)matchSetup.get_field_height()/(double)renderer.GetOutputHeight();
+    return (int)(matchSetup.get_goal_height()/f);
+}
