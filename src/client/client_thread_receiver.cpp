@@ -1,9 +1,7 @@
-#include "thread_receiver.h"
-#include "../common/protocol.h"
+#include "client_thread_receiver.h"
 #include <string>
-#include <sstream>
 
-void ThreadReceiver::run() {
+void ClientThreadReceiver::run() {
     bool should_continue = true;
     bool was_closed = false;
 
@@ -18,7 +16,7 @@ void ThreadReceiver::run() {
     }
 }
 
-ThreadReceiver::ThreadReceiver(
+ClientThreadReceiver::ClientThreadReceiver(
     Protocol& _protocol, 
     NonBlockingQueue<std::string>& _input_queue)
     : protocol(_protocol), 

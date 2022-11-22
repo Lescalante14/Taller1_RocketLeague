@@ -3,9 +3,9 @@
 
 #include <string>
 #include "socket.h"
-#include "Transferable.h"
 #include "match_state.h"
 #include "match_setup.h"
+#include "Transferable.h"
 #include "lobby_command.h"
 #include "user_action.h"
 
