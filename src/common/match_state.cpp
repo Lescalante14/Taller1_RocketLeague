@@ -79,7 +79,7 @@ MatchState::MatchState(
     ball_direction_y(_ball_direction_y),
     ball_position_x(_ball_position_x),
     ball_position_y(_ball_position_y),
-    cars(_cars) { }
+    cars(std::move(_cars)) { }
 
 uint16_t MatchState::get_time() {
     return this->time;

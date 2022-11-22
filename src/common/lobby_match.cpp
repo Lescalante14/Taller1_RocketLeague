@@ -22,6 +22,10 @@ std::string LobbyMatch::get_description() const {
     return description.str();
 }
 
+size_t LobbyMatch::get_size() {
+	return this->players_limit;
+}
+
 uint8_t LobbyMatch::add_player(
     BlockingQueue<std::string>* output_queue,
     bool* has_to_start
@@ -53,3 +57,5 @@ void LobbyMatch::push_to_output_queues(std::string state) {
             queue->push(state);
         });
 }
+
+

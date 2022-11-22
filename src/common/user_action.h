@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <string>
-#include "Transferable.h"
+#include "transferable.h"
 
 #define LEFT_PUSH 0x01
 #define LEFT_RELEASE 0x02
@@ -17,6 +17,7 @@
 #define NITRO_RELEASE 0x10
 #define JUMP 0x11
 
+// TODO: apply factory pattern to have specific actions that run
 class UserAction : public Transferable {
     private:
     uint8_t code;
