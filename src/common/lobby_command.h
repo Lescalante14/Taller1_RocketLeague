@@ -1,7 +1,7 @@
 #ifndef LOBBY_COMMAND_H
 #define LOBBY_COMMAND_H
 
-#include "Transferable.h"
+#include "transferable.h"
 #include <string>
 
 #define LIST_CODE 0x00

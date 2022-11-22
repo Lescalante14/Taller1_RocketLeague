@@ -17,6 +17,7 @@
 #define NITRO_RELEASE 0x10
 #define JUMP 0x11
 
+// TODO: apply factory pattern to have specific actions that run
 class UserAction : public Transferable {
     private:
     uint8_t code;

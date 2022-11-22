@@ -3,7 +3,7 @@
 
 #include <string>
 #include "socket.h"
-#include "Transferable.h"
+#include "transferable.h"
 #include "match_state.h"
 #include "match_setup.h"
 #include "lobby_command.h"

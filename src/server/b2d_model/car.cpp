@@ -1,21 +1,61 @@
+#include <box2d/b2_polygon_shape.h>
+#include <box2d/b2_circle_shape.h>
+#include <box2d/b2_fixture.h>
+
 #include "car.h"
-#include "box2d/b2_wheel_joint.h"
-#include "box2d/b2_polygon_shape.h"
-#include "box2d/b2_circle_shape.h"
-#include "box2d/b2_fixture.h"
 
 #define CAR_WIDTH 3.0f
 #define CAR_HEIGHT 1.5f
 #define W_RADIUS 0.25f
-#define DENSITY 1.0f
+#define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
 #define FLIP_SPEED 5 /* in radians */
 #define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
+#define NITRO_IMPULSE 20
 
 #define FRONT_WH_X_POS(_x) _x - 2 * W_RADIUS + CAR_WIDTH / 2
 #define REAR_WH_X_POS(_x) _x + 2 * W_RADIUS - CAR_WIDTH / 2
 #define WH_Y_POS(_y) _y + W_RADIUS - CAR_HEIGHT / 2
+
+
+Car::Car(Car&& other) : d_jumpd(other.d_jumpd),
+						nitro_ptge(other.nitro_ptge),
+						chassis(other.chassis), 
+						rear_wh_bd(other.rear_wh_bd),
+						rear_wh(other.rear_wh), 
+						front_wh_bd(other.front_wh_bd),
+						front_wh(other.front_wh) { 
+
+	other.nitro_ptge = 0;
+	other.chassis = nullptr;
+	other.rear_wh_bd = nullptr;
+	other.rear_wh = nullptr;
+	other.front_wh_bd = nullptr;
+	other.front_wh = nullptr;
+}
+
+
+Car& Car::operator=(Car&& other) {
+	if (this == &other) {
+		return *this;
+	}
+	this->d_jumpd = other.d_jumpd;
+	this->nitro_ptge = other.nitro_ptge;
+	this->chassis = other.chassis;
+	this->rear_wh_bd = other.rear_wh_bd;
+	this->rear_wh = other.rear_wh;
+	this->front_wh_bd = other.front_wh_bd;
+	this->front_wh = other.front_wh;
+
+	other.nitro_ptge = 0;
+	other.chassis = nullptr;
+	other.rear_wh_bd = nullptr;
+	other.rear_wh = nullptr;
+	other.front_wh_bd = nullptr;
+	other.front_wh = nullptr;
+	return *this;
+}
 
 
 Car::Car(b2World &world, float x_pos, float y_pos) {
@@ -24,8 +64,6 @@ Car::Car(b2World &world, float x_pos, float y_pos) {
 	
 	b2Vec2 spring_axis(0.0f, 1.0f);
 	b2WheelJointDef wheel_axis;
-
-
 
 	/* 
 		init rear wheel joint
@@ -66,13 +104,27 @@ Car::Car(b2World &world, float x_pos, float y_pos) {
 }
 
 
+void Car::set_chassis(b2World &world, float x, float y) {
+	b2BodyDef chassisDef;
+	chassisDef.type = b2_dynamicBody;
+	chassisDef.position.Set(x, y + W_RADIUS);
+	
+	this->chassis = world.CreateBody(&chassisDef);
+	
+	b2PolygonShape skin;
+	skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
+
+	this->chassis->CreateFixture(&skin, CAR_DENSITY);
+}
+
+
 void Car::set_wheels(b2World &world, float x, float y) {
 	b2CircleShape circle;
 	circle.m_radius = W_RADIUS;
 	
 	b2FixtureDef fd;
 	fd.shape = &circle;
-	fd.density = DENSITY;
+	fd.density = CAR_DENSITY;
 	fd.friction = 0.9f;
 
 	b2BodyDef wheelDef;
@@ -92,18 +144,6 @@ void Car::set_wheels(b2World &world, float x, float y) {
 }
 
 
-void Car::set_chassis(b2World &world, float x, float y) {
-	b2BodyDef chassisDef;
-	chassisDef.type = b2_dynamicBody;
-	chassisDef.position.Set(x, y + W_RADIUS);
-	
-	this->chassis = world.CreateBody(&chassisDef);
-	
-	b2PolygonShape skin;
-	skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
-
-	this->chassis->CreateFixture(&skin, DENSITY);
-}
 
 /*    Actions    */
 
@@ -126,6 +166,23 @@ void Car::rotateCCW() {
 void Car::rotateCW() {
 	this->chassis->SetAngularVelocity(-FLIP_SPEED);
 }
+
+void Car::nitro() {
+	if (nitro_ptge < 10) {
+		return;
+	}
+
+	b2Vec2 i = this->chassis->GetLinearVelocity();
+	i *= NITRO_IMPULSE / i.Length();
+	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
+	nitro_ptge -= 10;
+}
+
+
+void Car::nitroRefill() {
+	this->nitro_ptge = 100;
+}
+
 
 void Car::jump() {
 	// is in the ground

@@ -1,4 +1,4 @@
-#include <yaml.h>
+#include <yaml-cpp/yaml.h>
 #include "game_model.h"
 
 #define TIME_STEP 1.0f / 60.0f
@@ -12,23 +12,24 @@
 #define WALL_THICKNESS 10.0f
 #define MAX_CARS 4
 
+#define NITRO_REFILL_FREQ 20
 
-GameModel::GameModel(uint8_t cars_amount) : world(b2Vec2(0.0f, -10.0f)) {
+GameModel::GameModel(size_t cars_amount) : world(b2Vec2(0.0f, -10.0f)),
+										   ball(this->world, 0, 0, MED_BALL) {
 	YAML::Node config = YAML::LoadFile(".config.yaml");	
 	int xcar_offset = 0;
 
-	for (int id = 0; id < cars_amount; id++) {
+	for (uint8_t id = 0; id < cars_amount; id++) {
 		if (id % 2) {
 			xcar_offset += CAR_XPOS_OFFSET;
 		} else {
 			xcar_offset = CAMP_LENGTH - xcar_offset;
 		}
-		this->cars.emplace(id, &(this->world), xcar_offset, 0);
+		this->cars.emplace(id, Car(this->world, xcar_offset, 0));
 	}
 
-	this->ball = Ball(&world, 
-					  config["camp_length"].as<int>() / 2, 
-					  config["camp_height"].as<int>() / 2);
+	this->ball.move(config["camp_length"].as<int>() / 2, 
+					config["camp_height"].as<int>() / 2);
 
 	this->setLimits(config["length"].as<int>(),
 					config["height"].as<int>());
@@ -71,20 +72,44 @@ void GameModel::setLimits(int height, int length) {
 
 
 void GameModel::updateGame(UserAction &a) {
-	/*
-		llamo al protocolo para resolver los movs,
-		y los aplico.
-		matchstate pasado con std::move
-	*/
+	uint8_t car_id = a.get_car_id();
+
+	if (a.is(LEFT_PUSH)) {
+		this->cars.at(car_id).goLeft();
+
+	} else if (a.is(RIGHT_PUSH)) {
+		this->cars.at(car_id).goRight();
+
+	} else if (a.is(UP_PUSH)) {
+		this->cars.at(car_id).rotateCW();
+
+	} else if (a.is(DOWN_PUSH)) {
+		this->cars.at(car_id).rotateCCW();
+
+	} else if (a.is(JUMP)) {
+		this->cars.at(car_id).jump();
+
+	} else if (a.is(NITRO_PUSH)) {
+		this->cars.at(car_id).nitro();
+	}
 }
 
 
 void GameModel::step() {
+	if (step_count >= NITRO_REFILL_FREQ) {
+		for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
+			it->second.nitroRefill();
+		}
+		step_count = 0;
+	}
+
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
+	this->step_count += 1;
 }
 
 
-MatchState GameModel::getState() {
-}
+// MatchState GameModel::getState() {
+	// 
+// }
 
 GameModel::~GameModel() {}

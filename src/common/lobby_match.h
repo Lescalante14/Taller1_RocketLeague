@@ -27,7 +27,9 @@ public:
     * */
     std::string get_description() const;
 
-    /*
+	size_t get_size();
+	
+	/*
     * Agrega un nuevo jugador a la partida
     * */
     uint8_t add_player(
