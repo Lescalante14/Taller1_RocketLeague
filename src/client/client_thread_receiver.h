@@ -1,11 +1,12 @@
 #ifndef THREAD_RECEIVER_H
 #define THREAD_RECEIVER_H
 
-#include "../common/protocol.h"
-#include "../common/thread.h"
-#include "../common/lobby.h" 
-#include "../common/non_blocking_queue.h"
 #include <string>
+
+#include "common/non_blocking_queue.h"
+#include "common/protocol.h"
+#include "common/thread.h"
+#include "common/lobby.h" 
 
 class ClientThreadReceiver: public Thread {
 private:

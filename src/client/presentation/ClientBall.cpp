@@ -3,7 +3,7 @@
 //
 
 #include "ClientBall.h"
-#include "../helpers/PositionConverter.h"
+#include "client/helpers/PositionConverter.h"
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 : texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))

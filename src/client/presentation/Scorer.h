@@ -5,7 +5,7 @@
 #ifndef ROCKET_LEAGUE_SCORER_H
 #define ROCKET_LEAGUE_SCORER_H
 
-#include "SDL2pp/SDL2pp.hh"
+#include <SDL2pp/SDL2pp.hh>
 
 class Scorer {
     SDL2pp::Texture texture;

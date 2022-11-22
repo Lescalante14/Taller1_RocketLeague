@@ -6,10 +6,10 @@
 #define ROCKET_LEAGUE_CLIENTCAR_H
 
 
-#include "SDL2pp/SDL2pp.hh"
-#include "../model/ClientCarState.h"
-#include "../../common/match_setup.h"
-#include "../helpers/PositionConverter.h"
+#include <SDL2pp/SDL2pp.hh>
+#include "client/model/ClientCarState.h"
+#include "common/match_setup.h"
+#include "client/helpers/PositionConverter.h"
 
 class ClientCar {
 private:

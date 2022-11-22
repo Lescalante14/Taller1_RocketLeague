@@ -1,11 +1,12 @@
 #ifndef THREAD_SENDER_H
 #define THREAD_SENDER_H
 
-#include "../common/protocol.h"
-#include "../common/thread.h"
-#include "../common/lobby.h" 
-#include "../common/blocking_queue.h"
 #include <string>
+
+#include "common/blocking_queue.h"
+#include "common/protocol.h"
+#include "common/thread.h"
+#include "common/lobby.h" 
 
 /*
 * Hilo encargado de manejar la conexión con un cliente

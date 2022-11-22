@@ -6,10 +6,10 @@
 #define ROCKET_LEAGUE_CLIENTCARSTATE_H
 
 
+#include <SDL2pp/Renderer.hh>
 #include <cstdint>
 #include <string>
-#include "../../common/car_state.h"
-#include "SDL2pp/Renderer.hh"
+#include "common/car_state.h"
 
 class ClientCarState {
 private:

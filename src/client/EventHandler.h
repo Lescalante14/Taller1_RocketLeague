@@ -6,9 +6,9 @@
 #define ROCKET_LEAGUE_EVENTHANDLER_H
 
 
-#include "ClientMatch.h"
-#include "../common/user_action.h"
-#include "../common/blocking_queue.h"
+#include "client/presentation/ClientMatch.h"
+#include "common/user_action.h"
+#include "common/blocking_queue.h"
 
 class EventHandler {
 private:

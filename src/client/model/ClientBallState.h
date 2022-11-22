@@ -6,8 +6,8 @@
 #define ROCKET_LEAGUE_CLIENTBALLSTATE_H
 
 
-#include "../../common/ball_state.h"
-#include "SDL2pp/Renderer.hh"
+#include <SDL2pp/Renderer.hh>
+#include "common/ball_state.h"
 
 class ClientBallState {
     //BallState wrappeeState; cuando habilite esto quitar los 3 attr

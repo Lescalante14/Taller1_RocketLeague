@@ -7,10 +7,11 @@
 
 
 #include <istream>
-#include "helpers/MockProvider.h"
-#include "presentation/ClientMatch.h"
-#include "../common/non_blocking_queue.h"
-#include "../common/blocking_queue.h"
+
+#include "client/helpers/MockProvider.h"
+#include "client/presentation/ClientMatch.h"
+#include "common/non_blocking_queue.h"
+#include "common/blocking_queue.h"
 
 class Game {
 

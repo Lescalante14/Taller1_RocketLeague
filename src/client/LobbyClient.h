@@ -7,8 +7,8 @@
 
 
 #include <iosfwd>
-#include "../common/non_blocking_queue.h"
-#include "../common/blocking_queue.h"
+#include "common/non_blocking_queue.h"
+#include "common/blocking_queue.h"
 
 class LobbyClient {
 

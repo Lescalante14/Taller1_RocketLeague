@@ -1,17 +1,19 @@
-#include "client.h"
-#include "../common/socket.h"
-#include "../common/protocol.h"
-#include "../common/custom_error.h"
-#include "../common/lobby_command.h"
-#include "LobbyClient.h"
-#include "Game.h"
-#include "../common/non_blocking_queue.h"
-#include "../common/blocking_queue.h"
-#include "client_thread_sender.h"
-#include "client_thread_receiver.h"
 #include <string>
 #include <iostream>
 #include <utility>
+
+#include "client_thread_receiver.h"
+#include "client_thread_sender.h"
+#include "LobbyClient.h"
+#include "client.h"
+#include "Game.h"
+
+#include "common/non_blocking_queue.h"
+#include "common/blocking_queue.h"
+#include "common/lobby_command.h"
+#include "common/custom_error.h"
+#include "common/protocol.h"
+#include "common/socket.h"
 
 void Client::start(
         const char *hostname,

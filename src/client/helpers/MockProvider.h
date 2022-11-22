@@ -6,8 +6,8 @@
 #define ROCKET_LEAGUE_MOCKPROVIDER_H
 
 
-#include "../../common/match_state.h"
-#include "../../common/match_setup.h"
+#include "common/match_state.h"
+#include "common/match_setup.h"
 
 class MockProvider {
     std::vector<CarState> initialCars = {

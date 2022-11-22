@@ -6,8 +6,8 @@
 #define ROCKET_LEAGUE_POSITIONCONVERTER_H
 
 
-#include "SDL2pp/Renderer.hh"
-#include "../../common/match_setup.h"
+#include <SDL2pp/Renderer.hh>
+#include "common/match_setup.h"
 
 class PositionConverter {
     MatchSetup matchSetup;

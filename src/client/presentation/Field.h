@@ -7,8 +7,9 @@
 
 
 #include <string>
-#include "SDL2pp/SDL2pp.hh"
-#include "../helpers/PositionConverter.h"
+#include <SDL2pp/SDL2pp.hh>
+
+#include "client/helpers/PositionConverter.h"
 #include "Scorer.h"
 
 class Field {

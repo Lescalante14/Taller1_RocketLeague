@@ -6,12 +6,12 @@
 #define ROCKET_LEAGUE_CLIENTMATCH_H
 
 
-#include "../model/ClientMatchState.h"
 #include "Field.h"
 #include "ClientCar.h"
 #include "ClientBall.h"
-#include "../../common/match_setup.h"
-#include "../helpers/PositionConverter.h"
+#include "client/model/ClientMatchState.h"
+#include "client/helpers/PositionConverter.h"
+#include "common/match_setup.h"
 
 class ClientMatch {
     ClientMatchState state;

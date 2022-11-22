@@ -3,9 +3,10 @@
 //
 
 #include <iostream>
+
 #include "LobbyClient.h"
-#include "../common/custom_error.h"
-#include "../common/lobby_command.h"
+#include "common/custom_error.h"
+#include "common/lobby_command.h"
 
 LobbyClient::LobbyClient(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
 : input_queue(input_queue), exit_queue(exit_queue){

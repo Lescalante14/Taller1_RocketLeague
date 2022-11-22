@@ -1,9 +1,10 @@
-#include "client_thread_sender.h"
-#include "../common/protocol.h"
-#include "../common/match_setup.h"
-#include "../common/match_state.h"
-#include "../common/queue_closed_exception.h"
 #include <string>
+
+#include "client_thread_sender.h"
+#include "common/protocol.h"
+#include "common/match_setup.h"
+#include "common/match_state.h"
+#include "common/queue_closed_exception.h"
 
 void ClientThreadSender::run() {
     bool should_continue = true;

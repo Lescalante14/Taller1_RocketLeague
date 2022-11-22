@@ -5,9 +5,9 @@
 #ifndef ROCKET_LEAGUE_CLIENTBALL_H
 #define ROCKET_LEAGUE_CLIENTBALL_H
 
-#include "SDL2pp/SDL2pp.hh"
-#include "../model/ClientBallState.h"
-#include "../helpers/PositionConverter.h"
+#include <SDL2pp/SDL2pp.hh>
+#include "client/model/ClientBallState.h"
+#include "client/helpers/PositionConverter.h"
 
 class ClientBall {
     SDL2pp::Texture texture;

@@ -1,17 +1,19 @@
 //
 // Created by lescalante on 11/11/22.
 //
-
-#include "Game.h"
-#include "helpers/MockProvider.h"
-#include "model/ClientMatchState.h"
-#include "presentation/ClientMatch.h"
-#include "EventHandler.h"
-#include "../common/match_setup.h"
 #include <SDL2pp/SDL2pp.hh>
 #include <csignal>
 
+#include "EventHandler.h"
+#include "Game.h"
+
+#include "client/presentation/ClientMatch.h"
+#include "client/model/ClientMatchState.h"
+#include "client/helpers/MockProvider.h"
+#include "common/match_setup.h"
+
 #define FRAME_RATE 1000000.0f/25.0f
+
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
 : input_queue(input_queue), exit_queue(exit_queue) {}
