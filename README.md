@@ -28,9 +28,9 @@ make
 ## Usage 
 ```shell
 server_host@128.0.0.0
-./rl_server <PORT>
+$ ./rl_server <PORT>
 
 client@192.168.x.x:
-./rocket_league <HOST> <PORT>
+$ ./rocket_league <HOST> <PORT>
 ```
 To run the client you must be in the build/src directory.
