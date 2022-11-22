@@ -18,6 +18,12 @@ public:
 
     int convert_CM_to_PX_In_X_axis(int pos, SDL2pp::Renderer &renderer);
     int convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &renderer);
+
+    int get_car_width_in_PX(SDL2pp::Renderer &renderer);
+
+    int get_car_height_in_PX(SDL2pp::Renderer &renderer);
+
+    int get_radius_ball_in_PX(SDL2pp::Renderer &renderer);
 };
 
 
