@@ -27,24 +27,13 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
     );
 }
 
-// TODO: logic with setup sizes
 int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    int cmPos = state.get_position_x();
-    int pos = positionConverter.convert_CM_to_PX_In_X_axis(cmPos, renderer);
-    int carWidth = calculateCarWidthInPx(renderer, positionConverter);
-
-    if (pos + carWidth/2 > renderer.GetOutputWidth())
-        return renderer.GetOutputWidth()-carWidth;
-    return pos;
+    return positionConverter.convert_CM_to_PX_In_X_axis(state.get_position_x(), renderer);
 }
 
 int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_y();
     int posPx = positionConverter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
-    int carHeight = calculateCarHeightInPx(renderer, positionConverter);
-
-    if (posPx + carHeight > renderer.GetOutputHeight())
-        return renderer.GetOutputHeight() - carHeight;
     return posPx;
 }
 
