@@ -49,12 +49,26 @@ UserAction LobbyMatch::pop_from_input_queue() {
     return this->input_queue.pop();
 }
 
-void LobbyMatch::push_to_output_queues(std::string state) {
+void LobbyMatch::push_to_output_queues(MatchState state) {
     std::for_each(
         this->output_queues.begin(), 
         this->output_queues.end(), 
         [&state] (BlockingQueue<std::string>* queue) { 
-            queue->push(state);
+            std::string ser(state.serialize());
+            queue->push(ser);
+        });
+}
+
+void LobbyMatch::push_to_output_queues(MatchSetup setup) {
+    uint8_t i = 0;
+    std::for_each(
+        this->output_queues.begin(), 
+        this->output_queues.end(), 
+        [&setup, &i] (BlockingQueue<std::string>* queue) { 
+            setup.set_car_id_assigned(i);
+            std::string ser(setup.serialize());
+            queue->push(ser);
+            i++;
         });
 }
 

@@ -2,6 +2,7 @@
 #define PROTOCOL_H
 
 #include <string>
+
 #include "socket.h"
 #include "transferable.h"
 #include "match_state.h"
@@ -15,7 +16,6 @@ private:
     std::string rem;
 
     void send_transferable_state(Transferable& t);
-    std::string recv_transferable_state(bool *was_closed);
 
 public:
     explicit Protocol(Socket _skt);
@@ -24,6 +24,7 @@ public:
     LobbyCommand recv_lobby_command(bool *was_closed);
 
     void send_message(std::string message);
+    std::string recv_message(bool *was_closed);
 
     void send_match_state(MatchState& ms);
     MatchState recv_match_state(bool *was_closed);

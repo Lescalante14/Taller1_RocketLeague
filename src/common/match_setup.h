@@ -12,6 +12,7 @@ private:
     int ball_size;
     int car_size;
     uint8_t cars_quantity;
+    uint8_t car_id_assigned;
 
 public:
     MatchSetup(
@@ -32,6 +33,8 @@ public:
     int get_ball_size();
     int get_car_size();
     uint8_t get_cars_quantity();
+    uint8_t get_car_id_assigned();
+    void set_car_id_assigned(uint8_t id);
 };
 
 #endif

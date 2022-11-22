@@ -3,6 +3,12 @@
 #include "../common/protocol.h"
 #include "../common/custom_error.h"
 #include "../common/lobby_command.h"
+#include "LobbyClient.h"
+#include "Game.h"
+#include "../common/non_blocking_queue.h"
+#include "../common/blocking_queue.h"
+#include "client_thread_sender.h"
+#include "client_thread_receiver.h"
 #include <string>
 #include <iostream>
 #include <utility>
@@ -10,28 +16,22 @@
 void Client::start(
         const char *hostname,
         const char *servname) {
-    Socket skt(hostname, servname);
-
+    /*Socket skt(hostname, servname);
     Protocol protocol(std::move(skt));
+    */
+    NonBlockingQueue<std::string> input_queue;
+    BlockingQueue<std::string> exit_queue;
+    /*
+    ClientThreadReceiver receiver(protocol, input_queue);
+    ClientThreadSender sender(protocol, exit_queue);
+    receiver.start();
+    sender.start();*/
 
-    std::string command;
+    /*LobbyClient lobby(input_queue, exit_queue);
+    lobby.start(std::cin);*/
+    Game game(input_queue, exit_queue);
+    game.start(std::cin);
 
-    bool in_game = false;
-
-    while (std::getline(std::cin, command)) {
-        protocol.send_message(command);
-
-        bool was_closed = false;
-
-        if (not in_game) {
-            LobbyCommand LobbyCommand = protocol.recv_lobby_command(&was_closed);
-
-            if (was_closed) {
-                throw CustomError("socket was closed by the other end.");
-            }
-            
-            std::cout << LobbyCommand.serialize() << std::endl;
-            in_game = true;
-        }
-    }
+   /* receiver.join();
+    sender.join();*/
 }

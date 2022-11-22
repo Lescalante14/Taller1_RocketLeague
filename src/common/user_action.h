@@ -1,7 +1,7 @@
 #ifndef USER_ACTION_H
 #define USER_ACTION_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include "transferable.h"
 
