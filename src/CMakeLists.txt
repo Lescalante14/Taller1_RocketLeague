@@ -6,12 +6,12 @@ file(GLOB_RECURSE CLIENT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/client/*.cpp)
 
 # --------- Server build ---------
 
-add_executable(server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
+add_executable(rl_server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
 
-target_include_directories(server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(server PUBLIC box2d yaml-cpp)
+target_include_directories(rl_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 
-target_compile_options(server PUBLIC
+target_compile_options(rl_server PUBLIC
 	-Werror
 	-Wall
 	-O3
@@ -20,9 +20,9 @@ target_compile_options(server PUBLIC
 
 # --------- Client build ---------
 
-add_executable(client ${CLIENT_SRC_FILES} ${COMMON_SRC_FILES} )
+add_executable(rocket_league ${CLIENT_SRC_FILES} ${COMMON_SRC_FILES} )
 
-target_include_directories(client PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(rocket_league PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # enabling image and font handling
 set(SDL2PP_WITH_IMAGE YES)
@@ -34,9 +34,9 @@ file(COPY client/assets DESTINATION ${CMAKE_BINARY_DIR}/src)
 
 # adding SDL2pp libary
 include_directories(${SDL2PP_INCLUDE_DIRS})
-target_link_libraries(client PUBLIC ${SDL2PP_LIBRARIES})
+target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
 
-target_compile_options(client PUBLIC
+target_compile_options(rocket_league PUBLIC
 	-Werror
 	-Wall
 	-O3

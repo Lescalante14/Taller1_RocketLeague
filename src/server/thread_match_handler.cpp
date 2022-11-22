@@ -32,7 +32,8 @@ void ThreadMatchHandler::run() {
 				game_model.step();
 				this->match.push_to_output_queues(game_model.getState());
 			}
-			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
+			std::cout << "DEBUG\n";
+			std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
 
         } catch(const QueueEmptyException& err) {
             // std::cout << "vacíaaaaaaa" << std::endl;
