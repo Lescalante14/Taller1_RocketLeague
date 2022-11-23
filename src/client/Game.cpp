@@ -39,8 +39,15 @@ void Game::start(std::istream &input) {
 
     MockProvider mockProvider;
 
-    MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
-    MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
+    std::cout << "Waiting other players..." << std::endl;
+    std::string setupStr = input_queue.blocking_pop();
+    std::cout << "starting match..." << std::endl;
+    auto matchSetup = MatchSetup(setupStr); //Esto me lo va a dar el protocolo luego
+    std::string stateStr = input_queue.pop();
+    auto matchState = MatchState(stateStr); //Esto me lo va a dar el protocolo luego
+
+    //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
+    //MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
 
     ClientMatchState clientMatchState(matchState);
     ClientMatch match(clientMatchState, renderer, std::move(matchSetup)); // Primer capa de presentacion

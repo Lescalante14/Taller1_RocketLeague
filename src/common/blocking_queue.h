@@ -11,7 +11,7 @@ template<typename T> class BlockingQueue {
     std::queue<T> internal;
     std::mutex mutex;
     std::condition_variable cv;
-    bool is_closed;
+    bool is_closed{};
 
     public:
     void push(T &element) {

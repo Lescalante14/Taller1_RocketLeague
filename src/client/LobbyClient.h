@@ -14,7 +14,11 @@ class LobbyClient {
 
     NonBlockingQueue<std::string> &input_queue;
     BlockingQueue<std::string> &exit_queue;
+    const std::string EXIT_COMMAND = "fin";
+
+    void resolveAction(const std::string& action, std::string *command, std::string *payload);
 public:
+
     LobbyClient(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue);
 
     void start(std::istream &input);

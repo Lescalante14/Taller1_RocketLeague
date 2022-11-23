@@ -18,22 +18,23 @@
 void Client::start(
         const char *hostname,
         const char *servname) {
-    /*Socket skt(hostname, servname);
+    Socket skt(hostname, servname);
     Protocol protocol(std::move(skt));
-    */
+
     NonBlockingQueue<std::string> input_queue;
     BlockingQueue<std::string> exit_queue;
-    /*
+
     ClientThreadReceiver receiver(protocol, input_queue);
     ClientThreadSender sender(protocol, exit_queue);
     receiver.start();
-    sender.start();*/
+    sender.start();
 
-    /*LobbyClient lobby(input_queue, exit_queue);
-    lobby.start(std::cin);*/
+    LobbyClient lobby(input_queue, exit_queue);
+    lobby.start(std::cin);
+
     Game game(input_queue, exit_queue);
     game.start(std::cin);
 
-   /* receiver.join();
-    sender.join();*/
+    receiver.join();
+    sender.join();
 }

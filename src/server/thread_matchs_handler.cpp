@@ -50,9 +50,11 @@ void ThreadMatchsHandler::run() {
         }
         this->waitForHandlers();
     } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
         this->waitForHandlers();
         throw;
     } catch (...) {
+        std::cout << "danger" << std::endl;
         this->waitForHandlers();
         return;
     }

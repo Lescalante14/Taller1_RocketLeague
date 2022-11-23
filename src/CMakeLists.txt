@@ -1,6 +1,6 @@
 
-file(GLOB_RECURSE SERVER_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/server/*.cpp)
-file(GLOB_RECURSE COMMON_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/common/*.cpp)
+file(GLOB_RECURSE SERVER_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/server/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/server/*.h)
+file(GLOB_RECURSE COMMON_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/common/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/common/*.h)
 file(GLOB_RECURSE CLIENT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/client/*.cpp)
 
 
@@ -14,7 +14,7 @@ target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 target_compile_options(rl_server PUBLIC
 	-Werror
 	-Wall
-	-O3
+	-O0
 	-g
 )
 
@@ -39,6 +39,6 @@ target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
 target_compile_options(rocket_league PUBLIC
 	-Werror
 	-Wall
-	-O3
+	-O0
 	-g
 )
