@@ -25,7 +25,7 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 			  step_freq(_step_freq),
 			  ball(this->world, 0, 0, ball_size::MED_BALL) {
 	
-	YAML::Node config = YAML::LoadFile(".config.yaml");	
+	YAML::Node config = YAML::LoadFile(".config.yml");	
 	int xcar_offset = 0;
 
 	for (uint8_t id = 0; id < cars_amount; id++) {

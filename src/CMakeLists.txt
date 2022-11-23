@@ -11,6 +11,8 @@ add_executable(rl_server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
 target_include_directories(rl_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/../.config.yml DESTINATION ${CMAKE_BINARY_DIR}/src)
+
 target_compile_options(rl_server PUBLIC
 	-Werror
 	-Wall
