@@ -1,8 +1,14 @@
-#include "thread_match_handler.h"
-#include "../common/queue_empty_exception.h"
-#include <algorithm>
 #include <unistd.h>
+#include <algorithm>
 #include <iostream>
+#include <ctime>
+
+#include "thread_match_handler.h"
+#include "common/queue_empty_exception.h"
+#include "server/b2d_model/game_model.h"
+
+#define STEP_FREQ 1 / 50e-6 /* 20kHz (every 50us) */
+#define STEP_TICK_FREQ 3e9 / 50e-6 /* in cpu ticks */
 
 ThreadMatchHandler::ThreadMatchHandler(
     LobbyMatch& _match
@@ -11,11 +17,24 @@ ThreadMatchHandler::ThreadMatchHandler(
 
 void ThreadMatchHandler::run() {
     NonBlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
+	GameModel game_model(this->match.get_size(), STEP_FREQ);
+	this->match.push_to_output_queues(game_model.getSetup());
+
+	clock_t now = clock();
 
     while (1) {
         try {
             UserAction action = input_queue.pop();
-            std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
+            game_model.updateGame(action);
+			
+			if (clock() - now >= STEP_TICK_FREQ) {
+				now = clock();
+				game_model.step();
+				this->match.push_to_output_queues(game_model.getState());
+			}
+			std::cout << "DEBUG\n";
+			std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
+
         } catch(const QueueEmptyException& err) {
             // std::cout << "vacíaaaaaaa" << std::endl;
             usleep(1000);

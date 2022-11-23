@@ -1,7 +1,7 @@
 #ifndef CAR_STATE_H
 #define CAR_STATE_H
 
-#include "Transferable.h"
+#include "transferable.h"
 #include <string>
 
 class CarState: public Transferable {
@@ -19,7 +19,7 @@ public:
             uint8_t _id,
             uint8_t _nitro_activated,
             uint8_t _nitro_percentage,
-            uint8_t _inverted,
+            uint8_t _oriented_right,
             uint16_t _angle,
             float _position_x,
             float _position_y);

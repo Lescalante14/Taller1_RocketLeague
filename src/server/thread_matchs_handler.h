@@ -1,9 +1,9 @@
 #ifndef MATCHS_HANDLER_H
 #define MATCHS_HANDLER_H
 
-#include "../common/thread.h"
-#include "../common/blocking_queue.h"
-#include "../common/lobby_match.h"
+#include "common/thread.h"
+#include "common/blocking_queue.h"
+#include "common/lobby_match.h"
 #include "thread_match_handler.h"
 
 class ThreadMatchsHandler: public Thread {

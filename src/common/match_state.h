@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Transferable.h"
+#include "transferable.h"
 #include "car_state.h"
 
 class MatchState: public Transferable {
@@ -30,7 +30,7 @@ public:
         float _ball_direction_y,
         float _ball_position_x,
         float _ball_position_y,
-        std::vector<CarState>& _cars);
+        std::vector<CarState> _cars);
 
     explicit MatchState(std::string &state);
 

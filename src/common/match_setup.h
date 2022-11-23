@@ -1,7 +1,7 @@
 #ifndef MATCH_SETUP_H
 #define MATCH_SETUP_H
 
-#include "Transferable.h"
+#include "transferable.h"
 #include <string>
 
 class MatchSetup: public Transferable {

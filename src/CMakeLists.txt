@@ -1,24 +1,44 @@
 
-file(GLOB COMMON_SRC_FILES common/*.cpp)
+file(GLOB_RECURSE SERVER_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/server/*.cpp)
+file(GLOB_RECURSE COMMON_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/common/*.cpp)
+file(GLOB_RECURSE CLIENT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/client/*.cpp)
 
-file(GLOB SERVER_SRC_FILES server/*.cpp)
 
-add_executable(server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
+# --------- Server build ---------
 
-target_include_directories(server PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../inc)
-target_include_directories(server PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../lib)
+add_executable(rl_server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
 
-target_link_libraries(server PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../lib/libbox2d.a)
+target_include_directories(rl_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 
-# set(CLIENT_SRC_FILES
-# 	client_src/client.h
-# 	client_src/client.cpp
-# 	client_src/client_main.cpp
-# )
+target_compile_options(rl_server PUBLIC
+	-Werror
+	-Wall
+	-O3
+	-g
+)
 
-# add_executable(client ${CLIENT_SRC_FILES})
+# --------- Client build ---------
 
-# target_include_directories(client ${CMAKE_CURRENT_LIST_DIR}/../inc)
-# target_include_directories(client ${CMAKE_CURRENT_LIST_DIR}/../lib)
+add_executable(rocket_league ${CLIENT_SRC_FILES} ${COMMON_SRC_FILES} )
 
-# target_link_libraries(client PUBLIC lib2sdl.a)
+target_include_directories(rocket_league PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# enabling image and font handling
+set(SDL2PP_WITH_IMAGE YES)
+set(SDL2PP_WITH_TTF YES)
+
+add_subdirectory(../lib/libSDL2pp ../build)
+
+file(COPY client/assets DESTINATION ${CMAKE_BINARY_DIR}/src)
+
+# adding SDL2pp libary
+include_directories(${SDL2PP_INCLUDE_DIRS})
+target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
+
+target_compile_options(rocket_league PUBLIC
+	-Werror
+	-Wall
+	-O3
+	-g
+)
