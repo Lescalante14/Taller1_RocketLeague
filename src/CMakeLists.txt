@@ -11,6 +11,7 @@ add_executable(rl_server ${SERVER_SRC_FILES} ${COMMON_SRC_FILES})
 target_include_directories(rl_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 
+# copy config file to build directory
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../.config.yml DESTINATION ${CMAKE_BINARY_DIR}/src)
 
 target_compile_options(rl_server PUBLIC
@@ -32,6 +33,7 @@ set(SDL2PP_WITH_TTF YES)
 
 add_subdirectory(../lib/libSDL2pp ../build)
 
+# copy resources to build directory
 file(COPY client/assets DESTINATION ${CMAKE_BINARY_DIR}/src)
 
 # adding SDL2pp libary

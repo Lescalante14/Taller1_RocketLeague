@@ -19,6 +19,7 @@ void ThreadMatchHandler::run() {
     NonBlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
 	GameModel game_model(this->match.get_size(), STEP_FREQ);
 	this->match.push_to_output_queues(game_model.getSetup());
+	this->match.push_to_output_queues(game_model.getState());
 
 	clock_t now = clock();
 

@@ -20,9 +20,9 @@ class GameModel {
 	uint16_t timer = 0; // in seconds
 	size_t step_freq = 0;
 	size_t step_count = 0;
-	int height = 0;
-	int length = 0;
-	int scorer_height = 0;
+	float height = 0;
+	float length = 0;
+	float scorer_height = 0;
 	shot_type last_shot = shot_type::NONE;
 	
 	uint8_t l_scorer = 0;

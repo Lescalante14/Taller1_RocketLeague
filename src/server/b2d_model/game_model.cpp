@@ -42,21 +42,25 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 		this->cars.emplace(id, Car(this->world, xcar_offset, 0, f));
 	}
 
-	this->ball.move(config["camp_length"].as<int>() / 2, 
-					config["camp_height"].as<int>() / 2);
+	this->ball.move(config["camp_length"].as<float>() / 2, 
+					config["camp_height"].as<float>() / 2);
 	this->ball.resize((ball_size) config["ball_size"].as<int>());
 
 
-	this->length = config["camp_length"].as<int>();
-	this->height = config["camp_height"].as<int>();
+	this->length = config["camp_length"].as<float>();
+	this->height = config["camp_height"].as<float>();
 	this->setLimits();
 
-	if (config["scorer_height"].as<int>() > this->height) {
+	if (config["scorer_height"].as<float>() > this->height) {
 		this->scorer_height = SCORER_HEIGHT;
+	} else {
+		this->scorer_height = config["scorer_height"].as<float>();
 	}
 
 	if (config["match_duration"].as<size_t>() <= 300) {
 		this->timer = config["match_duration"].as<uint16_t>();
+	} else {
+		this->timer = 150;
 	}
 }
 
@@ -170,9 +174,12 @@ MatchState GameModel::getState() {
 								c.nitroTriggered(),
 								c.remainingNitro(),
 								c.getFacing(),
-								c.getAngle(), 
-								c.getPosition().x,
-								c.getPosition().y);
+								0,
+								0,
+								0);
+								// c.getAngle(), 
+								// c.getPosition().x,
+								// c.getPosition().y);
 	}
 
 	return MatchState(this->timer, true,

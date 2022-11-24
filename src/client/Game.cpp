@@ -43,7 +43,7 @@ void Game::start(std::istream &input) {
     std::string setupStr = input_queue.blocking_pop();
     std::cout << "starting match..." << std::endl;
     auto matchSetup = MatchSetup(setupStr); //Esto me lo va a dar el protocolo luego
-    std::string stateStr = input_queue.pop();
+    std::string stateStr = input_queue.blocking_pop();
     auto matchState = MatchState(stateStr); //Esto me lo va a dar el protocolo luego
 
     //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
