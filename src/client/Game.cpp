@@ -58,15 +58,16 @@ void Game::start(std::istream &input) {
     bool running = true;
 
     while (running) {
-        running = eventHandler.handleEvents(match); // push inside
         // state = multiple pops()
+        running = eventHandler.handleEvents(match); // push inside
 
-        /*std::string newState = input_queue.pop();
+        std::string newState = input_queue.blocking_pop();
         MatchState newMatchState(newState);
-        //update(state, FRAME_RATE);
-        ClientMatchState newClientState(newMatchState);*/
+        ClientMatchState newClientState(newMatchState);
 
-        match.render(renderer);
+		// TODO: hacer que el update no crashee (no se si esta bien)
+		match.update(newClientState, renderer);
+		match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         usleep(FRAME_RATE);

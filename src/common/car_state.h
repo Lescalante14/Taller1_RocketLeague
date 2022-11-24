@@ -4,6 +4,9 @@
 #include "transferable.h"
 #include <string>
 
+#define CAR_STATE_SIZE 14
+
+
 class CarState: public Transferable {
 private:
     uint8_t id;

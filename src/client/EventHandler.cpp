@@ -92,14 +92,15 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 std::cout << "Quit :(" << std::endl;
                 return false;
         } // fin switch(event)
-    }
+    	break;
+	}
     return true;
 }
 
 void EventHandler::pushAction(UserAction action) {
     std::string actionStr = action.serialize();
     UserAction newAction(actionStr);
-    /*exit_queue.push(actionStr);
-    std::string popAction = exit_queue.pop();*/
+    exit_queue.push(actionStr);
+    // std::string popAction = exit_queue.pop();*/
     std::cout << unsigned(newAction.get_car_id()) << std::endl;
 }

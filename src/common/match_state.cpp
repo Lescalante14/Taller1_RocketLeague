@@ -53,10 +53,10 @@ MatchState::MatchState(std::string &state) {
         &buf[MATCH_STATE_SIZE], state.size() - MATCH_STATE_SIZE);
 
     while (cars_string.size() > 0) {
-        std::string car_serialized(cars_string.substr(0, 19));
+        std::string car_serialized(cars_string.substr(0, CAR_STATE_SIZE));
         CarState car(car_serialized);
         this->cars.push_back(car);
-        cars_string = cars_string.substr(19);
+        cars_string = cars_string.substr(CAR_STATE_SIZE);
     }
 }
 

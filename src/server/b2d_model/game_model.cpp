@@ -56,11 +56,10 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 	} else {
 		this->scorer_height = config["scorer_height"].as<float>();
 	}
-
+	this->timer = 150;
+	
 	if (config["match_duration"].as<size_t>() <= 300) {
 		this->timer = config["match_duration"].as<uint16_t>();
-	} else {
-		this->timer = 150;
 	}
 }
 
@@ -138,9 +137,9 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-	if (!timer) {
-		return;
-	}
+	// if (!timer) {
+	// 	return;
+	// }
 
 	if (!(timer % NITRO_REFILL_FREQ)) {
 		for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
@@ -174,12 +173,9 @@ MatchState GameModel::getState() {
 								c.nitroTriggered(),
 								c.remainingNitro(),
 								c.getFacing(),
-								0,
-								0,
-								0);
-								// c.getAngle(), 
-								// c.getPosition().x,
-								// c.getPosition().y);
+								c.getAngle(), 
+								c.getPosition().x,
+								c.getPosition().y);
 	}
 
 	return MatchState(this->timer, true,

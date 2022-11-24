@@ -23,7 +23,7 @@ class ClientMatch {
 
 public:
     explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup setup);
-
+	void update(ClientMatchState s, SDL2pp::Renderer &renderer);
     void render(SDL2pp::Renderer &renderer);
 };
 

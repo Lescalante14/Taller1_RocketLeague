@@ -1,7 +1,6 @@
 #include "car_state.h"
 #include <netinet/in.h>
 
-#define CAR_STATE_SIZE 14
 
 std::string CarState::serialize() {
     char buf[CAR_STATE_SIZE];
