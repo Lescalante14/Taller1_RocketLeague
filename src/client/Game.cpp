@@ -64,6 +64,7 @@ void Game::start(std::istream &input) {
 
         // state = multiple pops()
         std::string newState = popGameState(actualState, &running);
+        actualState = newState;
         // Update
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
