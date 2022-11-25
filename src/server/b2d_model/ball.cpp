@@ -13,7 +13,7 @@
 #define RED_SHOT_IMPULSE    60.0f
 #define GOLD_SHOT_IMPULSE   70.0f
 
-#define BALL_DENSITY 0.5f
+#define BALL_DENSITY 3.0f
 
 #define BASE_DISTANCE 0.40f
 #define CLOSE_DISTANCE  0.15f

@@ -19,9 +19,10 @@
 
 #define NITRO_REFILL_FREQ 5 /* in seconds */
 
+#define GRAVITY 10.0f
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
-			: world(b2Vec2(0.0f, -10.0f)),
+			: world(b2Vec2(0.0f, -GRAVITY)),
 			  step_freq(_step_freq),
 			  ball(this->world, 0, 0, ball_size::MED_BALL) {
 	
