@@ -18,6 +18,8 @@ class Game {
 private:
     NonBlockingQueue<std::string> &input_queue;
     BlockingQueue<std::string> &exit_queue;
+
+    std::string popGameState(const std::string &actualState, bool *running);
 public:
     Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue);
 
