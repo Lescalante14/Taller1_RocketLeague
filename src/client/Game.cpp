@@ -66,10 +66,15 @@ void Game::start(std::istream &input) {
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
         ClientMatch newMatch(newClientState, renderer, matchSetup);
-        // render
+        
+		std::cout << "Ball position x: " << newMatchState.get_ball_position_x();
+		std::cout << ", Ball position y: " << newMatchState.get_ball_position_y();
+		std::cout << std::endl;
+
+		// render
 		newMatch.render(renderer);
         // la cantidad de microsegundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
-        usleep(FRAME_RATE);
+        // usleep(FRAME_RATE);
     }
 }
