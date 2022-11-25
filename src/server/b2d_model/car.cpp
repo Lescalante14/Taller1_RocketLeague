@@ -10,15 +10,15 @@
 #define W_RADIUS 0.25f
 #define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
-#define MAX_MOTOR_SPEED 50.0f
+#define MAX_MOTOR_SPEED 200.0f
 #define ROTATION_SPEED 5 /* in radians */
 #define FLIP_IMPULSE 10
 #define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
 #define NITRO_IMPULSE 20
 
-#define FRONT_WH_X_POS(_x) _x - 2 * W_RADIUS + CAR_WIDTH / 2
-#define REAR_WH_X_POS(_x) _x + 2 * W_RADIUS - CAR_WIDTH / 2
-#define WH_Y_POS(_y) _y + W_RADIUS - CAR_HEIGHT / 2
+#define FRONT_WH_X_POS(_x) _x + CAR_WIDTH - W_RADIUS
+#define REAR_WH_X_POS(_x) _x + W_RADIUS
+#define WH_Y_POS(_y) _y + W_RADIUS
 
 
 Car::Car(Car&& other) : d_jumpd(other.d_jumpd),
@@ -86,13 +86,13 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 
 	wheel_axis.enableMotor = true;
 	wheel_axis.motorSpeed = 0.0f;
-	wheel_axis.maxMotorTorque = 10.0f;
+	wheel_axis.maxMotorTorque = 100.0f;
 	wheel_axis.stiffness = mass_rearwh * omega * omega;
 	wheel_axis.damping = 2.0f * mass_rearwh * dampingRatio * omega;
 	
 	// shock limits
-	wheel_axis.lowerTranslation = -0.25f;
-	wheel_axis.upperTranslation = 0.25f;
+	wheel_axis.lowerTranslation = -0.0f;
+	wheel_axis.upperTranslation = 0.0f;
 	wheel_axis.enableLimit = true;
 
 	this->rear_wh = (b2WheelJoint *) world.CreateJoint(&wheel_axis);
@@ -113,11 +113,12 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 void Car::set_chassis(b2World &world, float x, float y) {
 	b2BodyDef chassisDef;
 	chassisDef.type = b2_dynamicBody;
-	chassisDef.position.Set(x + CAR_WIDTH, y + W_RADIUS + CAR_HEIGHT);
+	chassisDef.position.Set(x + CAR_WIDTH / 2, y + W_RADIUS + CAR_HEIGHT / 2);
 	
 	this->chassis = world.CreateBody(&chassisDef);
 	
 	b2PolygonShape skin;
+	// draw polygon
 	skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
 
 	this->chassis->CreateFixture(&skin, CAR_DENSITY);
@@ -145,8 +146,6 @@ void Car::set_wheels(b2World &world, float x, float y) {
 						  WH_Y_POS(y));
 	this->front_wh_bd = world.CreateBody(&wheelDef);
 	this->front_wh_bd->CreateFixture(&fd);
-
-
 }
 
 
