@@ -33,8 +33,11 @@ void ThreadMatchHandler::run() {
 		if (clock() - now >= 25000) {
 			now = clock();
 			game_model.step();
-			std::cout << "Car position x: " << game_model.getState().get_cars().at(0).get_position_x();
-			std::cout << ", Car position y: " << game_model.getState().get_cars().at(0).get_position_y();
+			std::cout << "Car 1 position x: " << game_model.getState().get_cars().at(0).get_position_x();
+			std::cout << ", Car 1 position y: " << game_model.getState().get_cars().at(0).get_position_y();
+			std::cout << std::endl;
+			std::cout << "Car 2 position x: " << game_model.getState().get_cars().at(1).get_position_x();
+			std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
 			std::cout << std::endl;
 			this->match.push_to_output_queues(game_model.getState());
 		}

@@ -113,7 +113,7 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 void Car::set_chassis(b2World &world, float x, float y) {
 	b2BodyDef chassisDef;
 	chassisDef.type = b2_dynamicBody;
-	chassisDef.position.Set(x, y + W_RADIUS);
+	chassisDef.position.Set(x + CAR_WIDTH, y + W_RADIUS + CAR_HEIGHT);
 	
 	this->chassis = world.CreateBody(&chassisDef);
 	

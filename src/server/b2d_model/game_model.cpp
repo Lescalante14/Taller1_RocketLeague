@@ -10,6 +10,7 @@
 #define CAMP_HEIGHT 20.0f
 #define CAMP_LENGTH 40.0f
 #define CAR_XPOS_OFFSET 2.0f
+#define CAR_YPOS_OFFSET 2.0f
 
 #define WALL_THICKNESS 10.0f
 #define SCORER_WIDTH 2.0f
@@ -29,6 +30,15 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 	YAML::Node config = YAML::LoadFile(".config.yml");	
 	int xcar_offset = 0;
 
+	this->ball.move(config["camp_length"].as<float>() / 2, 
+					config["camp_height"].as<float>() / 2);
+	this->ball.resize((ball_size) config["ball_size"].as<int>());
+
+
+	this->length = config["camp_length"].as<float>();
+	this->height = config["camp_height"].as<float>();
+	this->setLimits();
+
 	for (uint8_t id = 0; id < cars_amount; id++) {
 		facing f = facing::F_RIGHT;
 
@@ -40,17 +50,12 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 			f = facing::F_LEFT;
 		}
 
-		this->cars.emplace(id, Car(this->world, xcar_offset, 0, f));
+		// this->cars.emplace(id, Car(this->world, xcar_offset, CAR_YPOS_OFFSET, f));
+		this->cars.emplace(id, Car(this->world,
+								   this->length / 2,
+								   this->height / 2,
+							       f));
 	}
-
-	this->ball.move(config["camp_length"].as<float>() / 2, 
-					config["camp_height"].as<float>() / 2);
-	this->ball.resize((ball_size) config["ball_size"].as<int>());
-
-
-	this->length = config["camp_length"].as<float>();
-	this->height = config["camp_height"].as<float>();
-	this->setLimits();
 
 	if (config["scorer_height"].as<float>() > this->height) {
 		this->scorer_height = SCORER_HEIGHT;
