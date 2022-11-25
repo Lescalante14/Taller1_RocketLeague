@@ -82,7 +82,7 @@ void Game::start(std::istream &input) {
 std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = actualState;
     try {
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 1; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;
