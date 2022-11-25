@@ -37,11 +37,11 @@ MatchSetup::MatchSetup(
     float _ball_size,
     float _car_size,
     uint8_t _cars_quantity
-) : field_length(_field_length),
-    field_height(_field_height),
-    goal_height(_goal_height),
-    ball_size(_ball_size),
-    car_size(_car_size),
+) : field_length(_field_length * 100),
+    field_height(_field_height * 100),
+    goal_height(_goal_height * 100),
+    ball_size(_ball_size * 100),
+    car_size(_car_size * 100),
     cars_quantity(_cars_quantity),
     car_id_assigned(0) { }
 
