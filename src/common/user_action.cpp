@@ -32,3 +32,7 @@ void UserAction::set_car_id(uint8_t id) {
 uint8_t UserAction::get_car_id() {
     return this->car_id;
 }
+
+uint8_t UserAction::getCode() {
+    return code;
+}

@@ -77,12 +77,11 @@ void Game::start(std::istream &input) {
 std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = actualState;
     try {
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 50; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;
     } catch (QueueEmptyException &e) {
-        std::cout << "empty" << std::endl;
         return lastState;
     } catch (QueueClosedException &e) {
         std::cout << "Input queue is closed." << std::endl;
