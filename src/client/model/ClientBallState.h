@@ -11,13 +11,17 @@
 
 class ClientBallState {
     //BallState wrappeeState; cuando habilite esto quitar los 3 attr
+
+    // Positions in Cm
     int position_x;
     int position_y;
     int angle;
 public:
 
     ClientBallState(int position_x, int position_y, int angle);
+    // in Cm
     int get_position_x();
+    // in Cm
     int get_position_y();
     int get_angle();
 };
