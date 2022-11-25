@@ -27,7 +27,8 @@ public:
 
     uint8_t getCarIdAssigned();
 
-    void updateState(ClientMatchState newMatchState);
+    // TODO: NO usar render, updatear los autos
+    void updateState(ClientMatchState newMatchState, SDL2pp::Renderer &renderer);
 };
 
 
