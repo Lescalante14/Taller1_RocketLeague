@@ -26,6 +26,8 @@ public:
     void render(SDL2pp::Renderer &renderer);
 
     uint8_t getCarIdAssigned();
+
+    void updateState(ClientMatchState newMatchState);
 };
 
 

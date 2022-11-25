@@ -47,3 +47,7 @@ int ClientBall::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, Posit
 int ClientBall::calculateRadiusBallInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
     return converter.get_radius_ball_in_PX(renderer);
 }
+
+void ClientBall::update(ClientBallState _state) {
+    state = std::move(_state);
+}

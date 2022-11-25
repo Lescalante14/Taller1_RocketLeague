@@ -60,18 +60,21 @@ void Game::start(std::istream &input) {
     std::string actualState = stateStr;
     
 	while (running) {
-        // state = multiple pops()
         running = eventHandler.handleEvents(match); // push inside
 
+        // state = multiple pops()
         std::string newState = popGameState(actualState, &running);
         // Update
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
-        ClientMatch newMatch(newClientState, renderer, matchSetup);
-        newMatch.render(renderer);
+        /*ClientMatch newMatch(newClientState, renderer, matchSetup);
+        newMatch.render(renderer);*/
+        //clientMatchState.update(std::move(newMatchState));
+        match.updateState(newClientState);
+        match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
-        // usleep(FRAME_RATE);
+        usleep(FRAME_RATE);
     }
 }
 

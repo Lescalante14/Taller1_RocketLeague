@@ -44,3 +44,9 @@ int ClientCar::calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConvert
 int ClientCar::calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
     return converter.get_car_height_in_PX(renderer);
 }
+
+void ClientCar::updateState(ClientCarState newState) {
+    /*CarState cs(newState.get_id(), newState.get_nitro_activated(), newState.get_nitro_percentage()
+                , newState.is_oriented_right(), newState.get_angle(), newState.get_position_x(), newState.get_position_y());*/
+    state = std::move(newState);
+}
