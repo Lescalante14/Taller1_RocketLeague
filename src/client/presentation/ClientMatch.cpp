@@ -29,12 +29,17 @@ uint8_t ClientMatch::getCarIdAssigned() {
 }
 
 
-void ClientMatch::updateState(ClientMatchState newMatchState) {
+void ClientMatch::updateState(ClientMatchState newMatchState, SDL2pp::Renderer &renderer) {
 
     state = std::move(newMatchState);
     ball.update(ClientBallState(state.get_ball_position_x(), state.get_ball_position_y(), state.get_ball_angle()));
-    for (size_t i = 0; i < cars.size(); ++i) {
+    /*for (size_t i = 0; i < cars.size(); ++i) {
         cars.at(i).updateState(state.get_cars().at(i));
+    }*/
+    // TODO: updatear autos en vez de crear nuevos
+    cars.clear();
+    for (auto &car : state.get_cars()) {
+        cars.emplace_back(ClientCar(car, renderer));
     }
 
 }

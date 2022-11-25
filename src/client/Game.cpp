@@ -71,7 +71,7 @@ void Game::start(std::istream &input) {
         /*ClientMatch newMatch(newClientState, renderer, matchSetup);
         newMatch.render(renderer);*/
         //clientMatchState.update(std::move(newMatchState));
-        match.updateState(newClientState);
+        match.updateState(newClientState, renderer);
         match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
