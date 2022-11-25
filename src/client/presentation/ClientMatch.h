@@ -24,6 +24,8 @@ class ClientMatch {
 public:
     explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup &setup);
     void render(SDL2pp::Renderer &renderer);
+
+    uint8_t getCarIdAssigned();
 };
 
 

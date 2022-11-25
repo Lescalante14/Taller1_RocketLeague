@@ -17,25 +17,25 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 switch (keyEvent.keysym.sym) {
                     case SDLK_RIGHT:
                         if (!isRightPush) {
-                            pushAction(UserAction(RIGHT_PUSH, 1));
+                            pushAction(UserAction(RIGHT_PUSH, match.getCarIdAssigned()));
                             isRightPush = true;
                         }
                         break;
                     case SDLK_LEFT:
                         if (!isLeftPush) {
-                            pushAction(UserAction(LEFT_PUSH, 2));
+                            pushAction(UserAction(LEFT_PUSH,match.getCarIdAssigned()));
                             isLeftPush = true;
                         }
                         break;
                     case SDLK_UP:
                         if (!isUpPush) {
-                            pushAction(UserAction(UP_PUSH, 3));
+                            pushAction(UserAction(UP_PUSH,match.getCarIdAssigned()));
                             isUpPush = true;
                         }
                         break;
                     case SDLK_DOWN:
                         if (!isDownPush) {
-                            pushAction(UserAction(DOWN_PUSH, 4));
+                            pushAction(UserAction(DOWN_PUSH,match.getCarIdAssigned()));
                             isDownPush = true;
                         }
                         break;
@@ -46,19 +46,19 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 auto keyEvent = (SDL_KeyboardEvent&) event;
                 switch (keyEvent.keysym.sym) {
                     case SDLK_RIGHT:
-                        pushAction(UserAction(RIGHT_RELEASE, 1));
+                        pushAction(UserAction(RIGHT_RELEASE,match.getCarIdAssigned()));
                         isRightPush = false;
                         break;
                     case SDLK_LEFT:
-                        pushAction(UserAction(LEFT_RELEASE, 2));
+                        pushAction(UserAction(LEFT_RELEASE,match.getCarIdAssigned()));
                         isLeftPush = false;
                         break;
                     case SDLK_UP:
-                        pushAction(UserAction(UP_RELEASE, 3));
+                        pushAction(UserAction(UP_RELEASE,match.getCarIdAssigned()));
                         isUpPush = false;
                         break;
                     case SDLK_DOWN:
-                        pushAction(UserAction(DOWN_RELEASE, 4));
+                        pushAction(UserAction(DOWN_RELEASE,match.getCarIdAssigned()));
                         isDownPush = false;
                         break;
                     case SDLK_q:
@@ -71,10 +71,10 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 auto mouseEvent = (SDL_MouseButtonEvent &) event;
                 switch (mouseEvent.button) {
                     case SDL_BUTTON_LEFT:
-                        pushAction(UserAction(NITRO_PUSH, 5));
+                        pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
                         break;
                     case SDL_BUTTON_RIGHT:
-                        pushAction(UserAction(JUMP, 6));
+                        pushAction(UserAction(JUMP, match.getCarIdAssigned()));
                         break;
                 }
                 break;
@@ -83,7 +83,7 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                 auto mouseEvent = (SDL_MouseButtonEvent &) event;
                 switch (mouseEvent.button) {
                     case SDL_BUTTON_LEFT:
-                        pushAction(UserAction(NITRO_RELEASE, 5));
+                        pushAction(UserAction(NITRO_RELEASE, match.getCarIdAssigned()));
                         break;
                 }
                 break;
@@ -99,8 +99,7 @@ bool EventHandler::handleEvents(ClientMatch &match) {
 
 void EventHandler::pushAction(UserAction action) {
     std::string actionStr = action.serialize();
-    UserAction newAction(actionStr);
     exit_queue.push(actionStr);
     // std::string popAction = exit_queue.pop();*/
-    std::cout << unsigned(newAction.get_car_id()) << std::endl;
+    std::cout << unsigned(action.getCode()) << std::endl;
 }

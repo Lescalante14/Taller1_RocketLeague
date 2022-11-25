@@ -32,5 +32,7 @@ class UserAction : public Transferable {
     uint8_t get_car_id();
 
     std::string serialize() override;
+
+    uint8_t getCode();
 };
 #endif

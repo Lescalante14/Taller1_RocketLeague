@@ -65,10 +65,10 @@ void Game::start(std::istream &input) {
 
         std::string newState = popGameState(actualState, &running);
         // Update
-		MatchState newMatchState(newState);
-		ClientMatchState newClientState(newMatchState);
-		ClientMatch newMatch(newClientState, renderer, matchSetup);
-		newMatch.render(renderer);
+        MatchState newMatchState(newState);
+        ClientMatchState newClientState(newMatchState);
+        ClientMatch newMatch(newClientState, renderer, matchSetup);
+        newMatch.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         // usleep(FRAME_RATE);
@@ -78,12 +78,11 @@ void Game::start(std::istream &input) {
 std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = actualState;
     try {
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 50; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;
     } catch (QueueEmptyException &e) {
-        std::cout << "empty" << std::endl;
         return lastState;
     } catch (QueueClosedException &e) {
         std::cout << "Input queue is closed." << std::endl;

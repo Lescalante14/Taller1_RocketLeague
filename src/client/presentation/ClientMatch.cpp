@@ -23,3 +23,7 @@ void ClientMatch::render(SDL2pp::Renderer &renderer) {
     }
     renderer.Present();
 }
+
+uint8_t ClientMatch::getCarIdAssigned() {
+    return matchSetup.get_car_id_assigned();
+}
