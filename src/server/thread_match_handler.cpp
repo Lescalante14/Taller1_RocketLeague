@@ -7,7 +7,7 @@
 #include "common/queue_empty_exception.h"
 #include "server/b2d_model/game_model.h"
 
-#define STEP_FREQ 1 / 30e-6 /* 20kHz (every 1us) */
+#define STEP_FREQ 1 / 10e-6 /* 100kHz (every 10us) */
 #define STEP_TICK_FREQ 3e9 / (STEP_FREQ) /* in cpu ticks */
 
 ThreadMatchHandler::ThreadMatchHandler(
@@ -25,7 +25,7 @@ void ThreadMatchHandler::run() {
 
     while (1) {
         try {
-			if (clock() - now >= STEP_TICK_FREQ) {
+			if (clock() - now >= 25000) {
 				now = clock();
 				game_model.step();
 				std::cout << "Ball position x: " << game_model.getState().get_ball_position_x();
