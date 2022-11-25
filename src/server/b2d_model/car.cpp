@@ -68,7 +68,7 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 	set_chassis(world, x_pos, y_pos);
 	set_wheels(world, x_pos, y_pos);
 	
-	b2Vec2 spring_axis(0.0f, 1.0f);
+	b2Vec2 spring_axis(0.0f, 0.5f);
 	b2WheelJointDef wheel_axis;
 
 	/* 

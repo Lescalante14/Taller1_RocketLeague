@@ -115,6 +115,9 @@ void GameModel::updateGame(UserAction &a) {
 	if (a.is(LEFT_PUSH)) {
 		car.goLeft();
 
+	} else if (a.is(RIGHT_RELEASE) || a.is(LEFT_RELEASE)) {
+		car.stop();
+	
 	} else if (a.is(RIGHT_PUSH)) {
 		car.goRight();
 

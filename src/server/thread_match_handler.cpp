@@ -25,22 +25,23 @@ void ThreadMatchHandler::run() {
 
     while (1) {
         try {
-			if (clock() - now >= 25000) {
-				now = clock();
-				game_model.step();
-				std::cout << "Ball position x: " << game_model.getState().get_ball_position_x();
-				std::cout << ", Ball position y: " << game_model.getState().get_ball_position_y();
-				std::cout << std::endl;
-				this->match.push_to_output_queues(game_model.getState());
-			}
             UserAction action = input_queue.pop();
             game_model.updateGame(action);			
-			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
 
         } catch(const QueueEmptyException& err) {
+		}
+		if (clock() - now >= 25000) {
+			now = clock();
+			game_model.step();
+			std::cout << "Car position x: " << game_model.getState().get_cars().at(0).get_position_x();
+			std::cout << ", Car position y: " << game_model.getState().get_cars().at(0).get_position_y();
+			std::cout << std::endl;
+			this->match.push_to_output_queues(game_model.getState());
+		}
+			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
+
             // std::cout << "vacíaaaaaaa" << std::endl;
             // usleep(1000);
-        }
     }
     
 

@@ -3,6 +3,7 @@
 //
 #include <SDL2pp/SDL2pp.hh>
 #include <csignal>
+#include <utility>
 
 #include "EventHandler.h"
 #include "Game.h"
@@ -12,7 +13,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 25.0f // 120Hz 
+#define FRAME_RATE 25.0f // 120Hz
 
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
@@ -56,25 +57,37 @@ void Game::start(std::istream &input) {
 
     EventHandler eventHandler(exit_queue);
     bool running = true;
-
-    while (running) {
+    std::string actualState = stateStr;
+    
+	while (running) {
         // state = multiple pops()
         running = eventHandler.handleEvents(match); // push inside
 
-        std::string newState = input_queue.blocking_pop();
+        std::string newState = popGameState(actualState, &running);
         // Update
-        MatchState newMatchState(newState);
-        ClientMatchState newClientState(newMatchState);
-        ClientMatch newMatch(newClientState, renderer, matchSetup);
-        
-		std::cout << "Ball position x: " << newMatchState.get_ball_position_x();
-		std::cout << ", Ball position y: " << newMatchState.get_ball_position_y();
-		std::cout << std::endl;
-
-		// render
+		MatchState newMatchState(newState);
+		ClientMatchState newClientState(newMatchState);
+		ClientMatch newMatch(newClientState, renderer, matchSetup);
 		newMatch.render(renderer);
-        // la cantidad de microsegundos que debo dormir se debe ajustar en función
+        // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         // usleep(FRAME_RATE);
+    }
+}
+
+std::string Game::popGameState(std::string actualState, bool *running) {
+    std::string lastState = actualState;
+    try {
+        for (int i = 0; i < 100; ++i) {
+            lastState = input_queue.pop();
+        }
+        return lastState;
+    } catch (QueueEmptyException &e) {
+        std::cout << "empty" << std::endl;
+        return lastState;
+    } catch (QueueClosedException &e) {
+        std::cout << "Input queue is closed." << std::endl;
+        *running = false;
+        return lastState;
     }
 }
