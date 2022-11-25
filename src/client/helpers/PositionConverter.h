@@ -10,7 +10,7 @@
 #include "common/match_setup.h"
 
 class PositionConverter {
-    MatchSetup matchSetup;
+    MatchSetup &matchSetup;
 
 public: // TODO: make &renderer attr
 

@@ -43,8 +43,8 @@ CarState::CarState(
     nitro_percentage(_nitro_percentage),
     oriented_right(_oriented_right),
     angle(_angle),
-    position_x(_position_x),
-    position_y(_position_y) {}
+    position_x(_position_x * 100),
+    position_y(_position_y * 100) {}
 
 uint8_t CarState::get_id() {
     return this->id;

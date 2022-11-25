@@ -76,10 +76,10 @@ MatchState::MatchState(
     scorer_1(_scorer_1),
     scorer_2(_scorer_2),
     cars_quantity(_cars_quantity),
-    ball_direction_x(_ball_direction_x),
-    ball_direction_y(_ball_direction_y),
-    ball_position_x(_ball_position_x),
-    ball_position_y(_ball_position_y),
+    ball_direction_x(_ball_direction_x * 100),
+    ball_direction_y(_ball_direction_y * 100),
+    ball_position_x(_ball_position_x * 100),
+    ball_position_y(_ball_position_y * 100),
     cars(std::move(_cars)) { }
 
 uint16_t MatchState::get_time() {

@@ -50,7 +50,7 @@ void Game::start(std::istream &input) {
     //MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
 
     ClientMatchState clientMatchState(matchState);
-    ClientMatch match(clientMatchState, renderer, std::move(matchSetup)); // Primer capa de presentacion
+    ClientMatch match(clientMatchState, renderer, matchSetup); // Primer capa de presentacion
 
     match.render(renderer);
 
@@ -62,12 +62,12 @@ void Game::start(std::istream &input) {
         running = eventHandler.handleEvents(match); // push inside
 
         std::string newState = input_queue.blocking_pop();
+        // Update
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
-
-		// TODO: hacer que el update no crashee (no se si esta bien)
-		match.update(newClientState, renderer);
-		match.render(renderer);
+        ClientMatch newMatch(newClientState, renderer, matchSetup);
+        // render
+		newMatch.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         usleep(FRAME_RATE);
