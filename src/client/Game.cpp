@@ -3,6 +3,7 @@
 //
 #include <SDL2pp/SDL2pp.hh>
 #include <csignal>
+#include <utility>
 
 #include "EventHandler.h"
 #include "Game.h"
@@ -56,7 +57,7 @@ void Game::start(std::istream &input) {
 
     EventHandler eventHandler(exit_queue);
     bool running = true;
-    auto actualState = stateStr;
+    std::string actualState = stateStr;
     while (running) {
         // state = multiple pops()
         running = eventHandler.handleEvents(match); // push inside
@@ -70,23 +71,27 @@ void Game::start(std::istream &input) {
             ClientMatchState newClientState(newMatchState);
             ClientMatch newMatch(newClientState, renderer, matchSetup);
             newMatch.render(renderer);
-            actualState = newState;
         }
+        actualState = newState;
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         usleep(FRAME_RATE);
     }
 }
 
-std::string Game::popGameState(const std::string &actualState, bool *running) {
+std::string Game::popGameState(std::string actualState, bool *running) {
+    std::string lastState = actualState;
     try {
-        auto newState = input_queue.pop();
-        return newState;
+        for (int i = 0; i < 100; ++i) {
+            lastState = input_queue.pop();
+        }
+        return lastState;
     } catch (QueueEmptyException &e) {
-        return actualState;
+        std::cout << "empty" << std::endl;
+        return lastState;
     } catch (QueueClosedException &e) {
         std::cout << "Input queue is closed." << std::endl;
         *running = false;
-        return actualState;
+        return lastState;
     }
 }
