@@ -13,7 +13,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 25.0f // 120Hz
+#define FRAME_RATE 4000.0f // 120Hz
 
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
@@ -71,14 +71,14 @@ void Game::start(std::istream &input) {
         newMatch.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
-        // usleep(FRAME_RATE);
+        usleep(FRAME_RATE);
     }
 }
 
 std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = actualState;
     try {
-        for (int i = 0; i < 50; ++i) {
+        for (int i = 0; i < 100; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;

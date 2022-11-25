@@ -33,6 +33,10 @@ template<typename T> class BlockingQueue {
         return element;
     }
 
+	size_t size() {
+		return this->internal.size();
+	}
+
     void close() {
         std::unique_lock<std::mutex> lock(this->mutex);
         is_closed = true;

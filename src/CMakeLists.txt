@@ -17,7 +17,7 @@ file(COPY ${CMAKE_CURRENT_LIST_DIR}/../.config.yml DESTINATION ${CMAKE_BINARY_DI
 target_compile_options(rl_server PUBLIC
 	-Werror
 	-Wall
-	-O0
+	-O3
 	-g
 )
 
@@ -43,6 +43,6 @@ target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
 target_compile_options(rocket_league PUBLIC
 	-Werror
 	-Wall
-	-O0
+	-O3
 	-g
 )

@@ -47,6 +47,10 @@ template<typename T> class NonBlockingQueue {
         return element;
     }
 
+	size_t size() {
+		return this->internal.size();
+	}
+
     void close() {
         std::unique_lock<std::mutex> lock(mutex);
         is_closed = true;

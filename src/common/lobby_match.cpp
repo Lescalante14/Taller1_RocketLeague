@@ -55,7 +55,10 @@ void LobbyMatch::push_to_output_queues(MatchState state) {
         this->output_queues.end(), 
         [&state] (BlockingQueue<std::string>* queue) { 
             std::string ser(state.serialize());
-            queue->push(ser);
+            // if (queue->size() > 5000) {
+			// 	queue->pop();
+			// }
+			queue->push(ser);
         });
 }
 
