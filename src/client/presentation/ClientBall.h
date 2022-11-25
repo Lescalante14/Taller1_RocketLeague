@@ -24,6 +24,8 @@ public:
     void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
 
     int calculateRadiusBallInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
+
+    void update(ClientBallState _state);
 };
 
 

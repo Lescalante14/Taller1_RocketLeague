@@ -29,6 +29,8 @@ public:
     int calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
 
     int calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
+
+    void updateState(ClientCarState newState);
 };
 
 

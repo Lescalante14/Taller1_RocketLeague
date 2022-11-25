@@ -20,7 +20,9 @@ public:
     uint8_t get_id();
     uint8_t get_nitro_percentage();
     bool get_nitro_activated();
+    // in Cm
     int get_position_x();
+    // in Cm
     int get_position_y();
     int get_angle();
 
