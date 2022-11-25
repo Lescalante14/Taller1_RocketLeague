@@ -11,7 +11,7 @@ template<typename T> class NonBlockingQueue {
     private:
     std::queue<T> internal;
     std::mutex mutex;
-    bool is_closed;
+    bool is_closed{};
     std::condition_variable cv;
 
     public:
@@ -51,6 +51,8 @@ template<typename T> class NonBlockingQueue {
         std::unique_lock<std::mutex> lock(mutex);
         is_closed = true;
     }
+
+
 };
 
 #endif
