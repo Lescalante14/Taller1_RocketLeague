@@ -12,7 +12,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 25.0f // 120Hz 
+#define FRAME_RATE 25.0f // 120Hz
 
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
@@ -56,20 +56,37 @@ void Game::start(std::istream &input) {
 
     EventHandler eventHandler(exit_queue);
     bool running = true;
-
+    auto actualState = stateStr;
     while (running) {
         // state = multiple pops()
         running = eventHandler.handleEvents(match); // push inside
 
-        std::string newState = input_queue.blocking_pop();
+        std::string newState = popGameState(actualState, &running);
         // Update
-        MatchState newMatchState(newState);
-        ClientMatchState newClientState(newMatchState);
-        ClientMatch newMatch(newClientState, renderer, matchSetup);
-        // render
-		newMatch.render(renderer);
-        // la cantidad de microsegundos que debo dormir se debe ajustar en función
+        if (newState == actualState) {
+            match.render(renderer);
+        } else {
+            MatchState newMatchState(newState);
+            ClientMatchState newClientState(newMatchState);
+            ClientMatch newMatch(newClientState, renderer, matchSetup);
+            newMatch.render(renderer);
+            actualState = newState;
+        }
+        // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
         usleep(FRAME_RATE);
+    }
+}
+
+std::string Game::popGameState(const std::string &actualState, bool *running) {
+    try {
+        auto newState = input_queue.pop();
+        return newState;
+    } catch (QueueEmptyException &e) {
+        return actualState;
+    } catch (QueueClosedException &e) {
+        std::cout << "Input queue is closed." << std::endl;
+        *running = false;
+        return actualState;
     }
 }
