@@ -157,8 +157,9 @@ b2Vec2 Ball::getVelocity() {
 	return this->ball->GetLinearVelocity();
 }
 
-float Ball::getAngle() {
-	return this->ball->GetAngle();
+uint16_t Ball::getAngle() {
+	uint16_t deg_angle = (uint16_t) abs(this->ball->GetAngle() * 180.0f / b2_pi + 360.0f);
+	return deg_angle % 360;
 }
 
 float Ball::getRadius() {

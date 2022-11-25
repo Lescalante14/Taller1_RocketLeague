@@ -234,7 +234,8 @@ b2Vec2 Car::getPosition() {
 }
 
 float Car::getAngle() {
-	return this->chassis->GetAngle();
+	uint16_t deg_angle = (uint16_t) abs(this->chassis->GetAngle() * 180.0f / b2_pi + 360.0f);
+	return deg_angle % 360;
 }
 
 facing Car::getFacing() {

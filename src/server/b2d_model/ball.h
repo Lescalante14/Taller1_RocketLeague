@@ -29,7 +29,7 @@ class Ball {
 	b2Vec2 getPosition();
 	b2Vec2 getVelocity();
 	float getRadius();
-	float getAngle();
+	uint16_t getAngle();
 
 	~Ball();
 };

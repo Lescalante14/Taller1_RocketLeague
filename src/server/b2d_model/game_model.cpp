@@ -173,7 +173,7 @@ MatchState GameModel::getState() {
 								c.nitroTriggered(),
 								c.remainingNitro(),
 								c.getFacing(),
-								c.getAngle(), 
+								c.getAngle() , 
 								c.getPosition().x,
 								c.getPosition().y);
 	}
