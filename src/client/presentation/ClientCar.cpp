@@ -15,13 +15,14 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
     int posX = calculatePositionInXWithBorder(renderer, positionConverter);
     int posY = calculatePositionInYWithBorder(renderer, positionConverter);
     int carWidth = calculateCarWidthInPx(renderer, positionConverter);
+    int carHeight = calculateCarHeightInPx(renderer, positionConverter);
 
     // bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
     bool flipH = !state.is_oriented_right();
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
-                  SDL2pp::Rect(posX, posY, carWidth, carWidth/2),
-                  state.get_angle(),
+                  SDL2pp::Rect(posX, posY, carWidth, carHeight),
+                  -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
     );
