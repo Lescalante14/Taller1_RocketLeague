@@ -179,10 +179,10 @@ void GameModel::step() {
 		this->timer--;
 	}
 
-	std::cout << "Ball radius: " << this->ball.getRadius();
+/*	std::cout << "Ball radius: " << this->ball.getRadius();
 	std::cout << ", x: " << this->ball.getPosition().x;
 	std::cout << ", y: " << this->ball.getPosition().y;
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 }
 
 
