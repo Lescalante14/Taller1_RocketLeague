@@ -13,7 +13,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 8400 // 120Hz
+#define FRAME_RATE 16000 // 60Hz
 
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
