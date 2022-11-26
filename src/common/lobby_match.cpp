@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <utility>
 
+#define MAX_STATES 5000
+
 LobbyMatch::LobbyMatch(
     const std::string& _name, 
     size_t _players_limit,
@@ -55,9 +57,9 @@ void LobbyMatch::push_to_output_queues(MatchState state) {
         this->output_queues.end(), 
         [&state] (BlockingQueue<std::string>* queue) { 
             std::string ser(state.serialize());
-            // if (queue->size() > 5000) {
-			// 	queue->pop();
-			// }
+            if (queue->size() > MAX_STATES) {
+				queue->pop();
+			}
 			queue->push(ser);
         });
 }

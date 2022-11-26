@@ -4,6 +4,8 @@
 
 #include "EventHandler.h"
 
+#define MAX_ACTIONS 5000
+
 EventHandler::EventHandler(BlockingQueue<std::string> &queue)
 :exit_queue(queue) {}
 
@@ -106,7 +108,9 @@ bool EventHandler::handleEvents(ClientMatch &match) {
 
 void EventHandler::pushAction(UserAction action) {
     std::string actionStr = action.serialize();
-    exit_queue.push(actionStr);
+    if (exit_queue.size() < MAX_ACTIONS) {
+		exit_queue.push(actionStr);
+    	std::cout << unsigned(action.getCode()) << std::endl;
+	}
     // std::string popAction = exit_queue.pop();*/
-    std::cout << unsigned(action.getCode()) << std::endl;
 }
