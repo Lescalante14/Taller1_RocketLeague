@@ -179,7 +179,7 @@ void Car::triggerNitro() {
 	}
 	float rad_angle = this->chassis->GetAngle();
 	b2Vec2 i(cos(-rad_angle), sin(-rad_angle));
-	i *= NITRO_IMPULSE;
+	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
 
 	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
 	this->nitro_ptge -= 10;

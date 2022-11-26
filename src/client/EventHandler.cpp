@@ -61,24 +61,31 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         pushAction(UserAction(DOWN_RELEASE,match.getCarIdAssigned()));
                         isDownPush = false;
                         break;
+					case SDLK_LSHIFT:
+		            	pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
+                        break;
+
+					case SDLK_SPACE:
+		            	pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+                        break;
+
                     case SDLK_q:
                         std::cout << "Quit :(" << std::endl;
                         return false;
                 }
                 break;
             }// Fin KEY_UP
-            case SDL_MOUSEBUTTONDOWN: {
-                auto mouseEvent = (SDL_MouseButtonEvent &) event;
-                switch (mouseEvent.button) {
-                    case SDL_BUTTON_LEFT:
-                        pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
-                        break;
-                    case SDL_BUTTON_RIGHT:
-                        pushAction(UserAction(JUMP, match.getCarIdAssigned()));
-                        break;
-                }
-                break;
-            } // Fin MOUSE_DOWN
+            // case SDL_MOUSEBUTTONDOWN: {
+            //     auto mouseEvent = (SDL_MouseButtonEvent &) event;
+            //     switch (mouseEvent.button) {
+            //         case SDL_BUTTON_LEFT:
+            //             break;
+            //         case SDL_BUTTON_RIGHT:
+            //             pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+            //             break;
+            //     }
+            //     break;
+            //} // Fin MOUSE_DOWN
             case SDL_MOUSEBUTTONUP: {
                 auto mouseEvent = (SDL_MouseButtonEvent &) event;
                 switch (mouseEvent.button) {

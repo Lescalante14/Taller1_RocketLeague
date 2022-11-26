@@ -58,31 +58,35 @@ void Game::start(std::istream &input) {
     EventHandler eventHandler(exit_queue);
     bool running = true;
     std::string actualState = stateStr;
+	clock_t now = clock();
     
 	while (running) {
-        running = eventHandler.handleEvents(match); // push inside
 
-        // state = multiple pops()
         std::string newState = popGameState(actualState, &running);
         actualState = newState;
         // Update
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
+
+		if (clock() - now >= 25000) {
+			match.updateState(newClientState, renderer);
+			match.render(renderer);
+        	running = eventHandler.handleEvents(match); // push inside
+		}
+		// state = multiple pops()
         /*ClientMatch newMatch(newClientState, renderer, matchSetup);
         newMatch.render(renderer);*/
         //clientMatchState.update(std::move(newMatchState));
-        match.updateState(newClientState, renderer);
-        match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
-        usleep(FRAME_RATE);
+        // usleep(FRAME_RATE);
     }
 }
 
 std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = actualState;
     try {
-        for (int i = 0; i < 25; ++i) {
+        for (int i = 0; i < 1; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;
