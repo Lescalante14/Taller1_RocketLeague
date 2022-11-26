@@ -5,8 +5,8 @@
 
 #include "car.h"
 
-#define CAR_WIDTH 3.0f
-#define CAR_HEIGHT 1.0f
+#define CAR_WIDTH 4.0f
+#define CAR_HEIGHT 1.5f
 #define W_RADIUS 0.5f
 #define CAR_DENSITY 2.0f
 #define MOTOR_TORQUE 20.0f
@@ -239,7 +239,7 @@ void Car::jump() {
 /*    Stats    */
 
 b2Vec2 Car::getPosition() {
-	return this->chassis->GetPosition();
+	return this->chassis->GetPosition() - b2Vec2(0, W_RADIUS);
 }
 
 float Car::getAngle() {
