@@ -1,5 +1,6 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
+#include <string>
 
 #include "game_model.h"
 #include "common/car_state.h"
@@ -22,6 +23,8 @@
 #define NITRO_REFILL_FREQ 5 /* in seconds */
 
 #define GRAVITY 10.0f
+#define FLOOR_FRICTION 5.0f
+
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),
@@ -30,14 +33,13 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 	
 	YAML::Node config = YAML::LoadFile(".config.yml");	
 
-	this->ball.move(config["camp_length"].as<float>() / 2, 
-					config["camp_height"].as<float>() / 2);
-	this->ball.resize((ball_size) config["ball_size"].as<int>());
-
-
 	this->length = config["camp_length"].as<float>();
 	this->height = config["camp_height"].as<float>();
 	this->setLimits();
+	
+	this->ball.move(this->length / 2, this->height / 2);
+	// this->ball.resize((ball_size) config["ball_size"].as<int>());
+
 
 	int xcar_offset = 0;
 
@@ -55,12 +57,12 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 		// this->cars.emplace(id, Car(this->world, xcar_offset, CAR_YPOS_OFFSET, f));
 		this->cars.emplace(id, Car(this->world,
 								   xcar_offset,
-								   1.0f,
+								   5.0f,
 							       f));
 
-		std::cout << "Car " << id << " x: " << this->cars.at(id).getPosition().x;
-		std::cout << ", y: " << this->cars.at(id).getPosition().x - 1.5f;
-		std::cout << std::endl;
+		// std::cout << "Car " << std::to_string(id) << " x: " << this->cars.at(id).getPosition().x;
+		// std::cout << ", y: " << this->cars.at(id).getPosition().x - 1.5f;
+		// std::cout << std::endl;
 	}
 
 	if (config["scorer_height"].as<float>() > this->height) {
@@ -85,7 +87,7 @@ void GameModel::setLimits() {
 	b2Body *floor = this->world.CreateBody(&bdef);
 	b2PolygonShape _floor;
 	_floor.SetAsBox(this->length / 2.0f, WALL_THICKNESS / 2.0f);
-	floor->CreateFixture(&_floor, 0.0f);
+	floor->CreateFixture(&_floor, 0.0f)->SetFriction(FLOOR_FRICTION);
 
 	/* seeling */
 	bdef.position.Set(this->length / 2.0f, (float) this->height + WALL_THICKNESS / 2.0f);
@@ -133,10 +135,10 @@ void GameModel::updateGame(UserAction &a) {
 		car.goRight();
 
 	} else if (a.is(UP_PUSH)) {
-		car.rotateCW();
+		car.rotateUp();
 
 	} else if (a.is(DOWN_PUSH)) {
-		car.rotateCCW();
+		car.rotateDown();
 
 	} else if (a.is(JUMP)) {
 		car.jump();	
@@ -176,6 +178,11 @@ void GameModel::step() {
 	if (this->step_count % this->step_freq) {
 		this->timer--;
 	}
+
+	std::cout << "Ball radius: " << this->ball.getRadius();
+	std::cout << ", x: " << this->ball.getPosition().x;
+	std::cout << ", y: " << this->ball.getPosition().y;
+	std::cout << std::endl;
 }
 
 
@@ -204,7 +211,7 @@ MatchState GameModel::getState() {
 MatchSetup GameModel::getSetup() {
 	return MatchSetup((float) this->length, (float) this->height,
 					  (float) this->scorer_height, this->ball.getRadius(),
-					  3, this->cars.size());
+					  4, this->cars.size());
 }
 
 

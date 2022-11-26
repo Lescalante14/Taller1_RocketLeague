@@ -44,8 +44,8 @@ class Car{
 	void releaseNitro();
 	void nitroRefill();
 	void jump();
-	void rotateCCW();
-	void rotateCW();
+	void rotateDown();
+	void rotateUp();
 
 	/* Stats */
 	b2Vec2 getPosition();

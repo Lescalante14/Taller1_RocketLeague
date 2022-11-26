@@ -21,7 +21,7 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect(posX, posY, carWidth, carWidth/2),
-                  -state.get_angle(),
+                  state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
     );

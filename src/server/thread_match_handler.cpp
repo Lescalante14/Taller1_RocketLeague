@@ -40,9 +40,7 @@ void ThreadMatchHandler::run() {
 			game_model.step();
 			this->match.push_to_output_queues(game_model.getState());
 			
-			// std::cout << "Car 1 position x: " << game_model.getState().get_cars().at(0).get_position_x();
-			// std::cout << ", Car 1 position y: " << game_model.getState().get_cars().at(0).get_position_y();
-			// std::cout << std::endl;
+
 			// std::cout << "Car 2 position x: " << game_model.getState().get_cars().at(1).get_position_x();
 			// std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
 			// std::cout << std::endl;
