@@ -1,4 +1,5 @@
 #include <yaml-cpp/yaml.h>
+#include <iostream>
 
 #include "game_model.h"
 #include "common/car_state.h"
@@ -28,7 +29,6 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 			  ball(this->world, 0, 0, ball_size::MED_BALL) {
 	
 	YAML::Node config = YAML::LoadFile(".config.yml");	
-	int xcar_offset = 0;
 
 	this->ball.move(config["camp_length"].as<float>() / 2, 
 					config["camp_height"].as<float>() / 2);
@@ -39,22 +39,28 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 	this->height = config["camp_height"].as<float>();
 	this->setLimits();
 
+	int xcar_offset = 0;
+
 	for (uint8_t id = 0; id < cars_amount; id++) {
 		facing f = facing::F_RIGHT;
 
 		if (id % 2) {
-			xcar_offset += CAR_XPOS_OFFSET;
+			xcar_offset = CAMP_LENGTH - xcar_offset - 3.0f;
+			f = facing::F_LEFT;
 
 		} else {
-			xcar_offset = CAMP_LENGTH - xcar_offset;
-			f = facing::F_LEFT;
+			xcar_offset += CAR_XPOS_OFFSET;
 		}
 
 		// this->cars.emplace(id, Car(this->world, xcar_offset, CAR_YPOS_OFFSET, f));
 		this->cars.emplace(id, Car(this->world,
-								   this->length / 2,
-								   this->height / 2,
+								   xcar_offset,
+								   1.0f,
 							       f));
+
+		std::cout << "Car " << id << " x: " << this->cars.at(id).getPosition().x;
+		std::cout << ", y: " << this->cars.at(id).getPosition().x - 1.5f;
+		std::cout << std::endl;
 	}
 
 	if (config["scorer_height"].as<float>() > this->height) {

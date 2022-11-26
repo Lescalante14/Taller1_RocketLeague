@@ -42,7 +42,7 @@ Ball::Ball(b2World &world, float x, float y, ball_size size) {
 	this->ball = world.CreateBody(&ballDef);
 	
 	b2CircleShape ballShape;
-	ballShape.m_radius = radius;
+	ballShape.m_radius = 0.75f;
 	this->_radius = radius;
 	this->ball->CreateFixture(&ballShape, BALL_DENSITY);
 }
