@@ -110,3 +110,8 @@ UserAction Protocol::recv_user_action(bool *was_closed) {
     UserAction action(action_serialized);
     return action;
 }
+
+void Protocol::closeConnection() {
+    skt.shutdown(SHUT_RDWR);
+    skt.close();
+}
