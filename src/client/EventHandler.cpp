@@ -42,10 +42,16 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         }
                         break;
                     case SDLK_LSHIFT:
-                        pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
+                        if (!isNitroPush) {
+                            pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
+                            isNitroPush = true;
+                        }
                         break;
                     case SDLK_SPACE:
-                        pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+                        if (!isJumpPush) {
+                            pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+                            isJumpPush = true;
+                        }
                         break;
                 }
                 break;
@@ -71,6 +77,10 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         break;
 					case SDLK_LSHIFT:
 		            	pushAction(UserAction(NITRO_RELEASE, match.getCarIdAssigned()));
+                        isNitroPush = false;
+                        break;
+                    case SDLK_SPACE:
+                            isJumpPush = false;
                         break;
                     case SDLK_q:
                         std::cout << "Quit :(" << std::endl;
