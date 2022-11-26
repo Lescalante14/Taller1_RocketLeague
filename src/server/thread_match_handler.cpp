@@ -7,8 +7,7 @@
 #include "common/queue_empty_exception.h"
 #include "server/b2d_model/game_model.h"
 
-#define STEP_FREQ 1 / 10e-6 /* 100kHz (every 10us) */
-#define STEP_TICK_FREQ 3e9 / (STEP_FREQ) /* in cpu ticks */
+#define STEP_FREQ 60 /* in Hz */
 
 ThreadMatchHandler::ThreadMatchHandler(
     LobbyMatch& _match
@@ -30,7 +29,7 @@ void ThreadMatchHandler::run() {
 
         } catch(const QueueEmptyException& err) {
 		}
-		if (clock() - now >= 25000) {
+		if ((clock() - now) / CLOCKS_PER_SEC >= 1 / STEP_FREQ) {
 			now = clock();
 			game_model.step();
 			std::cout << "Car 1 position x: " << game_model.getState().get_cars().at(0).get_position_x();

@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <utility>
 
-#define MAX_STATES 5000
+#define MAX_STATES 1000
 
 LobbyMatch::LobbyMatch(
     const std::string& _name, 
