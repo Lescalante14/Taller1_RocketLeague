@@ -17,6 +17,8 @@ private:
     bool isLeftPush = false;
     bool isUpPush = false;
     bool isDownPush = false;
+    bool isNitroPush = false;
+    bool isJumpPush = false;
 
     void pushAction(UserAction action);
 public:

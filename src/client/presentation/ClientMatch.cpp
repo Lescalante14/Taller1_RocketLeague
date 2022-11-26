@@ -4,8 +4,8 @@
 
 #include "ClientMatch.h"
 
-ClientMatch::ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup &setup)
-: state(std::move(state)), field(renderer), matchSetup(setup), positionConverter(matchSetup),
+ClientMatch::ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MatchSetup &setup)
+: state(std::move(_state)), field(renderer), matchSetup(setup), positionConverter(matchSetup),
 ball(ClientBallState(state.get_ball_position_x(),state.get_ball_position_y(),0), renderer)
 {
     for (auto &car : state.get_cars()) {
@@ -29,17 +29,11 @@ uint8_t ClientMatch::getCarIdAssigned() {
 }
 
 
-void ClientMatch::updateState(ClientMatchState newMatchState, SDL2pp::Renderer &renderer) {
+void ClientMatch::updateState(ClientMatchState newMatchState) {
 
-    state = std::move(newMatchState);
-    ball.update(ClientBallState(state.get_ball_position_x(), state.get_ball_position_y(), state.get_ball_angle()));
-    /*for (size_t i = 0; i < cars.size(); ++i) {
-        cars.at(i).updateState(state.get_cars().at(i));
-    }*/
-    // TODO: updatear autos en vez de crear nuevos
-    cars.clear();
-    for (auto &car : state.get_cars()) {
-        cars.emplace_back(ClientCar(car, renderer));
+    ball.update(ClientBallState(newMatchState.get_ball_position_x(), newMatchState.get_ball_position_y(), newMatchState.get_ball_angle()));
+    for (size_t i = 0; i < newMatchState.get_cars().size(); ++i) {
+        cars.at(i).updateState(newMatchState.get_cars().at(i));
     }
-
+    state = std::move(newMatchState);
 }
