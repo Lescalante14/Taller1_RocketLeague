@@ -35,6 +35,9 @@ void Client::start(
     Game game(input_queue, exit_queue);
     game.start(std::cin);
 
+    input_queue.close();
+    exit_queue.close();
+    protocol.closeConnection();
     receiver.join();
     sender.join();
 }

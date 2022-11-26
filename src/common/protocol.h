@@ -34,6 +34,8 @@ public:
 
     void send_user_action(UserAction action);
     UserAction recv_user_action(bool *was_closed);
+
+    void closeConnection();
 };
 #endif
 
