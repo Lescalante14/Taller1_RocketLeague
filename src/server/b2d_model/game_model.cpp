@@ -45,7 +45,7 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 		facing f = facing::F_RIGHT;
 
 		if (id % 2) {
-			xcar_offset = CAMP_LENGTH - xcar_offset - 3.0f;
+			xcar_offset = CAMP_LENGTH - xcar_offset - 4.0f;
 			f = facing::F_LEFT;
 
 		} else {
