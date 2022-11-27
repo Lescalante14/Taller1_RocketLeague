@@ -8,8 +8,11 @@ ClientMatch::ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, Ma
 : state(std::move(_state)), field(renderer), matchSetup(setup), positionConverter(matchSetup),
 ball(ClientBallState(state.get_ball_position_x(),state.get_ball_position_y(),0), renderer)
 {
+    int numCarsTeam1 = std::ceil(setup.get_cars_quantity()/2);
+    int index = 1;
     for (auto &car : state.get_cars()) {
-        cars.emplace_back(ClientCar(car, renderer));
+        cars.emplace_back(ClientCar(car, index <= numCarsTeam1, renderer));
+        index++;
     }
 }
 

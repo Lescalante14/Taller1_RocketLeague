@@ -7,8 +7,10 @@
 
 #include <utility>
 
-ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
-        : texture(renderer, SDL2pp::Surface("./assets/car.png").SetColorKey(true, 0))
+ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer)
+        : texture(renderer,
+                  isTeam1 ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
+                  : SDL2pp::Surface("./assets/car.png").SetColorMod(255,0,0).SetColorKey(true, 0))
         , state(std::move(state)){}
 
 void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
