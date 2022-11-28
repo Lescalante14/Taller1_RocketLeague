@@ -26,6 +26,9 @@ void ThreadReceiver::run() {
                 }
 
                 case CREATE_CODE: {
+                    // Si este protocolo fuese binario seria infinitamente mas simple
+                    // de parsear.
+                    // Ademas, por q esta en el ThreadReceiver y no dentro de la clase Protocol?
                     uint8_t players_limit;
                     std::stringstream ss(command.get_payload());
                     int limit;

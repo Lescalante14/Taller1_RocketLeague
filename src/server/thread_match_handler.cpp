@@ -45,6 +45,10 @@ void ThreadMatchHandler::run() {
 			// std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
 			// std::cout << std::endl;
 		}
+
+                // Nota: recordar q este loop es en escencia igual q el loop del render
+                // (cliente) asi q seria eficiente q ambos tengan la misma solucion
+                // (no necesariamente el mismo codigo por q tal vez es muy dificil)
 		usleep(MILI2MICRO(1 / UPDATE_FREQ));
     }
     

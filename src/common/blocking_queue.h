@@ -6,6 +6,9 @@
 #include <mutex>
 #include "queue_closed_exception.h"
 
+// OK pero yo tambien meteria un metodo try_pop() q sea
+// un pop no bloqueante. De esa manera no tendrias q tener una
+// clase NonBlockingQueue separada
 template<typename T> class BlockingQueue {
     private:
     std::queue<T> internal;
@@ -33,6 +36,9 @@ template<typename T> class BlockingQueue {
         return element;
     }
 
+    // Este metodo sacalo. Jamas le pidas el size a una queue
+    // por q 99.99% se la veces vas a tener una race condition
+    // (De hecho, este metodo *es* una race condition)
 	size_t size() {
 		return this->internal.size();
 	}

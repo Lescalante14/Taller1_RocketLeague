@@ -21,6 +21,8 @@ void Client::start(
     Socket skt(hostname, servname);
     Protocol protocol(std::move(skt));
 
+    // Ok pero yo le pondria mejores nombres. Q es lo q tendra la input_queue?
+    // Y la exit_queue?
     NonBlockingQueue<std::string> input_queue;
     BlockingQueue<std::string> exit_queue;
 
@@ -29,9 +31,13 @@ void Client::start(
     receiver.start();
     sender.start();
 
+    // Un detalle: en vez de lobby.start() llamalo lobby.run()
+    // Lo mismo para Game. Es para diferenciar el "start" de un thread
+    // (q te dice q la accion sigue corriendo in background).
     LobbyClient lobby(input_queue, exit_queue);
     lobby.start(std::cin);
 
+    // Casi seguro q Game no deberia saber de stdin...
     Game game(input_queue, exit_queue);
     game.start(std::cin);
 

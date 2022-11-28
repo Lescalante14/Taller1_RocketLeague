@@ -21,6 +21,7 @@ void LobbyClient::start(std::istream &input) {
     while (in_lobby && std::getline(std::cin, line)) {
         std::string command;
         std::string payload;
+        // Si comparas line con EXIT_COMMAND directamente, no funciona?
         if (line.substr(0,EXIT_COMMAND.length()) == EXIT_COMMAND) {
             in_lobby = false;
         } else {

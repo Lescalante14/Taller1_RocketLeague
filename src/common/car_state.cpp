@@ -6,6 +6,10 @@ std::string CarState::serialize() {
     char buf[CAR_STATE_SIZE];
     int* fbuf = (int*)buf;
     uint16_t* auxbuf = (uint16_t*)buf;
+    // Esto es SUPER tedioso y peligroso. Q pasa si le pifias en un indice?
+    // Para eso en la clase 1 vimos structs. Lo unico q tenes q hacer es
+    // tener un struct sin padding e ir cambiandole el endianness a mano
+    // Luego lo casteas a (char*) y listo.
     fbuf[0] = htonl(this->position_x);
     fbuf[1] = htonl(this->position_y);
     auxbuf[4] = htons(this->angle);

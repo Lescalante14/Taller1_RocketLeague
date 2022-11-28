@@ -51,6 +51,10 @@ template<typename T> class NonBlockingQueue {
 		return this->internal.size();
 	}
 
+    // BUG! deberias hacer un cv.notify_all() para q llegado el caso
+    // quien este bloqueado en blocking_pop() se entere q la queue se cerro.
+    // Si no tuvieras codigo duplicado entre esta clase y la BlockingQueue
+    // no tendrias este bug en primer lugar.
     void close() {
         std::unique_lock<std::mutex> lock(mutex);
         is_closed = true;
