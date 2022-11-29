@@ -4,6 +4,8 @@
 
 #include "EventHandler.h"
 
+#define MAX_ACTIONS 5000
+
 EventHandler::EventHandler(BlockingQueue<std::string> &queue)
 :exit_queue(queue) {}
 
@@ -39,6 +41,18 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                             isDownPush = true;
                         }
                         break;
+                    case SDLK_LSHIFT:
+                        if (!isNitroPush) {
+                            pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
+                            isNitroPush = true;
+                        }
+                        break;
+                    case SDLK_SPACE:
+                        if (!isJumpPush) {
+                            pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+                            isJumpPush = true;
+                        }
+                        break;
                 }
                 break;
             } // Fin KEY_DOWN
@@ -61,33 +75,39 @@ bool EventHandler::handleEvents(ClientMatch &match) {
                         pushAction(UserAction(DOWN_RELEASE,match.getCarIdAssigned()));
                         isDownPush = false;
                         break;
+					case SDLK_LSHIFT:
+		            	pushAction(UserAction(NITRO_RELEASE, match.getCarIdAssigned()));
+                        isNitroPush = false;
+                        break;
+                    case SDLK_SPACE:
+                            isJumpPush = false;
+                        break;
                     case SDLK_q:
                         std::cout << "Quit :(" << std::endl;
                         return false;
                 }
                 break;
             }// Fin KEY_UP
-            case SDL_MOUSEBUTTONDOWN: {
-                auto mouseEvent = (SDL_MouseButtonEvent &) event;
-                switch (mouseEvent.button) {
-                    case SDL_BUTTON_LEFT:
-                        pushAction(UserAction(NITRO_PUSH, match.getCarIdAssigned()));
-                        break;
-                    case SDL_BUTTON_RIGHT:
-                        pushAction(UserAction(JUMP, match.getCarIdAssigned()));
-                        break;
-                }
-                break;
-            } // Fin MOUSE_DOWN
-            case SDL_MOUSEBUTTONUP: {
-                auto mouseEvent = (SDL_MouseButtonEvent &) event;
-                switch (mouseEvent.button) {
-                    case SDL_BUTTON_LEFT:
-                        pushAction(UserAction(NITRO_RELEASE, match.getCarIdAssigned()));
-                        break;
-                }
-                break;
-            }// Fin MOUSE_UP
+                /* // case SDL_MOUSEBUTTONDOWN: {
+                //     auto mouseEvent = (SDL_MouseButtonEvent &) event;
+                //     switch (mouseEvent.button) {
+                //         case SDL_BUTTON_LEFT:
+                //             break;
+                //         case SDL_BUTTON_RIGHT:
+                //             pushAction(UserAction(JUMP, match.getCarIdAssigned()));
+                //             break;
+                //     }
+                //     break;
+                //} // Fin MOUSE_DOWN
+               case SDL_MOUSEBUTTONUP: {
+                    auto mouseEvent = (SDL_MouseButtonEvent &) event;
+                    switch (mouseEvent.button) {
+                        case SDL_BUTTON_LEFT:
+                            pushAction(UserAction(NITRO_RELEASE, match.getCarIdAssigned()));
+                            break;
+                    }
+                    break;*/
+            //}// Fin MOUSE_UP
             case SDL_QUIT:
                 std::cout << "Quit :(" << std::endl;
                 return false;
@@ -99,7 +119,9 @@ bool EventHandler::handleEvents(ClientMatch &match) {
 
 void EventHandler::pushAction(UserAction action) {
     std::string actionStr = action.serialize();
-    exit_queue.push(actionStr);
+    if (exit_queue.size() < MAX_ACTIONS) {
+		exit_queue.push(actionStr);
+    	std::cout << unsigned(action.getCode()) << std::endl;
+	}
     // std::string popAction = exit_queue.pop();*/
-    std::cout << unsigned(action.getCode()) << std::endl;
 }

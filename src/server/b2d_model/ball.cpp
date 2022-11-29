@@ -20,7 +20,7 @@
 
 
 Ball::Ball(b2World &world, float x, float y, ball_size size) {
-	uint8_t radius = 0;
+	float radius = 0;
 	
 	switch (size) {
 	case SMALL_BALL:
@@ -55,7 +55,7 @@ void Ball::move(float x, float y) {
 
 
 void Ball::resize(ball_size newsz) {
-	uint8_t radius = 0;
+	float radius = 0;
 
 	switch (newsz) {
 	case SMALL_BALL:
@@ -69,6 +69,7 @@ void Ball::resize(ball_size newsz) {
 		radius = MED_RADIUS;
 	}
 	this->ball->GetFixtureList()->GetShape()->m_radius = radius;
+	this->_radius = radius;
 	// b2CircleShape ballShape;
 	// ballShape.m_radius = radius;
 	// this->ball->DestroyFixture(this->ball->GetFixtureList());

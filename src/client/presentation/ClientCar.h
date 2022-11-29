@@ -22,13 +22,15 @@ private:
 
 public:
 
-    ClientCar(ClientCarState state, SDL2pp::Renderer &renderer);
+    ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer);
 
     void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
 
     int calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
 
     int calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
+
+    void updateState(ClientCarState newState);
 };
 
 

@@ -7,8 +7,11 @@
 #include "common/queue_empty_exception.h"
 #include "server/b2d_model/game_model.h"
 
-#define STEP_FREQ 1 / 10e-6 /* 100kHz (every 10us) */
-#define STEP_TICK_FREQ 3e9 / (STEP_FREQ) /* in cpu ticks */
+#define STEP_FREQ 0.06f /* in kHz */
+#define UPDATE_FREQ 0.6f /* in kHz */
+
+#define MILI2MICRO(t) (t * 1e3)
+#define KHZ2HZ(f) (f * 1e3)
 
 ThreadMatchHandler::ThreadMatchHandler(
     LobbyMatch& _match
@@ -17,34 +20,32 @@ ThreadMatchHandler::ThreadMatchHandler(
 
 void ThreadMatchHandler::run() {
     NonBlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
-	GameModel game_model(this->match.get_size(), STEP_FREQ);
+	GameModel game_model(this->match.get_size(), KHZ2HZ(STEP_FREQ));
 	this->match.push_to_output_queues(game_model.getSetup());
 	this->match.push_to_output_queues(game_model.getState());
 
-	clock_t now = clock();
+	float update_iter = 0;
 
     while (1) {
-        try {
-            UserAction action = input_queue.pop();
-            game_model.updateGame(action);			
+		try {
+			UserAction action = input_queue.pop();
+			game_model.updateGame(action);			
 
-        } catch(const QueueEmptyException& err) {
-		}
-		if (clock() - now >= 25000) {
-			now = clock();
+		} catch(const QueueEmptyException& err) {}
+
+		// UPDATE_FREQ * k = STEP_FREQ --> every k updates, perform a step. 
+		if (update_iter++ > UPDATE_FREQ / STEP_FREQ) {
+			update_iter = 0;
+
 			game_model.step();
-			std::cout << "Car 1 position x: " << game_model.getState().get_cars().at(0).get_position_x();
-			std::cout << ", Car 1 position y: " << game_model.getState().get_cars().at(0).get_position_y();
-			std::cout << std::endl;
-			std::cout << "Car 2 position x: " << game_model.getState().get_cars().at(1).get_position_x();
-			std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
-			std::cout << std::endl;
 			this->match.push_to_output_queues(game_model.getState());
-		}
-			// std::cout << unsigned(action.get_car_id()) << " " << action.is(UP_PUSH) << std::endl;
+			
 
-            // std::cout << "vacíaaaaaaa" << std::endl;
-            // usleep(1000);
+			// std::cout << "Car 2 position x: " << game_model.getState().get_cars().at(1).get_position_x();
+			// std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
+			// std::cout << std::endl;
+		}
+		usleep(MILI2MICRO(1 / UPDATE_FREQ));
     }
     
 

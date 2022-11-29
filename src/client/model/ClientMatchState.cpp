@@ -35,11 +35,11 @@ uint8_t ClientMatchState::get_cars_quantity() {
     return wrappeeState.get_cars_quantity();
 }
 
-int ClientMatchState::get_ball_position_x(SDL2pp::Renderer &renderer) {
+int ClientMatchState::get_ball_position_x() {
     return wrappeeState.get_ball_position_x();
 } // maybe getBall()??
 
-int ClientMatchState::get_ball_position_y(SDL2pp::Renderer &renderer) {
+int ClientMatchState::get_ball_position_y() {
     return wrappeeState.get_ball_position_y();
 }
 

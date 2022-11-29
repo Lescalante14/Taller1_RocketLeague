@@ -5,20 +5,24 @@
 
 #include "car.h"
 
-#define CAR_WIDTH 3.0f
+#define CAR_WIDTH 4.0f
 #define CAR_HEIGHT 1.5f
-#define W_RADIUS 0.25f
+#define W_RADIUS 0.5f
 #define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
-#define ROTATION_SPEED 5 /* in radians */
-#define FLIP_IMPULSE 10
-#define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
-#define NITRO_IMPULSE 20
+#define ROTATION_SPEED 7 /* in radians */
+#define FLIP_IMPULSE 40
+#define JUMP_IMPULSE 80 /* in kg m/s (N * s) */
+#define NITRO_IMPULSE 60
 
-#define FRONT_WH_X_POS(_x) _x - 2 * W_RADIUS + CAR_WIDTH / 2
-#define REAR_WH_X_POS(_x) _x + 2 * W_RADIUS - CAR_WIDTH / 2
-#define WH_Y_POS(_y) _y + W_RADIUS - CAR_HEIGHT / 2
+#define TOL 0.1 /* 10cm tolerance */
+
+#define FRONT_WH_X_POS(_x) _x + CAR_WIDTH - W_RADIUS - (CAR_WIDTH / 16)
+#define REAR_WH_X_POS(_x) _x + W_RADIUS + (CAR_WIDTH / 16)
+#define WH_Y_POS(_y) _y + W_RADIUS
+
+#define CAR_GROUP_INDEX -8 /* for b2d filtering */
 
 
 Car::Car(Car&& other) : d_jumpd(other.d_jumpd),
@@ -68,7 +72,7 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 	set_chassis(world, x_pos, y_pos);
 	set_wheels(world, x_pos, y_pos);
 	
-	b2Vec2 spring_axis(0.0f, 0.5f);
+	b2Vec2 spring_axis(0.0f, W_RADIUS);
 	b2WheelJointDef wheel_axis;
 
 	/* 
@@ -86,13 +90,13 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 
 	wheel_axis.enableMotor = true;
 	wheel_axis.motorSpeed = 0.0f;
-	wheel_axis.maxMotorTorque = 10.0f;
+	wheel_axis.maxMotorTorque = MOTOR_TORQUE;
 	wheel_axis.stiffness = mass_rearwh * omega * omega;
 	wheel_axis.damping = 2.0f * mass_rearwh * dampingRatio * omega;
 	
 	// shock limits
-	wheel_axis.lowerTranslation = -0.25f;
-	wheel_axis.upperTranslation = 0.25f;
+	wheel_axis.lowerTranslation = -0.0f;
+	wheel_axis.upperTranslation = 0.0f;
 	wheel_axis.enableLimit = true;
 
 	this->rear_wh = (b2WheelJoint *) world.CreateJoint(&wheel_axis);
@@ -105,7 +109,7 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 						  this->front_wh_bd->GetPosition(), spring_axis);
 
 	// the car will be rear wheel drive
-	wheel_axis.enableMotor = false;
+	// wheel_axis.enableMotor = false;
 	this->front_wh = (b2WheelJoint *) world.CreateJoint(&wheel_axis);
 }
 
@@ -113,14 +117,29 @@ Car::Car(b2World &world, float x_pos, float y_pos, facing f) : _facing(f) {
 void Car::set_chassis(b2World &world, float x, float y) {
 	b2BodyDef chassisDef;
 	chassisDef.type = b2_dynamicBody;
-	chassisDef.position.Set(x + CAR_WIDTH, y + W_RADIUS + CAR_HEIGHT);
+	chassisDef.position.Set(x + CAR_WIDTH / 2, y + W_RADIUS + CAR_HEIGHT / 2);
 	
 	this->chassis = world.CreateBody(&chassisDef);
 	
+	// draw polygon
 	b2PolygonShape skin;
-	skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
-
-	this->chassis->CreateFixture(&skin, CAR_DENSITY);
+	b2Vec2 vertices[8];
+	vertices[0].Set(-CAR_WIDTH / 2, -CAR_HEIGHT / 2);
+	vertices[1].Set(CAR_WIDTH / 2, -CAR_HEIGHT / 2);
+	vertices[2].Set(CAR_WIDTH / 2, 0.0f);
+	vertices[3].Set(CAR_WIDTH / 8, CAR_HEIGHT / 2);
+	vertices[4].Set(-CAR_WIDTH / 8, CAR_HEIGHT / 2);
+	vertices[5].Set(-CAR_WIDTH / 2, 0.0f);
+	skin.Set(vertices, 6);
+	
+	// skin.SetAsBox(CAR_WIDTH / 2, CAR_HEIGHT / 2);
+	
+	b2FixtureDef skinFixture;
+	skinFixture.shape = &skin;
+	skinFixture.density = CAR_DENSITY;
+	skinFixture.filter.groupIndex = CAR_GROUP_INDEX;
+	
+	this->chassis->CreateFixture(&skinFixture);
 }
 
 
@@ -129,9 +148,10 @@ void Car::set_wheels(b2World &world, float x, float y) {
 	circle.m_radius = W_RADIUS;
 	
 	b2FixtureDef fd;
+	fd.filter.groupIndex = CAR_GROUP_INDEX;
 	fd.shape = &circle;
 	fd.density = CAR_DENSITY;
-	fd.friction = 0.9f;
+	fd.friction = 5.0f;
 
 	b2BodyDef wheelDef;
 	wheelDef.type = b2_dynamicBody;
@@ -145,33 +165,55 @@ void Car::set_wheels(b2World &world, float x, float y) {
 						  WH_Y_POS(y));
 	this->front_wh_bd = world.CreateBody(&wheelDef);
 	this->front_wh_bd->CreateFixture(&fd);
-
-
 }
 
 
 /*    Actions    */
 
 void Car::goLeft() {
+	b2Vec2 i(-10.0f, 0);
+	this->chassis->ApplyLinearImpulseToCenter(i, true);
 	this->rear_wh->SetMotorSpeed(MAX_MOTOR_SPEED);
+	this->front_wh->SetMotorSpeed(MAX_MOTOR_SPEED);
 	this->_facing = facing::F_LEFT;
 }
 
 void Car::goRight() {
+	b2Vec2 i(10.0f, 0);
+	this->chassis->ApplyLinearImpulseToCenter(i, true);
 	this->rear_wh->SetMotorSpeed(-MAX_MOTOR_SPEED);
+	this->front_wh->SetMotorSpeed(-MAX_MOTOR_SPEED);
 	this->_facing = facing::F_RIGHT;
 }
 
 void Car::stop() {
 	this->rear_wh->SetMotorSpeed(0.0f);
+	this->front_wh->SetMotorSpeed(0.0f);
 }
 
-void Car::rotateCCW() {
+void Car::rotateDown() {
+	// if (this->_facing == facing::F_RIGHT) {
+	if (this->rear_wh_bd->GetWorldCenter().y < W_RADIUS + TOL ||
+		this->front_wh_bd->GetWorldCenter().y < W_RADIUS + TOL) {
+			return;
+	}
 	this->chassis->SetAngularVelocity(ROTATION_SPEED);
+	// } else {
+		// this->chassis->SetAngularVelocity(-ROTATION_SPEED);
+	// }
 }
 
-void Car::rotateCW() {
+void Car::rotateUp() {
+	// if (this->_facing == facing::F_RIGHT) {
+	if (this->rear_wh_bd->GetWorldCenter().y < W_RADIUS + TOL ||
+		this->front_wh_bd->GetWorldCenter().y < W_RADIUS + TOL) {
+			return;
+	}
 	this->chassis->SetAngularVelocity(-ROTATION_SPEED);
+
+	// } else {
+		// this->chassis->SetAngularVelocity(ROTATION_SPEED);
+	// }
 }
 
 void Car::triggerNitro() {
@@ -180,7 +222,7 @@ void Car::triggerNitro() {
 	}
 	float rad_angle = this->chassis->GetAngle();
 	b2Vec2 i(cos(-rad_angle), sin(-rad_angle));
-	i *= NITRO_IMPULSE;
+	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
 
 	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
 	this->nitro_ptge -= 10;
@@ -197,8 +239,8 @@ void Car::nitroRefill() {
 
 void Car::jump() {
 	// in the ground
-	if (this->rear_wh_bd->GetWorldCenter().y == W_RADIUS ||
-		this->front_wh_bd->GetWorldCenter().y == W_RADIUS) {
+	if (this->rear_wh_bd->GetWorldCenter().y < W_RADIUS + TOL ||
+		this->front_wh_bd->GetWorldCenter().y < W_RADIUS + TOL) {
 		this->d_jumpd = false;
 	
 	// in the air but not double jumped
@@ -223,14 +265,19 @@ void Car::jump() {
 	float rad_angle = this->chassis->GetAngle();
 	b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
 	i *= JUMP_IMPULSE;
+	
+	if (this->flipped && this->_facing == facing::F_RIGHT) {
+		i = b2Vec2(-i.x, i.y);
+	}
 	this->chassis->ApplyLinearImpulseToCenter(i, true);
+
 }
 
 
 /*    Stats    */
 
 b2Vec2 Car::getPosition() {
-	return this->chassis->GetPosition();
+	return this->chassis->GetPosition() - b2Vec2(0, W_RADIUS);
 }
 
 float Car::getAngle() {

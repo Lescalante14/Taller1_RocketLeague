@@ -7,20 +7,23 @@
 
 #include <utility>
 
-ClientCar::ClientCar(ClientCarState state, SDL2pp::Renderer &renderer)
-        : texture(renderer, SDL2pp::Surface("./assets/car.png").SetColorKey(true, 0))
+ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer)
+        : texture(renderer,
+                  isTeam1 ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
+                  : SDL2pp::Surface("./assets/car.png").SetColorMod(255,0,0).SetColorKey(true, 0))
         , state(std::move(state)){}
 
 void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int posX = calculatePositionInXWithBorder(renderer, positionConverter);
     int posY = calculatePositionInYWithBorder(renderer, positionConverter);
     int carWidth = calculateCarWidthInPx(renderer, positionConverter);
+    int carHeight = calculateCarHeightInPx(renderer, positionConverter);
 
-    bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
-    bool flipH = (inverted && state.is_oriented_right()) || (!inverted && !state.is_oriented_right());
+    // bool inverted = (state.get_angle()>=90 && state.get_angle()<=270);
+    bool flipH = !state.is_oriented_right();
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
-                  SDL2pp::Rect(posX, posY, carWidth, carWidth/2),
+                  SDL2pp::Rect(posX, posY, carWidth, carHeight),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
@@ -43,4 +46,10 @@ int ClientCar::calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConvert
 
 int ClientCar::calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
     return converter.get_car_height_in_PX(renderer);
+}
+
+void ClientCar::updateState(ClientCarState newState) {
+    /*CarState cs(newState.get_id(), newState.get_nitro_activated(), newState.get_nitro_percentage()
+                , newState.is_oriented_right(), newState.get_angle(), newState.get_position_x(), newState.get_position_y());*/
+    state = std::move(newState);
 }

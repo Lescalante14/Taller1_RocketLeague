@@ -11,11 +11,13 @@ int PositionConverter::convert_CM_to_PX_In_X_axis(int pos, SDL2pp::Renderer &ren
     if (pos == 0)
         return 0;
     double f = (double)matchSetup.get_field_length()/(double)renderer.GetOutputWidth();
-    int finalPos = (int)((double)pos/f);
     int carWidth = get_car_width_in_PX(renderer);
+    int finalPos = (int)((double)pos/f)-(carWidth/2);
 
-    if (finalPos + carWidth > renderer.GetOutputWidth()) // Limit
+    if (finalPos + carWidth > renderer.GetOutputWidth()) // Limit right
         return renderer.GetOutputWidth()-carWidth;
+    if (finalPos < 0) // Limit left
+        return 0;
     return finalPos;
 }
 

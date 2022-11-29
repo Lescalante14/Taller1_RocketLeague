@@ -13,7 +13,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 25.0f // 120Hz
+#define FRAME_RATE 8400 // 60Hz
 
 
 Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
@@ -31,21 +31,21 @@ Pseudo Loop:
     }
 */
 void Game::start(std::istream &input) {
-    std::cout << "Hello client" << std::endl;
+    std::cout << "Waiting other players..." << std::endl;
+    std::string setupStr = input_queue.blocking_pop();
+    std::cout << "starting match..." << std::endl;
+
     SDL2pp::SDL sdl(SDL_INIT_VIDEO);
     SDL2pp::Window window("Rocket League", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                           800, 600,
                           SDL_WINDOW_RESIZABLE);
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    MockProvider mockProvider;
+    //MockProvider mockProvider;
 
-    std::cout << "Waiting other players..." << std::endl;
-    std::string setupStr = input_queue.blocking_pop();
-    std::cout << "starting match..." << std::endl;
-    auto matchSetup = MatchSetup(setupStr); //Esto me lo va a dar el protocolo luego
+    MatchSetup matchSetup(setupStr); //Esto me lo va a dar el protocolo luego
     std::string stateStr = input_queue.blocking_pop();
-    auto matchState = MatchState(stateStr); //Esto me lo va a dar el protocolo luego
+    MatchState matchState(stateStr); //Esto me lo va a dar el protocolo luego
 
     //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
     //MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
@@ -60,25 +60,32 @@ void Game::start(std::istream &input) {
     std::string actualState = stateStr;
     
 	while (running) {
-        // state = multiple pops()
         running = eventHandler.handleEvents(match); // push inside
 
+        // multiple pops()
         std::string newState = popGameState(actualState, &running);
+        actualState = newState;
+
         // Update
         MatchState newMatchState(newState);
+/*        std::cout << "1:" << newMatchState.get_cars().at(0).get_position_x()
+        <<"B:" << newMatchState.get_ball_position_x()
+        << "2:" <<  newMatchState.get_cars().at(1).get_position_x() << std::endl;*/
         ClientMatchState newClientState(newMatchState);
-        ClientMatch newMatch(newClientState, renderer, matchSetup);
-        newMatch.render(renderer);
+        match.updateState(newClientState);
+
+        // Render
+        match.render(renderer);
         // la cantidad de segundos que debo dormir se debe ajustar en función
         // de la cantidad de tiempo que demoró el handleEvents y el render
-        // usleep(FRAME_RATE);
+        usleep(FRAME_RATE);
     }
 }
 
 std::string Game::popGameState(std::string actualState, bool *running) {
-    std::string lastState = actualState;
+    std::string lastState = std::move(actualState);
     try {
-        for (int i = 0; i < 50; ++i) {
+        for (int i = 0; i < 1; ++i) {
             lastState = input_queue.pop();
         }
         return lastState;

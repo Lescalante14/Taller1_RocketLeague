@@ -16,8 +16,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
-            //SDL2pp::Rect(50, renderer.GetOutputHeight()-100, BALL_WIDTH, BALL_HEIGHT),
-                  SDL2pp::Rect(posX-radiusBall, posY, radiusBall*2, radiusBall*2),
+                  SDL2pp::Rect(posX, posY, radiusBall*2, radiusBall*2),
                   -state.get_angle(),
                   SDL2pp::NullOpt,    // rotation center - not needed
                   SDL_FLIP_NONE
@@ -46,4 +45,8 @@ int ClientBall::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, Posit
 
 int ClientBall::calculateRadiusBallInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
     return converter.get_radius_ball_in_PX(renderer);
+}
+
+void ClientBall::update(ClientBallState _state) {
+    state = std::move(_state);
 }

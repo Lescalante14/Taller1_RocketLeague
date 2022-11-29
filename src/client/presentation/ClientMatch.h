@@ -22,10 +22,12 @@ class ClientMatch {
     std::vector<ClientCar> cars;
 
 public:
-    explicit ClientMatch(ClientMatchState state, SDL2pp::Renderer &renderer, MatchSetup &setup);
+    explicit ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MatchSetup &setup);
     void render(SDL2pp::Renderer &renderer);
 
     uint8_t getCarIdAssigned();
+
+    void updateState(ClientMatchState newMatchState);
 };
 
 

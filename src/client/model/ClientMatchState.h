@@ -25,8 +25,8 @@ public:
     uint8_t get_scorer_1();
     uint8_t get_scorer_2();
     uint8_t get_cars_quantity();
-    int get_ball_position_x(SDL2pp::Renderer &renderer);
-    int get_ball_position_y(SDL2pp::Renderer &renderer);
+    int get_ball_position_x();
+    int get_ball_position_y();
     int get_ball_angle();
     std::vector<ClientCarState> get_cars();
 };
