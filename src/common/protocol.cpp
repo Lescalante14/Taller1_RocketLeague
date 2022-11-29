@@ -1,5 +1,5 @@
 #include "protocol.h"
-#include "custom_error.h"
+#include "socket_closed_exception.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -7,8 +7,8 @@
 #include <vector>
 #include <netinet/in.h>
 
-Protocol::Protocol(Socket _skt)
-    : skt(std::move(_skt)), rem("") { }
+Protocol::Protocol(Socket& _skt)
+    : skt(_skt), rem("") { }
 
 void Protocol::send_message(std::string message) {
     bool was_closed = false; 
@@ -22,7 +22,7 @@ void Protocol::send_message(std::string message) {
         &was_closed);
 
     if (was_closed) {
-        throw CustomError("socket was closed by the other end.");
+        throw SocketClosedException();
     }
 
     if (payload_length == 0) return;
@@ -33,7 +33,7 @@ void Protocol::send_message(std::string message) {
         &was_closed);
 
     if (was_closed) {
-        throw CustomError("socket was closed by the other end.");
+        throw SocketClosedException();
     }
 }
 
@@ -42,7 +42,7 @@ std::string Protocol::recv_message(bool* was_closed) {
     this->skt.recvall(&payload_length_recv, 2, was_closed);
 
     if (*was_closed) {
-        throw CustomError("socket was closed by the other end.");
+        throw SocketClosedException();
     }
 
     uint16_t payload_length = ntohs(payload_length_recv);
@@ -54,7 +54,7 @@ std::string Protocol::recv_message(bool* was_closed) {
     int sz = this->skt.recvall(&buf[0], payload_length, was_closed);
 
     if (*was_closed) {
-        throw CustomError("socket was closed by the other end.");
+        throw SocketClosedException();
     }
 
     std::string result(&buf[0], sz);

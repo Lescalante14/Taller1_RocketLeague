@@ -29,6 +29,6 @@ void Server::start(const char *servname) {
     skt.shutdown(2);
     skt.close();
     matchs_to_start.close();
-    acceptor.join();
     matchs_handler.join();
+    acceptor.join();
 }

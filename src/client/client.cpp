@@ -19,7 +19,7 @@ void Client::start(
         const char *hostname,
         const char *servname) {
     Socket skt(hostname, servname);
-    Protocol protocol(std::move(skt));
+    Protocol protocol(skt);
 
     NonBlockingQueue<std::string> input_queue;
     BlockingQueue<std::string> exit_queue;

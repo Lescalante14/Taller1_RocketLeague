@@ -12,13 +12,13 @@
 
 class Protocol {
 private:
-    Socket skt;
+    Socket& skt;
     std::string rem;
 
     void send_transferable_state(Transferable& t);
 
 public:
-    explicit Protocol(Socket _skt);
+    explicit Protocol(Socket& _skt);
     
     void send_lobby_command(LobbyCommand command);
     LobbyCommand recv_lobby_command(bool *was_closed);

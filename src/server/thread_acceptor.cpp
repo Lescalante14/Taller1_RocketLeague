@@ -34,7 +34,9 @@ void ThreadAcceptor::run() {
         while (*(this->keep_accepting)) {
             Socket peer = this->skt->accept();
             ThreadConnectionHandler* handler = 
-                new ThreadConnectionHandler(std::move(peer), this->lobby);
+                new ThreadConnectionHandler(
+                    std::move(peer), 
+                    this->lobby);
             handler->start();
             this->handlers.push_back(handler);
             this->cleanFinishedHandlers();
@@ -42,7 +44,7 @@ void ThreadAcceptor::run() {
         this->waitForHandlers();
     } catch (const std::exception &e) {
         this->waitForHandlers();
-        throw;
+        return;
     } catch (...) {
         this->waitForHandlers();
         return;

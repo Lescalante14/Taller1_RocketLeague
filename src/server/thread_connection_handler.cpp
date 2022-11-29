@@ -10,13 +10,13 @@ ThreadConnectionHandler::ThreadConnectionHandler(
 ): peer(std::move(_peer)), lobby(_lobby) { }
 
 void ThreadConnectionHandler::run() {
-    Protocol protocol(std::move(this->peer));
+    Protocol protocol(this->peer);
     BlockingQueue<std::string> output_queue;
     ThreadReceiver receiver(protocol, this->lobby, output_queue);
     ThreadSender sender(protocol, this->lobby, output_queue);
     receiver.start();
     sender.start();
-    receiver.join();
     sender.join();
+    receiver.join();
     this->finished = true;
 }
