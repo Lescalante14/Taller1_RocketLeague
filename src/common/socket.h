@@ -11,12 +11,12 @@ class Socket {
     int skt;
     bool closed;
 
+    public:
     /*
      * Construye el socket pasándole directamente el file descriptor.
      * */
     explicit Socket(int skt);
-
-    public:
+    
 /*
  * Constructores para `Socket` tanto para conectarse a un servidor
  * (`Socket::Socket(const char*, const char*)`) como para ser usado
@@ -119,11 +119,11 @@ int recvsome(
  * para envio/recibo, lease `sz`.
  *
  * */
-int sendall(
+virtual int sendall(
         const void *data,
         unsigned int sz,
         bool *was_closed);
-int recvall(
+virtual int recvall(
         void *data,
         unsigned int sz,
         bool *was_closed);
@@ -153,7 +153,7 @@ int close();
  * se llamara a `Socket::shutdown` y `Socket::close`
  * automáticamente.
  * */
-~Socket();
+virtual ~Socket();
 };
 #endif
 

@@ -7,16 +7,21 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+file(GLOB_RECURSE COMMON_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/../common/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../common/*.h)
+file(GLOB_RECURSE TEST_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+
 enable_testing()
 
 add_executable(
-  hello_test
-  hello_test.cc
+  protocol_test
+  protocol_test.cc
+  ${COMMON_SRC_FILES}
+  ${TEST_SRC_FILES}
 )
 target_link_libraries(
-  hello_test
+  protocol_test
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
+gtest_discover_tests(protocol_test)
