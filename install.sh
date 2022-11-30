@@ -36,5 +36,5 @@ else
 
 	sudo cp ./src/client/assets/* /var/rocket_league/
 
-	echo "Installation complete"
+	echo "installation complete"
 fi
