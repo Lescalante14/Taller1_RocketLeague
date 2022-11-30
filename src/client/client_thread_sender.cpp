@@ -11,7 +11,7 @@ void ClientThreadSender::run() {
 
     while (should_continue) {
         try {
-            std::string s = this->exit_queue.pop();
+            std::string s = this->to_send_queue.pop();
             this->protocol.send_message(s);
         } catch(const QueueClosedException& e) {
             should_continue = false;
@@ -21,6 +21,6 @@ void ClientThreadSender::run() {
 
 ClientThreadSender::ClientThreadSender(
         Protocol& _protocol,
-        BlockingQueue<std::string>& _exit_queue
+        BlockingQueue<std::string>& _to_send_queue
     ): protocol(_protocol), 
-    exit_queue(_exit_queue) { }
+    to_send_queue(_to_send_queue) { }

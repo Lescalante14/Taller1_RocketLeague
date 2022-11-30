@@ -11,7 +11,7 @@
 class ClientThreadReceiver: public Thread {
 private:
     Protocol& protocol;
-    NonBlockingQueue<std::string>& input_queue;
+    NonBlockingQueue<std::string>& received_queue;
 
 protected:
     void run() override;
@@ -19,7 +19,7 @@ protected:
 public:
     ClientThreadReceiver(
         Protocol& _protocol, 
-        NonBlockingQueue<std::string>& _input_queue);
+        NonBlockingQueue<std::string>& _received_queue);
 
     ClientThreadReceiver(const ClientThreadReceiver&) = delete;
     ClientThreadReceiver& operator=(const ClientThreadReceiver&) = delete;

@@ -14,7 +14,7 @@
 class ClientThreadSender: public Thread {
 private:
     Protocol& protocol;
-    BlockingQueue<std::string>& exit_queue;
+    BlockingQueue<std::string>& to_send_queue;
 
 protected:
     void run() override;
@@ -22,7 +22,7 @@ protected:
 public:
     ClientThreadSender(
         Protocol& _protocol,
-        BlockingQueue<std::string>& _exit_queue);
+        BlockingQueue<std::string>& _to_send_queue);
 
     ClientThreadSender(const ClientThreadSender&) = delete;
     ClientThreadSender& operator=(const ClientThreadSender&) = delete;

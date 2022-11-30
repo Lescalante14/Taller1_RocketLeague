@@ -10,7 +10,7 @@ void ThreadSender::run() {
 
     while (should_continue) {
         try {
-            std::string s = this->output_queue.pop();
+            std::string s = this->to_send_queue.pop();
             this->protocol.send_message(s);
         } catch(const QueueClosedException& e) {
             should_continue = false;
@@ -21,7 +21,7 @@ void ThreadSender::run() {
 ThreadSender::ThreadSender(
         Protocol& _protocol, 
         Lobby& _lobby, 
-        BlockingQueue<std::string>& _output_queue
+        BlockingQueue<std::string>& _to_send_queue
     ): protocol(_protocol), 
     lobby(_lobby), 
-    output_queue(_output_queue) { }
+    to_send_queue(_to_send_queue) { }

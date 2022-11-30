@@ -16,12 +16,12 @@
 class Game {
 
 private:
-    NonBlockingQueue<std::string> &input_queue;
-    BlockingQueue<std::string> &exit_queue;
+    NonBlockingQueue<std::string> &received_queue;
+    BlockingQueue<std::string> &to_send_queue;
 
     std::string popGameState(std::string actualState, bool *running);
 public:
-    Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue);
+    Game(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue);
 
     void start(std::istream &input);
 

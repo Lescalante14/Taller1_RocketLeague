@@ -38,7 +38,7 @@ void ThreadReceiver::run() {
                         this->lobby.create_match(
                             match_name, 
                             players_limit,
-                            &(this->output_queue));
+                            &(this->to_send_queue));
                     in_match = true;
                     car_id = 0;
                     break;
@@ -49,7 +49,7 @@ void ThreadReceiver::run() {
                     NonBlockingQueue<UserAction>* input_queue = 
                         this->lobby.add_player_to_match(
                             command.get_payload(), 
-                            &(this->output_queue),
+                            &(this->to_send_queue),
                             &car_id_asigned);
 
                     if (input_queue != nullptr) {
@@ -81,7 +81,7 @@ void ThreadReceiver::run() {
 ThreadReceiver::ThreadReceiver(
     Protocol& _protocol, 
     Lobby& _lobby, 
-    BlockingQueue<std::string>& _output_queue)
+    BlockingQueue<std::string>& _to_send_queue)
     : protocol(_protocol), 
     lobby(_lobby), 
-    output_queue(_output_queue) { }
+    to_send_queue(_to_send_queue) { }

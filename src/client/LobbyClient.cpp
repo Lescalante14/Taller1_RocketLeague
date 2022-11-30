@@ -8,8 +8,8 @@
 #include "common/custom_error.h"
 #include "common/lobby_command.h"
 
-LobbyClient::LobbyClient(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
-: input_queue(input_queue), exit_queue(exit_queue){
+LobbyClient::LobbyClient(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
+: received_queue(received_queue), to_send_queue(to_send_queue){
 
 }
 
@@ -21,7 +21,7 @@ void LobbyClient::start(std::istream &input) {
     while (in_lobby && std::getline(std::cin, line)) {
         std::string command;
         std::string payload;
-        if (line.substr(0,EXIT_COMMAND.length()) == EXIT_COMMAND) {
+        if (line == EXIT_COMMAND) {
             in_lobby = false;
         } else {
             resolveAction(line, &command, &payload);
@@ -34,8 +34,8 @@ void LobbyClient::start(std::istream &input) {
             }
             LobbyCommand lobbyCommand(code, payload);
             std::string commandSer = lobbyCommand.serialize();
-            exit_queue.push(commandSer);
-            LobbyCommand response(input_queue.blocking_pop());
+            to_send_queue.push(commandSer);
+            LobbyCommand response(received_queue.blocking_pop());
             std::cout << response.serialize() << std::endl;
             // creacion o union correcta
             if ((code == CREATE_CODE || code == JOIN_CODE) && response.get_code() == 0) {
