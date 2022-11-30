@@ -15,7 +15,9 @@ void ClientThreadSender::run() {
             this->protocol.send_message(s);
         } catch(const QueueClosedException& e) {
             should_continue = false;
-        }    
+        } catch (std::exception &e) {
+            std::cout << e.what() << std::endl;
+        }
     }
 }
 
