@@ -30,7 +30,7 @@ Pseudo Loop:
          render model
     }
 */
-void Game::start(std::istream &input) {
+void Game::run(std::istream &input) {
     std::cout << "Waiting other players..." << std::endl;
     std::string setupStr = received_queue.blocking_pop();
     std::cout << "starting match..." << std::endl;

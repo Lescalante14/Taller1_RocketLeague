@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) { try {
 
     Client client;
 
-    client.start(hostname, servname);
+    client.run(hostname, servname);
 
     return SUCCESS_CODE;
 } catch (const std::exception& err) {

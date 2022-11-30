@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-void Server::start(const char *servname) { 
+void Server::run(const char *servname) { 
     Socket skt(servname);
     BlockingQueue<LobbyMatch*> matchs_to_start;
     Lobby lobby(matchs_to_start);

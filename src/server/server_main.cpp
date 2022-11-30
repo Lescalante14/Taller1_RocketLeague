@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) { try {
 
     Server server;
 
-    server.start(servname);
+    server.run(servname);
 
     return SUCCESS_CODE;
 } catch (const std::exception& err) {

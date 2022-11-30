@@ -15,7 +15,7 @@
 #include "common/protocol.h"
 #include "common/socket.h"
 
-void Client::start(
+void Client::run(
         const char *hostname,
         const char *servname) {
     Socket skt(hostname, servname);
@@ -30,10 +30,10 @@ void Client::start(
     sender.start();
 
     LobbyClient lobby(received_queue, to_send_queue);
-    lobby.start(std::cin);
+    lobby.run(std::cin);
 
     Game game(received_queue, to_send_queue);
-    game.start(std::cin);
+    game.run(std::cin);
 
     received_queue.close();
     to_send_queue.close();

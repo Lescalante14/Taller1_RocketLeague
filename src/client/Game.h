@@ -23,7 +23,7 @@ private:
 public:
     Game(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue);
 
-    void start(std::istream &input);
+    void run(std::istream &input);
 
 };
 

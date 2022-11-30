@@ -8,7 +8,7 @@ public:
     * que aceptará conexiones entrantes hasta que se 
     * ingrese una 'q' por la entrada estándar
     * */
-    void start(const char *servname);
+    void run(const char *servname);
 };
 
 #endif

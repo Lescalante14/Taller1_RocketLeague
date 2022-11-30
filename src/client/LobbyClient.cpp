@@ -13,7 +13,7 @@ LobbyClient::LobbyClient(NonBlockingQueue<std::string> &received_queue, Blocking
 
 }
 
-void LobbyClient::start(std::istream &input) {
+void LobbyClient::run(std::istream &input) {
     std::cout << "Hello lobby" << std::endl;
     std::string line;
     bool in_lobby = true;

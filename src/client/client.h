@@ -8,7 +8,7 @@ public:
     * con el servidor y procesando los comandos recibidos por
     * la entrada estándar
     * */
-    void start(
+    void run(
         const char *hostname,
         const char *servname);
 };
