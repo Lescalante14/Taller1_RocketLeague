@@ -31,7 +31,7 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 			  step_freq(_step_freq),
 			  ball(this->world, 0, 0, ball_size::MED_BALL) {
 	
-	YAML::Node config = YAML::LoadFile(".config.yml");	
+	YAML::Node config = YAML::LoadFile(".rl_config.yml");	
 
 	this->length = config["camp_length"].as<float>();
 	this->height = config["camp_height"].as<float>();

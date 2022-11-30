@@ -12,7 +12,7 @@ target_include_directories(rl_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(rl_server PUBLIC box2d yaml-cpp)
 
 # copy config file to build directory
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/../.config.yml DESTINATION ${CMAKE_BINARY_DIR}/src)
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/../.rl_config.yml DESTINATION ${CMAKE_BINARY_DIR}/src)
 
 target_compile_options(rl_server PUBLIC
 	-Werror
