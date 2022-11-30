@@ -1,33 +1,45 @@
 #include "car_state.h"
 #include <netinet/in.h>
+#include <cstring>
 
+struct T {
+    uint8_t id;
+    uint8_t nitro_activated;
+    uint8_t nitro_percentage;
+    uint8_t oriented_right;
+    uint16_t angle;
+    uint32_t position_x;
+    uint32_t position_y;
+} __attribute__((packed));
 
 std::string CarState::serialize() {
-    char buf[CAR_STATE_SIZE];
-    int* fbuf = (int*)buf;
-    uint16_t* auxbuf = (uint16_t*)buf;
-    fbuf[0] = htonl(this->position_x);
-    fbuf[1] = htonl(this->position_y);
-    auxbuf[4] = htons(this->angle);
-    buf[10] = this->id;
-    buf[11] = this->nitro_activated;
-    buf[12] = this->nitro_percentage;
-    buf[13] = this->oriented_right;
-    std::string message(buf, CAR_STATE_SIZE);
+    struct T t = {
+        this->id,
+        this->nitro_activated,
+        this->nitro_percentage,
+        this->oriented_right,
+        htons(this->angle),
+        htonl(this->position_x),
+        htonl(this->position_y),
+    };
+    
+    char* buf = (char*)&t;
+    std::string message(buf, sizeof(T));
     return message;
 }
 
 CarState::CarState(std::string &state) {
     const char* buf = state.c_str();
-    int* fbuf = (int*)buf;
-    uint16_t* auxbuf = (uint16_t*)buf;
-    this->position_x = ntohl(fbuf[0]);
-    this->position_y = ntohl(fbuf[1]);
-    this->angle = ntohs(auxbuf[4]);
-    this->id = buf[10];
-    this->nitro_activated = buf[11];
-    this->nitro_percentage = buf[12];
-    this->oriented_right = buf[13];
+    struct T t;
+    memcpy(&t, buf, state.size());
+    
+    this->id = t.id;
+    this->nitro_activated= t.nitro_activated;
+    this->nitro_percentage = t.nitro_percentage;
+    this->oriented_right = t.oriented_right;
+    this->angle = ntohs(t.angle);
+    this->position_x = ntohl(t.position_x);
+    this->position_y = ntohl(t.position_y);
 }
 
 CarState::CarState(

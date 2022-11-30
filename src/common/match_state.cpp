@@ -3,23 +3,35 @@
 #include <sstream>
 #include <algorithm>
 #include <utility>
+#include <cstring>
 
-#define MATCH_STATE_SIZE 22
+struct T {
+    uint16_t time;
+    uint8_t playing;
+    uint8_t scorer_1;
+    uint8_t scorer_2;
+    uint8_t cars_quantity;
+    uint32_t ball_direction_x;
+    uint32_t ball_direction_y;
+    uint32_t ball_position_x;
+    uint32_t ball_position_y;
+} __attribute__((packed));
 
 std::string MatchState::serialize() {
-    char buf[MATCH_STATE_SIZE];
-    int* fbuf = (int*)(&buf[6]);
-    uint16_t* ubuf = (uint16_t*)buf;
-    ubuf[0] = this->time;
-    buf[2] = this->playing;
-    buf[3] = this->scorer_1;
-    buf[4] = this->scorer_2;
-    buf[5] = this->cars_quantity;
-    fbuf[0] = htonl(this->ball_direction_x);
-    fbuf[1] = htonl(this->ball_direction_y);
-    fbuf[2] = htonl(this->ball_position_x);
-    fbuf[3] = htonl(this->ball_position_y);
-    std::string message(buf, MATCH_STATE_SIZE);
+    struct T t = {
+        htons(this->time),
+        this->playing,
+        this->scorer_1,
+        this->scorer_2,
+        this->cars_quantity,
+        htonl(this->ball_direction_x),
+        htonl(this->ball_direction_y),
+        htonl(this->ball_position_x),
+        htonl(this->ball_position_y),
+    };
+    
+    char* buf = (char*)&t;
+    std::string message(buf, sizeof(T));
 
     std::stringstream oss;
 
@@ -37,20 +49,21 @@ std::string MatchState::serialize() {
 
 MatchState::MatchState(std::string &state) {
     const char* buf = state.c_str();
-    int* fbuf = (int*)(&buf[6]);
-    uint16_t* ubuf = (uint16_t*)buf;
-    this->time = ubuf[0];
-    this->playing = buf[2];
-    this->scorer_1 = buf[3];
-    this->scorer_2 = buf[4];
-    this->cars_quantity = buf[5];
-    this->ball_direction_x = ntohl(fbuf[0]);
-    this->ball_direction_y = ntohl(fbuf[1]);
-    this->ball_position_x = ntohl(fbuf[2]);
-    this->ball_position_y = ntohl(fbuf[3]);
+    struct T t;
+    memcpy(&t, buf, sizeof(T));
+    
+    this->time = ntohs(t.time);
+    this->playing = t.playing;
+    this->scorer_1 = t.scorer_1;
+    this->scorer_2 = t.scorer_2;
+    this->cars_quantity = t.cars_quantity;
+    this->ball_direction_x = ntohl(t.ball_direction_x);
+    this->ball_direction_y = ntohl(t.ball_direction_y);
+    this->ball_position_x = ntohl(t.ball_position_x);
+    this->ball_position_y = ntohl(t.ball_position_y);
 
     std::string cars_string(
-        &buf[MATCH_STATE_SIZE], state.size() - MATCH_STATE_SIZE);
+        &buf[sizeof(T)], state.size() - sizeof(T));
 
     while (cars_string.size() > 0) {
         std::string car_serialized(cars_string.substr(0, CAR_STATE_SIZE));

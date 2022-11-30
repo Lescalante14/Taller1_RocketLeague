@@ -1,23 +1,32 @@
 #include "user_action.h"
 #include <sstream>
+#include <cstring>
 
-
-#define USER_ACTION_SIZE 2
+struct T {
+    uint8_t code;
+    uint8_t car_id;
+} __attribute__((packed));
 
 UserAction::UserAction(uint8_t _code, uint8_t _car_id)
     : code(_code), car_id(_car_id) { }
 
 UserAction::UserAction(std::string &action) {
     const char* buf = action.c_str();
-    this->code = buf[0];
-    this->car_id = buf[1];
+    struct T t;
+    memcpy(&t, buf, action.size());
+    
+    this->code = t.code;
+    this->car_id = t.car_id;
 }
 
 std::string UserAction::serialize() {
-    char buf[USER_ACTION_SIZE];
-    buf[0] = this->code;
-    buf[1] = this->car_id;
-    std::string message(buf, USER_ACTION_SIZE);
+    struct T t = {
+        this->code,
+        this->car_id
+    };
+    
+    char* buf = (char*)&t;
+    std::string message(buf, sizeof(T));
     return message;
 }
 

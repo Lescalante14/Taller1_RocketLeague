@@ -1,33 +1,46 @@
 #include "match_setup.h"
 #include <netinet/in.h>
 #include <sstream>
+#include <cstring>
 
-#define MATCH_SETUP_SIZE 22
+struct T {
+    uint32_t field_length;
+    uint32_t field_height;
+    uint32_t goal_height;
+    uint32_t ball_size;
+    uint32_t car_size;
+    uint8_t cars_quantity;
+    uint8_t car_id_assigned;
+} __attribute__((packed));
 
 std::string MatchSetup::serialize() {
-    char buf[MATCH_SETUP_SIZE];
-    int* fbuf = (int*)buf;
-    fbuf[0] = htonl(this->field_length);
-    fbuf[1] = htonl(this->field_height);
-    fbuf[2] = htonl(this->goal_height);
-    fbuf[3] = htonl(this->ball_size);
-    fbuf[4] = htonl(this->car_size);
-    buf[20] = this->cars_quantity;
-    buf[21] = this->car_id_assigned;
-    std::string message(buf, MATCH_SETUP_SIZE);
+    struct T t = {
+        htonl(this->field_length),
+        htonl(this->field_height),
+        htonl(this->goal_height),
+        htonl(this->ball_size),
+        htonl(this->car_size),
+        this->cars_quantity,
+        this->car_id_assigned
+    };
+    
+    char* buf = (char*)&t;
+    std::string message(buf, sizeof(T));
     return message;
 }
 
 MatchSetup::MatchSetup(std::string &setup) {
     const char* buf = setup.c_str();
-    int* fbuf = (int*)buf;
-    this->field_length = ntohl(fbuf[0]);
-    this->field_height = ntohl(fbuf[1]);
-    this->goal_height = ntohl(fbuf[2]);
-    this->ball_size = ntohl(fbuf[3]);
-    this->car_size = ntohl(fbuf[4]);
-    this->cars_quantity = buf[20];
-    this->car_id_assigned = buf[21];
+    struct T t;
+    memcpy(&t, buf, setup.size());
+    
+    this->field_length = ntohl(t.field_length);
+    this->field_height = ntohl(t.field_height);
+    this->goal_height = ntohl(t.goal_height);
+    this->ball_size = ntohl(t.ball_size);
+    this->car_size = ntohl(t.car_size);
+    this->cars_quantity = t.cars_quantity;
+    this->car_id_assigned = t.car_id_assigned;
 }
 
 MatchSetup::MatchSetup(
