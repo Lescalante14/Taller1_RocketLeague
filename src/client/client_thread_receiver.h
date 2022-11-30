@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "common/non_blocking_queue.h"
+#include "common/blocking_queue.h"
 #include "common/protocol.h"
 #include "common/thread.h"
 #include "common/lobby.h" 
@@ -11,7 +11,7 @@
 class ClientThreadReceiver: public Thread {
 private:
     Protocol& protocol;
-    NonBlockingQueue<std::string>& received_queue;
+    BlockingQueue<std::string>& received_queue;
 
 protected:
     void run() override;
@@ -19,7 +19,7 @@ protected:
 public:
     ClientThreadReceiver(
         Protocol& _protocol, 
-        NonBlockingQueue<std::string>& _received_queue);
+        BlockingQueue<std::string>& _received_queue);
 
     ClientThreadReceiver(const ClientThreadReceiver&) = delete;
     ClientThreadReceiver& operator=(const ClientThreadReceiver&) = delete;

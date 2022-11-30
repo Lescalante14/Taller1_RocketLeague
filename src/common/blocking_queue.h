@@ -5,6 +5,7 @@
 #include <condition_variable>
 #include <mutex>
 #include "queue_closed_exception.h"
+#include "queue_empty_exception.h"
 
 template<typename T> class BlockingQueue {
     private:
@@ -27,6 +28,19 @@ template<typename T> class BlockingQueue {
                 throw QueueClosedException();
             }
             cv.wait(lock);
+        }
+        T element = internal.front();
+        internal.pop();
+        return element;
+    }
+
+    T try_pop() {
+        std::unique_lock<std::mutex> lock(mutex);
+        if (internal.empty()) {
+            throw QueueEmptyException();
+        }
+        if (is_closed) {
+            throw QueueClosedException();
         }
         T element = internal.front();
         internal.pop();

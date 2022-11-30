@@ -18,6 +18,6 @@ void ClientThreadReceiver::run() {
 
 ClientThreadReceiver::ClientThreadReceiver(
     Protocol& _protocol, 
-    NonBlockingQueue<std::string>& _received_queue)
+    BlockingQueue<std::string>& _received_queue)
     : protocol(_protocol), 
     received_queue(_received_queue) { }

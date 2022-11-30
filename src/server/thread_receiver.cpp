@@ -7,7 +7,7 @@ void ThreadReceiver::run() {
     bool in_match = false;
     bool was_closed = false;
     uint8_t car_id;
-    NonBlockingQueue<UserAction>* match_input_queue = nullptr;
+    BlockingQueue<UserAction>* match_input_queue = nullptr;
 
     while (not was_closed) {
         if (not in_match) {
@@ -46,7 +46,7 @@ void ThreadReceiver::run() {
 
                 case JOIN_CODE: {
                     uint8_t car_id_asigned;
-                    NonBlockingQueue<UserAction>* input_queue = 
+                    BlockingQueue<UserAction>* input_queue = 
                         this->lobby.add_player_to_match(
                             command.get_payload(), 
                             &(this->to_send_queue),

@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include "blocking_queue.h"
-#include "non_blocking_queue.h"
 #include "user_action.h"
 #include "match_setup.h"
 #include "match_state.h"
@@ -14,7 +13,7 @@ private:
     std::string name;
     size_t players;
     size_t players_limit;
-    NonBlockingQueue<UserAction> input_queue;
+    BlockingQueue<UserAction> input_queue;
     std::vector<BlockingQueue<std::string>*> output_queues;
 
 public:
@@ -38,7 +37,7 @@ public:
         BlockingQueue<std::string>* output_queue,
         bool* has_to_start);
 
-    NonBlockingQueue<UserAction>* get_match_input_queue();
+    BlockingQueue<UserAction>* get_match_input_queue();
 
     UserAction pop_from_input_queue();
 

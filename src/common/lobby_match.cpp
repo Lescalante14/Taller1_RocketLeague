@@ -43,12 +43,12 @@ uint8_t LobbyMatch::add_player(
     return (this->players - 1);
 }
 
-NonBlockingQueue<UserAction>* LobbyMatch::get_match_input_queue() {
+BlockingQueue<UserAction>* LobbyMatch::get_match_input_queue() {
     return &(this->input_queue);
 }
 
 UserAction LobbyMatch::pop_from_input_queue() {
-    return this->input_queue.pop();
+    return this->input_queue.try_pop();
 }
 
 void LobbyMatch::push_to_output_queues(MatchState state) {

@@ -8,7 +8,6 @@
 #include "client.h"
 #include "Game.h"
 
-#include "common/non_blocking_queue.h"
 #include "common/blocking_queue.h"
 #include "common/lobby_command.h"
 #include "common/custom_error.h"
@@ -21,7 +20,7 @@ void Client::run(
     Socket skt(hostname, servname);
     Protocol protocol(skt);
 
-    NonBlockingQueue<std::string> received_queue;
+    BlockingQueue<std::string> received_queue;
     BlockingQueue<std::string> to_send_queue;
 
     ClientThreadReceiver receiver(protocol, received_queue);

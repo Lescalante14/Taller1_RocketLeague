@@ -19,7 +19,7 @@ ThreadMatchHandler::ThreadMatchHandler(
 
 
 void ThreadMatchHandler::run() {
-    NonBlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
+    BlockingQueue<UserAction>& input_queue = *(this->match.get_match_input_queue());
 	GameModel game_model(this->match.get_size(), KHZ2HZ(STEP_FREQ));
 	this->match.push_to_output_queues(game_model.getSetup());
 	this->match.push_to_output_queues(game_model.getState());
@@ -28,7 +28,7 @@ void ThreadMatchHandler::run() {
 
     while (1) {
 		try {
-			UserAction action = input_queue.pop();
+			UserAction action = input_queue.try_pop();
 			game_model.updateGame(action);			
 
 		} catch(const QueueEmptyException& err) {}

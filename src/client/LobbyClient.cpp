@@ -8,7 +8,7 @@
 #include "common/custom_error.h"
 #include "common/lobby_command.h"
 
-LobbyClient::LobbyClient(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
+LobbyClient::LobbyClient(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
 : received_queue(received_queue), to_send_queue(to_send_queue){
 
 }
@@ -35,7 +35,7 @@ void LobbyClient::run(std::istream &input) {
             LobbyCommand lobbyCommand(code, payload);
             std::string commandSer = lobbyCommand.serialize();
             to_send_queue.push(commandSer);
-            LobbyCommand response(received_queue.blocking_pop());
+            LobbyCommand response(received_queue.pop());
             std::cout << response.serialize() << std::endl;
             // creacion o union correcta
             if ((code == CREATE_CODE || code == JOIN_CODE) && response.get_code() == 0) {

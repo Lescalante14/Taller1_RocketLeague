@@ -21,7 +21,7 @@ public:
     * El parametro "name" indica el nombre de la partida
     * y "players_limit" el límite de jugadores
     * */
-    NonBlockingQueue<UserAction>* create_match(
+    BlockingQueue<UserAction>* create_match(
         const std::string& name, 
         size_t players_limit,
         BlockingQueue<std::string>* output_queue);
@@ -30,7 +30,7 @@ public:
     * Añade un nuevo jugador a la partida de nombre
     * "match_name"
     * */
-    NonBlockingQueue<UserAction>* add_player_to_match(
+    BlockingQueue<UserAction>* add_player_to_match(
         const std::string& match_name, 
         BlockingQueue<std::string>* output_queue,
         uint8_t* car_id_asigned);

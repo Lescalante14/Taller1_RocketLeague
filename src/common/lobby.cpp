@@ -8,7 +8,7 @@
 Lobby::Lobby(BlockingQueue<LobbyMatch*>& _matchs_to_start_queue)
     : matchs_to_start_queue(_matchs_to_start_queue) { }
 
-NonBlockingQueue<UserAction>* Lobby::create_match(
+BlockingQueue<UserAction>* Lobby::create_match(
     const std::string& name, 
     size_t players_limit,
     BlockingQueue<std::string>* output_queue
@@ -25,7 +25,7 @@ NonBlockingQueue<UserAction>* Lobby::create_match(
     return match->get_match_input_queue();
 }
 
-NonBlockingQueue<UserAction>* Lobby::add_player_to_match(
+BlockingQueue<UserAction>* Lobby::add_player_to_match(
     const std::string& match_name, 
     BlockingQueue<std::string>* output_queue,
     uint8_t* car_id_asigned

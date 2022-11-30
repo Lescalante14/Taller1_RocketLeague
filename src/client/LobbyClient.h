@@ -7,19 +7,18 @@
 
 
 #include <iosfwd>
-#include "common/non_blocking_queue.h"
 #include "common/blocking_queue.h"
 
 class LobbyClient {
 
-    NonBlockingQueue<std::string> &received_queue;
+    BlockingQueue<std::string> &received_queue;
     BlockingQueue<std::string> &to_send_queue;
     const std::string EXIT_COMMAND = "fin";
 
     void resolveAction(const std::string& action, std::string *command, std::string *payload);
 public:
 
-    LobbyClient(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue);
+    LobbyClient(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue);
 
     void run(std::istream &input);
 };
