@@ -1,5 +1,0 @@
-camp_length: 40
-camp_height: 20
-scorer_height: 8 
-ball_size: 1 # (SMALL:0, MEDIUM:1, BIG:2)
-match_duration: 150 # in seconds (max 300)
