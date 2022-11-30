@@ -16,8 +16,8 @@
 #define FRAME_RATE 8400 // 60Hz
 
 
-Game::Game(NonBlockingQueue<std::string> &input_queue, BlockingQueue<std::string> &exit_queue)
-: input_queue(input_queue), exit_queue(exit_queue) {}
+Game::Game(NonBlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
+: received_queue(received_queue), to_send_queue(to_send_queue) {}
 
 
 /*
@@ -32,7 +32,7 @@ Pseudo Loop:
 */
 void Game::start(std::istream &input) {
     std::cout << "Waiting other players..." << std::endl;
-    std::string setupStr = input_queue.blocking_pop();
+    std::string setupStr = received_queue.blocking_pop();
     std::cout << "starting match..." << std::endl;
 
     SDL2pp::SDL sdl(SDL_INIT_VIDEO);
@@ -44,7 +44,7 @@ void Game::start(std::istream &input) {
     //MockProvider mockProvider;
 
     MatchSetup matchSetup(setupStr); //Esto me lo va a dar el protocolo luego
-    std::string stateStr = input_queue.blocking_pop();
+    std::string stateStr = received_queue.blocking_pop();
     MatchState matchState(stateStr); //Esto me lo va a dar el protocolo luego
 
     //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
@@ -55,7 +55,7 @@ void Game::start(std::istream &input) {
 
     match.render(renderer);
 
-    EventHandler eventHandler(exit_queue);
+    EventHandler eventHandler(to_send_queue);
     bool running = true;
     std::string actualState = stateStr;
     
@@ -86,7 +86,7 @@ std::string Game::popGameState(std::string actualState, bool *running) {
     std::string lastState = std::move(actualState);
     try {
         for (int i = 0; i < 1; ++i) {
-            lastState = input_queue.pop();
+            lastState = received_queue.pop();
         }
         return lastState;
     } catch (QueueEmptyException &e) {

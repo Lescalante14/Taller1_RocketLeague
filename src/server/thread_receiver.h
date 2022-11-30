@@ -14,7 +14,7 @@ class ThreadReceiver: public Thread {
 private:
     Protocol& protocol;
     Lobby& lobby;
-    BlockingQueue<std::string>& output_queue;
+    BlockingQueue<std::string>& to_send_queue;
 
 protected:
     void run() override;
@@ -23,7 +23,7 @@ public:
     ThreadReceiver(
         Protocol& _protocol, 
         Lobby& _lobby, 
-        BlockingQueue<std::string>& _output_queue);
+        BlockingQueue<std::string>& _to_send_queue);
 
     ThreadReceiver(const ThreadReceiver&) = delete;
     ThreadReceiver& operator=(const ThreadReceiver&) = delete;

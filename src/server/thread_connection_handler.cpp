@@ -11,9 +11,9 @@ ThreadConnectionHandler::ThreadConnectionHandler(
 
 void ThreadConnectionHandler::run() {
     Protocol protocol(this->peer);
-    BlockingQueue<std::string> output_queue;
-    ThreadReceiver receiver(protocol, this->lobby, output_queue);
-    ThreadSender sender(protocol, this->lobby, output_queue);
+    BlockingQueue<std::string> to_send_queue;
+    ThreadReceiver receiver(protocol, this->lobby, to_send_queue);
+    ThreadSender sender(protocol, this->lobby, to_send_queue);
     receiver.start();
     sender.start();
     sender.join();

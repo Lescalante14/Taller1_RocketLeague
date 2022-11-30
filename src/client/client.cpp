@@ -21,22 +21,22 @@ void Client::start(
     Socket skt(hostname, servname);
     Protocol protocol(skt);
 
-    NonBlockingQueue<std::string> input_queue;
-    BlockingQueue<std::string> exit_queue;
+    NonBlockingQueue<std::string> received_queue;
+    BlockingQueue<std::string> to_send_queue;
 
-    ClientThreadReceiver receiver(protocol, input_queue);
-    ClientThreadSender sender(protocol, exit_queue);
+    ClientThreadReceiver receiver(protocol, received_queue);
+    ClientThreadSender sender(protocol, to_send_queue);
     receiver.start();
     sender.start();
 
-    LobbyClient lobby(input_queue, exit_queue);
+    LobbyClient lobby(received_queue, to_send_queue);
     lobby.start(std::cin);
 
-    Game game(input_queue, exit_queue);
+    Game game(received_queue, to_send_queue);
     game.start(std::cin);
 
-    input_queue.close();
-    exit_queue.close();
+    received_queue.close();
+    to_send_queue.close();
     protocol.closeConnection();
     receiver.join();
     sender.join();
