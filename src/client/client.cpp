@@ -32,7 +32,7 @@ void Client::run(
     lobby.run(std::cin);
 
     Game game(received_queue, to_send_queue);
-    game.run(std::cin);
+    game.run();
 
     received_queue.close();
     to_send_queue.close();
