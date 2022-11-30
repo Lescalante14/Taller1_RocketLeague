@@ -5,4 +5,3 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
 link_directories(${CMAKE_CURRENT_LIST_DIR}/lib)
 
 add_subdirectory(src)
-add_subdirectory(unit-test)
