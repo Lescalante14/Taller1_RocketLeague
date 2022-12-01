@@ -5,6 +5,7 @@
 #include <string>
 #include "transferable.h"
 #include "car_state.h"
+#include "ball_state.h"
 
 class MatchState: public Transferable {
 private:
@@ -13,10 +14,7 @@ private:
     uint8_t scorer_1;
     uint8_t scorer_2;
     uint8_t cars_quantity;
-    int ball_direction_x;
-    int ball_direction_y;
-    int ball_position_x;
-    int ball_position_y;
+    BallState ball;
     std::vector<CarState> cars;
 
 public:
@@ -26,10 +24,7 @@ public:
         uint8_t _scorer_1,
         uint8_t _scorer_2,
         uint8_t _cars_quantity,
-        float _ball_direction_x,
-        float _ball_direction_y,
-        float _ball_position_x,
-        float _ball_position_y,
+        BallState _ball,
         std::vector<CarState> _cars);
 
     explicit MatchState(std::string &state);
@@ -41,10 +36,7 @@ public:
     uint8_t get_scorer_1();
     uint8_t get_scorer_2();
     uint8_t get_cars_quantity();
-    int get_ball_direction_x();
-    int get_ball_direction_y();
-    int get_ball_position_x();
-    int get_ball_position_y();
+    BallState get_ball();
     std::vector<CarState> get_cars();
 };
 

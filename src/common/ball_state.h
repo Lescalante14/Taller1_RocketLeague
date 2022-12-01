@@ -1,26 +1,35 @@
-//
-// Created by lescalante on 17/11/22.
-//
+#ifndef BALL_STATE_H
+#define BALL_STATE_H
 
-#ifndef ROCKET_LEAGUE_BALL_STATE_H
-#define ROCKET_LEAGUE_BALL_STATE_H
+#include "transferable.h"
 
+#define BALL_STATE_SIZE 11
 
-#include <cstdint>
-
-class BallState {
+class BallState : public Transferable {
 private:
     int position_x;
     int position_y;
     uint16_t angle;
+    uint8_t shot_type;
 
 public:
-    [[nodiscard]] int getPositionX() const;
+    BallState();
 
-    [[nodiscard]] int getPositionY() const;
+    BallState(
+            float _position_x,
+            float _position_y,
+            uint16_t _angle,
+            uint8_t _shot_type);
 
-    [[nodiscard]] uint16_t getAngle() const;
+    explicit BallState(std::string &state);
+
+    std::string serialize() override;
+
+    int get_position_x();
+    int get_position_y();
+    uint16_t get_angle();
+    uint8_t get_shot_type();
 };
 
 
-#endif //ROCKET_LEAGUE_BALL_STATE_H
+#endif

@@ -61,6 +61,12 @@ TEST(Protocolo, SendMatchState) {
     37,
     8
   );
+  BallState bstate(
+    125,
+    200, 
+    45, 
+    3
+  );
   std::vector<CarState> cstates;
   cstates.push_back(cstate1);
   cstates.push_back(cstate2);
@@ -70,10 +76,7 @@ TEST(Protocolo, SendMatchState) {
     1,
     2,
     4,
-    145,
-    222,
-    50,
-    12,
+    bstate,
     cstates
   );
   protocol.send_match_state(mstate);
@@ -86,10 +89,13 @@ TEST(Protocolo, SendMatchState) {
   EXPECT_EQ(recv.get_scorer_1(), 1);
   EXPECT_EQ(recv.get_scorer_2(), 2);
   EXPECT_EQ(recv.get_cars_quantity(), 4);
-  EXPECT_EQ(recv.get_ball_direction_x(), 14500);
-  EXPECT_EQ(recv.get_ball_direction_y(), 22200);
-  EXPECT_EQ(recv.get_ball_position_x(), 5000);
-  EXPECT_EQ(recv.get_ball_position_y(), 1200);
+  
+  // BallStateChecks
+  BallState recv_ball = recv.get_ball();
+  EXPECT_EQ(recv_ball.get_position_x(), 12500);
+  EXPECT_EQ(recv_ball.get_position_y(), 20000);
+  EXPECT_EQ(recv_ball.get_angle(), 45);
+  EXPECT_EQ(recv_ball.get_shot_type(), 3);
 
   // CarStateChecks
   std::vector<CarState> recv_cars = recv.get_cars();

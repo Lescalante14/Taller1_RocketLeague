@@ -11,10 +11,6 @@ struct T {
     uint8_t scorer_1;
     uint8_t scorer_2;
     uint8_t cars_quantity;
-    uint32_t ball_direction_x;
-    uint32_t ball_direction_y;
-    uint32_t ball_position_x;
-    uint32_t ball_position_y;
 } __attribute__((packed));
 
 std::string MatchState::serialize() {
@@ -23,11 +19,7 @@ std::string MatchState::serialize() {
         this->playing,
         this->scorer_1,
         this->scorer_2,
-        this->cars_quantity,
-        htonl(this->ball_direction_x),
-        htonl(this->ball_direction_y),
-        htonl(this->ball_position_x),
-        htonl(this->ball_position_y),
+        this->cars_quantity
     };
     
     char* buf = (char*)&t;
@@ -36,6 +28,8 @@ std::string MatchState::serialize() {
     std::stringstream oss;
 
     oss << message;
+
+    oss << this->ball.serialize();
 
     std::for_each(
         this->cars.begin(), 
@@ -57,13 +51,16 @@ MatchState::MatchState(std::string &state) {
     this->scorer_1 = t.scorer_1;
     this->scorer_2 = t.scorer_2;
     this->cars_quantity = t.cars_quantity;
-    this->ball_direction_x = ntohl(t.ball_direction_x);
-    this->ball_direction_y = ntohl(t.ball_direction_y);
-    this->ball_position_x = ntohl(t.ball_position_x);
-    this->ball_position_y = ntohl(t.ball_position_y);
 
-    std::string cars_string(
+    std::string rem(
         &buf[sizeof(T)], state.size() - sizeof(T));
+
+    std::string ball_string(rem.substr(0, BALL_STATE_SIZE));
+
+    BallState ball(ball_string);
+    this->ball = ball;
+
+    std::string cars_string(rem.substr(BALL_STATE_SIZE));
 
     while (cars_string.size() > 0) {
         std::string car_serialized(cars_string.substr(0, CAR_STATE_SIZE));
@@ -79,20 +76,14 @@ MatchState::MatchState(
     uint8_t _scorer_1,
     uint8_t _scorer_2,
     uint8_t _cars_quantity,
-    float _ball_direction_x,
-    float _ball_direction_y,
-    float _ball_position_x,
-    float _ball_position_y,
+    BallState _ball,
     std::vector<CarState> _cars
 ) : time(_time),
     playing(_playing),
     scorer_1(_scorer_1),
     scorer_2(_scorer_2),
     cars_quantity(_cars_quantity),
-    ball_direction_x(_ball_direction_x * 100),
-    ball_direction_y(_ball_direction_y * 100),
-    ball_position_x(_ball_position_x * 100),
-    ball_position_y(_ball_position_y * 100),
+    ball(_ball),
     cars(std::move(_cars)) { }
 
 uint16_t MatchState::get_time() {
@@ -115,20 +106,8 @@ uint8_t MatchState::get_cars_quantity() {
     return this->cars_quantity;
 }
 
-int MatchState::get_ball_direction_x() {
-    return this->ball_direction_x;
-}
-
-int MatchState::get_ball_direction_y() {
-    return this->ball_direction_y;
-}
-
-int MatchState::get_ball_position_x() {
-    return this->ball_position_x;
-}
-
-int MatchState::get_ball_position_y() {
-    return this->ball_position_y;
+BallState MatchState::get_ball() {
+    return this->ball;
 }
 
 std::vector<CarState> MatchState::get_cars() {

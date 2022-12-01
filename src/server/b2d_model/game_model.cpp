@@ -202,8 +202,8 @@ MatchState GameModel::getState() {
 
 	return MatchState(this->timer, true,
 					  this->l_scorer, this->r_scorer, cars.size(),
-					  this->ball.getVelocity().x, this->ball.getVelocity().y,
-					  this->ball.getPosition().x, this->ball.getPosition().y,
+					  BallState(this->ball.getVelocity().x, this->ball.getVelocity().y,
+					  this->ball.getPosition().x, this->ball.getPosition().y),
 					  car_states);
 }
 
