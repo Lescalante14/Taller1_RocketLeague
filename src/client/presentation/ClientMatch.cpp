@@ -3,9 +3,10 @@
 //
 
 #include "ClientMatch.h"
+#include "client/model/ClientScorerState.h"
 
 ClientMatch::ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MatchSetup &setup)
-: state(std::move(_state)), field(renderer), matchSetup(setup), positionConverter(matchSetup),
+: state(std::move(_state)), field(renderer, state.get_time()), matchSetup(setup), positionConverter(matchSetup),
 ball(ClientBallState(state.get_ball_position_x(),state.get_ball_position_y(),0), renderer)
 {
     int numCarsTeam1 = std::ceil((float)setup.get_cars_quantity()/(float)2);
@@ -16,7 +17,8 @@ ball(ClientBallState(state.get_ball_position_x(),state.get_ball_position_y(),0),
 
 void ClientMatch::render(SDL2pp::Renderer &renderer) {
     renderer.Clear();
-    field.render(renderer, positionConverter);
+    ClientScorerState scorerState(state.get_time(), state.get_scorer_1(), state.get_scorer_2());
+    field.render(renderer, positionConverter, scorerState);
     ball.render(renderer, positionConverter);
 
     for (auto &car : cars) {

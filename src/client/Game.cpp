@@ -41,12 +41,13 @@ void Game::run() {
                           SDL_WINDOW_RESIZABLE);
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    //MockProvider mockProvider;
+    TTF_Init();
 
     MatchSetup matchSetup(setupStr); //Esto me lo va a dar el protocolo luego
     std::string stateStr = received_queue.pop();
     MatchState matchState(stateStr); //Esto me lo va a dar el protocolo luego
 
+    //MockProvider mockProvider;
     //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego
     //MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
 
@@ -68,16 +69,11 @@ void Game::run() {
 
         // Update
         MatchState newMatchState(newState);
-/*        std::cout << "1:" << newMatchState.get_cars().at(0).get_position_x()
-        <<"B:" << newMatchState.get_ball_position_x()
-        << "2:" <<  newMatchState.get_cars().at(1).get_position_x() << std::endl;*/
         ClientMatchState newClientState(newMatchState);
         match.updateState(newClientState);
 
         // Render
         match.render(renderer);
-        // la cantidad de segundos que debo dormir se debe ajustar en función
-        // de la cantidad de tiempo que demoró el handleEvents y el render
         usleep(FRAME_RATE);
     }
 }

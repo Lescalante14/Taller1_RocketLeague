@@ -31,8 +31,15 @@ void Client::run(
     LobbyClient lobby(received_queue, to_send_queue);
     lobby.run(std::cin);
 
-    Game game(received_queue, to_send_queue);
-    game.run();
+    try {
+        Game game(received_queue, to_send_queue);
+        game.run();
+
+    } catch (const std::exception &e) {
+    std::cerr << "Exception caught in Game: '" << e.what() << "'" << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error caught in Game" << std::endl;
+    }
 
     received_queue.close();
     to_send_queue.close();
