@@ -11,6 +11,7 @@ ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &rende
         : texture(renderer,
                   isTeam1 ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
                   : SDL2pp::Surface("./assets/car.png").SetColorMod(255,0,0).SetColorKey(true, 0))
+        , nitroTexture(renderer,SDL2pp::Surface("./assets/nitro.png").SetColorKey(true, 0))
         , state(std::move(state)){}
 
 void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
@@ -28,6 +29,16 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
                   SDL2pp::NullOpt,    // rotation center - not needed
                   flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
     );
+    if (state.get_nitro_activated()) {
+        int signPos = flipH ? carWidth : -carWidth;
+        renderer.Copy(nitroTexture,
+                      SDL2pp::NullOpt,
+                      SDL2pp::Rect(posX+signPos, posY, carWidth, carHeight),
+                      -state.get_angle(),
+                      SDL2pp::NullOpt,    // rotation center - not needed
+                      flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
+        );
+    }
 }
 
 int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {

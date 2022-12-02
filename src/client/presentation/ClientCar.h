@@ -14,6 +14,7 @@
 class ClientCar {
 private:
     SDL2pp::Texture texture;
+    SDL2pp::Texture nitroTexture;
     ClientCarState state;
 
     int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
