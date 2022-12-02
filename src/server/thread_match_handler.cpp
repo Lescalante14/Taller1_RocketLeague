@@ -38,12 +38,13 @@ void ThreadMatchHandler::run() {
 			update_iter = 0;
 
 			game_model.step();
+
 			this->match.push_to_output_queues(game_model.getState());
 			
 
-			// std::cout << "Car 2 position x: " << game_model.getState().get_cars().at(1).get_position_x();
-			// std::cout << ", Car 2 position y: " << game_model.getState().get_cars().at(1).get_position_y();
-			// std::cout << std::endl;
+			std::cout << "ball position x: " << game_model.getState().get_ball().get_position_x();
+			std::cout << ", ball position y: " << game_model.getState().get_ball().get_position_y();
+			std::cout << std::endl;
 		}
 		usleep(MILI2MICRO(1 / UPDATE_FREQ));
     }
