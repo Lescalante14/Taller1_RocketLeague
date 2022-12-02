@@ -43,9 +43,9 @@ void Game::run() {
 
     TTF_Init();
 
-    MatchSetup matchSetup(setupStr); //Esto me lo va a dar el protocolo luego
+    MatchSetup matchSetup(setupStr);
     std::string stateStr = received_queue.pop();
-    MatchState matchState(stateStr); //Esto me lo va a dar el protocolo luego
+    MatchState matchState(stateStr);
 
     //MockProvider mockProvider;
     //MatchSetup matchSetup = mockProvider.getMatchSetup(); //Esto me lo va a dar el protocolo luego

@@ -7,7 +7,7 @@
 
 ClientMatch::ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MatchSetup &setup)
 : state(std::move(_state)), field(renderer, state.get_time()), matchSetup(setup), positionConverter(matchSetup),
-ball(ClientBallState(state.get_ball_position_x(),state.get_ball_position_y(),0), renderer)
+ball(state.get_ball_state(), renderer)
 {
     int numCarsTeam1 = std::ceil((float)setup.get_cars_quantity()/(float)2);
     for (auto &car : state.get_cars()) {
@@ -34,7 +34,7 @@ uint8_t ClientMatch::getCarIdAssigned() {
 
 void ClientMatch::updateState(ClientMatchState newMatchState) {
 
-    ball.update(ClientBallState(newMatchState.get_ball_position_x(), newMatchState.get_ball_position_y(), newMatchState.get_ball_angle()));
+    ball.update(newMatchState.get_ball_state());
     for (size_t i = 0; i < newMatchState.get_cars().size(); ++i) {
         cars.at(i).updateState(newMatchState.get_cars().at(i));
     }

@@ -4,17 +4,19 @@
 
 #include "ClientBallState.h"
 
-ClientBallState::ClientBallState(int position_x, int position_y, int angle)
-: position_x(position_x), position_y(position_y), angle(angle){}
+#include <utility>
+
+ClientBallState::ClientBallState(BallState state)
+: wrappeeState(std::move(state)){}
 
 int ClientBallState::get_position_x() {
-    return position_x;//wrappeeState.getPositionX();
+    return wrappeeState.get_position_x();
 }
 
 int ClientBallState::get_position_y() {
-    return position_y;//wrappeeState.getPositionY();
+    return wrappeeState.get_position_y();
 }
 
 int ClientBallState::get_angle() {
-    return angle;//wrappeeState.getAngle();
+    return wrappeeState.get_angle();
 }

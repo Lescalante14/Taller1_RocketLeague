@@ -10,15 +10,12 @@
 #include "common/ball_state.h"
 
 class ClientBallState {
-    //BallState wrappeeState; cuando habilite esto quitar los 3 attr
 
-    // Positions in Cm
-    int position_x;
-    int position_y;
-    int angle;
+    BallState wrappeeState;
 public:
 
-    ClientBallState(int position_x, int position_y, int angle);
+    explicit ClientBallState(BallState state);
+
     // in Cm
     int get_position_x();
     // in Cm

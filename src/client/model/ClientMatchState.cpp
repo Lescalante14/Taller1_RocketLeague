@@ -7,7 +7,7 @@
 
 
 ClientMatchState::ClientMatchState(MatchState state)
-: ballState(state.get_ball_position_x(), state.get_ball_position_y(), 0),
+: ballState(state.get_ball()),
 wrappeeState(std::move(state)), cars()
 {
     for (auto &car : wrappeeState.get_cars()) {
@@ -35,16 +35,8 @@ uint8_t ClientMatchState::get_cars_quantity() {
     return wrappeeState.get_cars_quantity();
 }
 
-int ClientMatchState::get_ball_position_x() {
-    return wrappeeState.get_ball_position_x();
-} // maybe getBall()??
-
-int ClientMatchState::get_ball_position_y() {
-    return wrappeeState.get_ball_position_y();
-}
-
-int ClientMatchState::get_ball_angle() {
-    return ballState.get_angle();//wrappeeState.get_ball_angle();
+ClientBallState ClientMatchState::get_ball_state() {
+    return ballState;
 }
 
 std::vector<ClientCarState> ClientMatchState::get_cars() {
