@@ -227,7 +227,7 @@ MatchState GameModel::getState() {
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
 					  this->ball.getAngle(), this->ball.getShot());
 
-	return MatchState(this->timer, !this->timer,
+	return MatchState(this->timer, this->timer,
 					  this->l_scorer, this->r_scorer, cars.size(),
 					  b_state, car_states);
 }
