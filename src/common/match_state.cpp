@@ -83,7 +83,7 @@ MatchState::MatchState(
     scorer_1(_scorer_1),
     scorer_2(_scorer_2),
     cars_quantity(_cars_quantity),
-    ball(_ball),
+    ball(std::move(_ball)),
     cars(std::move(_cars)) { }
 
 uint16_t MatchState::get_time() {

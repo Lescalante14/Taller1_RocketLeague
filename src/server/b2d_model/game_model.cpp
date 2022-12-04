@@ -11,8 +11,8 @@
 
 #define CAMP_HEIGHT 20.0f
 #define CAMP_LENGTH 40.0f
-#define CAR_XPOS_OFFSET 2.0f
-#define CAR_YPOS_OFFSET 2.0f
+#define CAR_XPOS_OFFSET 3.0f
+#define CAR_YPOS_OFFSET 3.0f
 
 #define WALL_THICKNESS 10.0f
 #define SCORER_WIDTH 2.0f
@@ -20,10 +20,12 @@
 
 #define MAX_CARS 4
 
-#define NITRO_REFILL_FREQ 5 /* in seconds */
+#define NITRO_REFILL_FREQ 1 /* in seconds */
 
 #define GRAVITY 10.0f
 #define FLOOR_FRICTION 5.0f
+
+#define DEFAULT_TIME 150 /* in seconds */
 
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
@@ -38,8 +40,7 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 	this->setLimits();
 	
 	this->ball.move(this->length / 2, this->height / 2);
-	// this->ball.resize((ball_size) config["ball_size"].as<int>());
-
+	this->ball.resize((ball_size) config["ball_size"].as<int>());
 
 	int xcar_offset = 0;
 
@@ -47,30 +48,24 @@ GameModel::GameModel(size_t cars_amount, size_t _step_freq)
 		facing f = facing::F_RIGHT;
 
 		if (id % 2) {
-			xcar_offset = CAMP_LENGTH - xcar_offset - 4.0f;
+			xcar_offset = this->length - xcar_offset - 4.0f;
 			f = facing::F_LEFT;
 
 		} else {
 			xcar_offset += CAR_XPOS_OFFSET;
 		}
 
-		// this->cars.emplace(id, Car(this->world, xcar_offset, CAR_YPOS_OFFSET, f));
 		this->cars.emplace(id, Car(this->world,
 								   xcar_offset,
-								   5.0f,
+								   CAR_YPOS_OFFSET,
 							       f));
-
-		// std::cout << "Car " << std::to_string(id) << " x: " << this->cars.at(id).getPosition().x;
-		// std::cout << ", y: " << this->cars.at(id).getPosition().x - 1.5f;
-		// std::cout << std::endl;
 	}
+	this->scorer_height = SCORER_HEIGHT;
 
-	if (config["scorer_height"].as<float>() > this->height) {
-		this->scorer_height = SCORER_HEIGHT;
-	} else {
+	if (config["scorer_height"].as<float>() <= this->height) {
 		this->scorer_height = config["scorer_height"].as<float>();
 	}
-	this->timer = 150;
+	this->timer = DEFAULT_TIME;
 	
 	if (config["match_duration"].as<size_t>() <= 300) {
 		this->timer = config["match_duration"].as<uint16_t>();
@@ -121,6 +116,29 @@ bool GameModel::isInsideRScorer(const b2Vec2 &pos) {
 }
 
 
+void GameModel::resetCars() {
+	int xcar_offset = 0;
+
+	for (uint8_t id = 0; id < this->cars.size(); id++) {
+		facing f = facing::F_RIGHT;
+
+		if (id % 2) {
+			xcar_offset = this->length - xcar_offset - 4.0f;
+			f = facing::F_LEFT;
+
+		} else {
+			xcar_offset += CAR_XPOS_OFFSET;
+		}
+		this->cars.erase(id);
+		this->cars.emplace(id, Car(this->world,
+								   xcar_offset,
+								   CAR_YPOS_OFFSET,
+							       f));
+		// this->cars.at(id).reset(xcar_offset, CAR_YPOS_OFFSET, f);
+	}
+}
+
+
 void GameModel::updateGame(UserAction &a) {
 	uint8_t id = a.get_car_id();
 	Car &car = this->cars.at(id);
@@ -166,23 +184,22 @@ void GameModel::step() {
 
 	if (this->isInsideLScorer(this->ball.getPosition())) {
 		this->l_scorer++;
+		this->ball.reset(this->length / 2, this->height / 2);
+		this->resetCars();
 
 	} else if (this->isInsideRScorer(this->ball.getPosition())) {
 		this->r_scorer++;
+		this->ball.reset(this->length / 2, this->height / 2);
+		this->resetCars();
 	}
 
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->last_shot = shot_type::NONE;
 	this->step_count++;
 
-	if (this->step_count % this->step_freq) {
+	if (!(this->step_count % this->step_freq)) {
 		this->timer--;
 	}
-
-/*	std::cout << "Ball radius: " << this->ball.getRadius();
-	std::cout << ", x: " << this->ball.getPosition().x;
-	std::cout << ", y: " << this->ball.getPosition().y;
-	std::cout << std::endl;*/
 }
 
 
@@ -200,11 +217,12 @@ MatchState GameModel::getState() {
 								c.getPosition().y);
 	}
 
+	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
+					  this->ball.getAngle(), this->ball.getShot());
+
 	return MatchState(this->timer, true,
 					  this->l_scorer, this->r_scorer, cars.size(),
-					  BallState(this->ball.getVelocity().x, this->ball.getVelocity().y,
-					  this->ball.getPosition().x, this->ball.getPosition().y),
-					  car_states);
+					  b_state, car_states);
 }
 
 

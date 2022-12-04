@@ -14,6 +14,7 @@ class Ball {
 	private:
 	float x, y;
 	float _radius = 0;
+	shot_type last_shot = shot_type::NONE;
 	b2Body *ball = nullptr;
 	
 	public:
@@ -24,12 +25,14 @@ class Ball {
 	void resize(ball_size newsz);
 	void applyShotEffect(shot_type type);
 	shot_type applyShotEffect(Car &car);
+	void reset(float x, float y);
 
 	/*  Stats  */
 	b2Vec2 getPosition();
 	b2Vec2 getVelocity();
-	float getRadius();
 	uint16_t getAngle();
+	shot_type getShot();
+	float getRadius();
 
 	~Ball();
 };

@@ -13,7 +13,7 @@
 #define RED_SHOT_IMPULSE    60.0f
 #define GOLD_SHOT_IMPULSE   70.0f
 
-#define BALL_DENSITY 3.0f
+#define BALL_DENSITY 0.5f
 
 #define BASE_DISTANCE 0.40f
 #define CLOSE_DISTANCE  0.15f
@@ -147,6 +147,13 @@ shot_type Ball::applyShotEffect(Car &car) {
 	return shot_type::NONE;
 }
 
+void Ball::reset(float x, float y) {
+	this->move(x, y);
+	this->ball->SetAngularVelocity(0);
+	this->ball->SetLinearVelocity(b2Vec2(0, 0));
+}
+
+
 
 /*  Stats  */
 
@@ -161,6 +168,10 @@ b2Vec2 Ball::getVelocity() {
 uint16_t Ball::getAngle() {
 	uint16_t deg_angle = (uint16_t) abs(this->ball->GetAngle() * 180.0f / b2_pi + 360.0f);
 	return deg_angle % 360;
+}
+
+shot_type Ball::getShot() {
+	return this->last_shot;
 }
 
 float Ball::getRadius() {

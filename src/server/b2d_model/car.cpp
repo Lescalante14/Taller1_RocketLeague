@@ -170,6 +170,15 @@ void Car::set_wheels(b2World &world, float x, float y) {
 
 /*    Actions    */
 
+void Car::reset(float x, float y, facing f) {
+	this->chassis->SetTransform(b2Vec2(x, y), 0);
+	this->chassis->SetLinearVelocity(b2Vec2(0, 0));
+	this->chassis->SetAngularVelocity(0);
+	this->stop();
+	this->_facing = f;
+}
+
+
 void Car::goLeft() {
 	b2Vec2 i(-10.0f, 0);
 	this->chassis->ApplyLinearImpulseToCenter(i, true);
@@ -224,7 +233,7 @@ void Car::triggerNitro() {
 	b2Vec2 i(cos(-rad_angle), sin(-rad_angle));
 	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
 
-	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
+	this->chassis->ApplyLinearImpulseToCenter(i, true);
 	this->nitro_ptge -= 10;
 	this->nitro_trigg = true;
 }

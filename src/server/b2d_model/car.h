@@ -47,6 +47,8 @@ class Car{
 	void rotateDown();
 	void rotateUp();
 
+	void reset(float x, float y, facing f);
+
 	/* Stats */
 	b2Vec2 getPosition();
 	b2Vec2 getVelocity();

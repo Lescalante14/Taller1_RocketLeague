@@ -34,6 +34,7 @@ class GameModel {
 	void setLimits();
 	bool isInsideLScorer(const b2Vec2 &pos);
 	bool isInsideRScorer(const b2Vec2 &pos);
+	void resetCars();
 
 	public:
 	/* step frep is in Hz */
