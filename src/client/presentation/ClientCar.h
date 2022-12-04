@@ -31,7 +31,7 @@ public:
 
     ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer);
 
-    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
+    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar);
 
     void updateState(ClientCarState newState);
 };

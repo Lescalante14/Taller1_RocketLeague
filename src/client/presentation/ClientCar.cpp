@@ -15,7 +15,7 @@ ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &rende
         , state(std::move(state))
         , nitroBar(renderer){}
 
-void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
+void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar) {
     int posX = calculatePositionInXWithBorder(renderer, positionConverter);
     int posY = calculatePositionInYWithBorder(renderer, positionConverter);
     int carWidth = calculateCarWidthInPx(renderer, positionConverter);
@@ -30,7 +30,8 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
                   flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
     );
 
-    nitroBar.render(renderer, state.get_nitro_percentage(), posX, posY, carWidth, carHeight, state.is_oriented_right());
+    if (isSelfCar)
+        nitroBar.render(renderer, state.get_nitro_percentage(), posX, posY, carWidth, carHeight, state.is_oriented_right());
 
     if (state.get_nitro_activated()) {
         int signPos = flipH ? carWidth : -carWidth;
