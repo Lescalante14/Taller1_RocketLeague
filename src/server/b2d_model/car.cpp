@@ -15,6 +15,7 @@
 #define FLIP_IMPULSE 40
 #define JUMP_IMPULSE 80 /* in kg m/s (N * s) */
 #define NITRO_IMPULSE 60
+// #define NITRO_IMPULSE 20
 
 #define TOL 0.1 /* 10cm tolerance */
 
@@ -226,7 +227,7 @@ void Car::rotateUp() {
 }
 
 void Car::triggerNitro() {
-	if (nitro_ptge < 10) {
+	if (nitro_ptge < 5) {
 		return;
 	}
 	float rad_angle = this->chassis->GetAngle();
@@ -234,7 +235,8 @@ void Car::triggerNitro() {
 	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
 
 	this->chassis->ApplyLinearImpulseToCenter(i, true);
-	this->nitro_ptge -= 10;
+	// this->chassis->SetLinearVelocity(i);
+	this->nitro_ptge -= 1;
 	this->nitro_trigg = true;
 }
 
@@ -243,7 +245,7 @@ void Car::releaseNitro() {
 }
 
 void Car::nitroRefill() {
-	this->nitro_ptge = 100;
+	this->nitro_ptge += this->nitro_ptge < 100 ? 10 : 0;
 }
 
 void Car::jump() {

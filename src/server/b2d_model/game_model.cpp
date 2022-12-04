@@ -20,7 +20,7 @@
 
 #define MAX_CARS 4
 
-#define NITRO_REFILL_FREQ 1 /* in seconds */
+#define NITRO_REFILL_FREQ 5 /* in seconds */
 
 #define GRAVITY 10.0f
 #define FLOOR_FRICTION 5.0f
@@ -172,12 +172,16 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-	// if (!timer) {
-	// 	return;
-	// }
+	if (!timer) {
+		return;
+	}
 
-	if (!(timer % NITRO_REFILL_FREQ)) {
-		for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
+	for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
+		// if (it->second.nitroTriggered()) {
+			// it->second.triggerNitro();
+		
+		// } else 
+		if (!(timer % NITRO_REFILL_FREQ)) {
 			it->second.nitroRefill();
 		}
 	}
@@ -192,6 +196,7 @@ void GameModel::step() {
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
 	}
+
 
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->last_shot = shot_type::NONE;
@@ -220,7 +225,7 @@ MatchState GameModel::getState() {
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
 					  this->ball.getAngle(), this->ball.getShot());
 
-	return MatchState(this->timer, true,
+	return MatchState(this->timer, !this->timer,
 					  this->l_scorer, this->r_scorer, cars.size(),
 					  b_state, car_states);
 }
