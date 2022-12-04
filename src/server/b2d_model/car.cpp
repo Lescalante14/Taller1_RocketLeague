@@ -217,7 +217,7 @@ void Car::rotateUp() {
 }
 
 void Car::triggerNitro() {
-	if (nitro_ptge < 10) {
+	if (nitro_ptge < 5) {
 		return;
 	}
 	float rad_angle = this->chassis->GetAngle();
@@ -225,7 +225,7 @@ void Car::triggerNitro() {
 	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
 
 	this->chassis->ApplyLinearImpulse(i, this->chassis->GetWorldCenter(), true);
-	this->nitro_ptge -= 10;
+	this->nitro_ptge -= 5;
 	this->nitro_trigg = true;
 }
 
@@ -234,7 +234,9 @@ void Car::releaseNitro() {
 }
 
 void Car::nitroRefill() {
-	this->nitro_ptge = 100;
+	this->nitro_ptge += 1;
+    if (this->nitro_ptge > 100)
+        this->nitro_ptge = 100;
 }
 
 void Car::jump() {
