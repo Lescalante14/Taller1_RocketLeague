@@ -11,10 +11,10 @@
 #define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
-#define ROTATION_SPEED 5 /* in radians */
+#define ROTATION_SPEED 7 /* in radians */
 #define FLIP_IMPULSE 40
-#define JUMP_IMPULSE 80 /* in kg m/s (N * s) */
-#define NITRO_IMPULSE 60
+#define JUMP_IMPULSE 60 /* in kg m/s (N * s) */
+#define NITRO_IMPULSE 20
 // #define NITRO_IMPULSE 20
 
 #define TOL 0.1 /* 10cm tolerance */
@@ -208,9 +208,6 @@ void Car::rotateDown() {
 			return;
 	}
 	this->chassis->SetAngularVelocity(ROTATION_SPEED);
-	// } else {
-		// this->chassis->SetAngularVelocity(-ROTATION_SPEED);
-	// }
 }
 
 void Car::rotateUp() {
@@ -220,27 +217,30 @@ void Car::rotateUp() {
 			return;
 	}
 	this->chassis->SetAngularVelocity(-ROTATION_SPEED);
-
-	// } else {
-		// this->chassis->SetAngularVelocity(ROTATION_SPEED);
-	// }
 }
+
+
+void Car::stopRotation() {
+	this->chassis->SetAngularVelocity(0);
+}
+
 
 void Car::triggerNitro() {
 	if (nitro_ptge < 5) {
 		return;
 	}
 	float rad_angle = this->chassis->GetAngle();
-	b2Vec2 i(cos(-rad_angle), sin(-rad_angle));
-	i *= this->_facing == facing::F_RIGHT ? NITRO_IMPULSE : -NITRO_IMPULSE;
-
-	this->chassis->ApplyLinearImpulseToCenter(i, true);
-	// this->chassis->SetLinearVelocity(i);
+	b2Vec2 i(cos(-rad_angle), sin(rad_angle));
+	i *= this->_facing == facing::F_LEFT ? -NITRO_IMPULSE : NITRO_IMPULSE ;
+	
+	// this->chassis->ApplyLinearImpulseToCenter(i, true);
+	this->chassis->SetLinearVelocity(i);
 	this->nitro_ptge -= 1;
 	this->nitro_trigg = true;
 }
 
 void Car::releaseNitro() {
+	this->chassis->SetLinearVelocity(b2Vec2(0, 0));
 	this->nitro_trigg = false;
 }
 

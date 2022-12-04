@@ -46,6 +46,7 @@ class Car{
 	void jump();
 	void rotateDown();
 	void rotateUp();
+	void stopRotation();
 
 	void reset(float x, float y, facing f);
 
