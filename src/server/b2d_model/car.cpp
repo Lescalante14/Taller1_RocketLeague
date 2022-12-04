@@ -11,7 +11,7 @@
 #define CAR_DENSITY 1.0f
 #define MOTOR_TORQUE 10.0f
 #define MAX_MOTOR_SPEED 50.0f
-#define ROTATION_SPEED 7 /* in radians */
+#define ROTATION_SPEED 5 /* in radians */
 #define FLIP_IMPULSE 40
 #define JUMP_IMPULSE 80 /* in kg m/s (N * s) */
 #define NITRO_IMPULSE 60
@@ -264,8 +264,13 @@ void Car::jump() {
 	// if the car has significative angular velocity,
 	// performs a flip, i.e. increase angular velocity
 	if (abs(this->chassis->GetAngularVelocity()) > 3) {
-      	float new_a_vel = FLIP_IMPULSE * this->chassis->GetAngularVelocity();
-		this->chassis->ApplyAngularImpulse(new_a_vel, true);
+      	float a_impulse = FLIP_IMPULSE * this->chassis->GetAngularVelocity();
+		this->chassis->ApplyAngularImpulse(a_impulse, true);
+		
+		b2Vec2 l_impulse(this->_facing == facing::F_LEFT ? -1 : 1, 0);
+		l_impulse *= FLIP_IMPULSE;
+		this->chassis->ApplyLinearImpulseToCenter(l_impulse, true);
+
 		this->flipped = true;
 	
 	} else {
@@ -273,13 +278,14 @@ void Car::jump() {
 	}
 
 	// performs an impulse perpendicular to the body (locally)
-	float rad_angle = this->chassis->GetAngle();
-	b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
-	i *= JUMP_IMPULSE;
+	// float rad_angle = this->chassis->GetAngle();
+	// b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
+	// i *= JUMP_IMPULSE;
 	
-	if (this->flipped && this->_facing == facing::F_RIGHT) {
-		i = b2Vec2(-i.x, i.y);
-	}
+	// if (this->flipped && this->_facing == facing::F_RIGHT) {
+		// i = b2Vec2(-i.x, i.y);
+	// }
+	b2Vec2 i(0, JUMP_IMPULSE);
 	this->chassis->ApplyLinearImpulseToCenter(i, true);
 
 }

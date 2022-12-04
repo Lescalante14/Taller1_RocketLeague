@@ -39,12 +39,19 @@ Ball::Ball(b2World &world, float x, float y, ball_size size) {
 	b2BodyDef ballDef;
 	ballDef.type = b2_dynamicBody;
 	ballDef.position.Set(x, y);
+	// ballDef.gravityScale = 0.0;
 	this->ball = world.CreateBody(&ballDef);
 	
 	b2CircleShape ballShape;
 	ballShape.m_radius = radius;
 	this->_radius = radius;
-	this->ball->CreateFixture(&ballShape, BALL_DENSITY);
+
+	b2FixtureDef fDef;
+	fDef.shape = &ballShape;
+	fDef.density = BALL_DENSITY;
+	fDef.restitution = 0.5f;
+
+	this->ball->CreateFixture(&fDef);
 }
 
 /*  Actions  */
