@@ -24,7 +24,9 @@ public:
 
     void render(SDL2pp::Renderer &renderer, ClientScorerState state);
 
-    void updateState(SDL2pp::Renderer &renderer, ClientScorerState state);
+    void updateState(ClientScorerState state);
+
+    std::string GetFormattedTime(int _time);
 };
 
 

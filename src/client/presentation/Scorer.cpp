@@ -11,7 +11,7 @@
 Scorer::Scorer(SDL2pp::Renderer &renderer, int time)
 : font("./assets/Vera.ttf", 26)
 , textureScorer(renderer, SDL2pp::Surface("./assets/scorer.png").SetColorKey(true, 0))
-, textureTime(renderer, font.RenderText_Blended(std::to_string(time), SDL_Color{255, 255, 255, 255}))
+, textureTime(renderer, font.RenderText_Blended(GetFormattedTime(time), SDL_Color{255, 255, 255, 255}))
 , textureTeam1Name(renderer, font.RenderText_Blended("Team 1", SDL_Color{0, 0, 255, 255}))
 , textureTeam2Name(renderer, font.RenderText_Blended("Team 2", SDL_Color{255, 0, 0, 255}))
 , textureTeam1Scorer(renderer, font.RenderText_Blended("0", SDL_Color{255, 255, 255, 255}))
@@ -20,7 +20,7 @@ Scorer::Scorer(SDL2pp::Renderer &renderer, int time)
 {}
 
 void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state) {
-    updateState(renderer, state);
+    updateState(state);
     renderer.Copy(textureScorer,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect((renderer.GetOutputWidth()/2)-SCORER_IMG_WIDTH/2, 0, SCORER_IMG_WIDTH, SCORER_IMG_HEIGHT));
@@ -46,9 +46,16 @@ void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state) {
                       SDL2pp::Rect((renderer.GetOutputWidth()/2)+(SCORER_IMG_WIDTH/2)-40, 30, textureTeam2Scorer.GetWidth(), textureTeam2Scorer.GetHeight()));
 }
 
-void Scorer::updateState(SDL2pp::Renderer &renderer, ClientScorerState state) {
-    /*if (state.getTime() != time) {
-        textureTime = SDL2pp::Texture(renderer, font.RenderText_Blended(std::to_string(state.getTime()), SDL_Color{255, 255, 255, 255}));
+void Scorer::updateState(ClientScorerState state) {
+    if (state.getTime() != time) {
+        textureTime.Update(SDL2pp::NullOpt,font.RenderText_Blended(GetFormattedTime(state.getTime()), SDL_Color{255, 255, 255, 255}));
         time = state.getTime();
-    }*/
+    }
+}
+
+std::string Scorer::GetFormattedTime(int _time) {
+    int minutes = _time/60;
+    int seconds = _time%60;
+    std::string separator = seconds < 10 ? ":0" : ":";
+    return std::to_string(minutes) + separator + std::to_string(seconds);
 }
