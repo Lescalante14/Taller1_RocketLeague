@@ -152,6 +152,9 @@ void GameModel::updateGame(UserAction &a) {
 	} else if (a.is(RIGHT_PUSH)) {
 		car.goRight();
 
+	} else if (a.is(UP_RELEASE) || a.is(DOWN_RELEASE)) {
+		car.stopRotation();
+		
 	} else if (a.is(UP_PUSH)) {
 		car.rotateUp();
 
@@ -177,11 +180,10 @@ void GameModel::step() {
 	}
 
 	for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
-		// if (it->second.nitroTriggered()) {
-			// it->second.triggerNitro();
+		if (it->second.nitroTriggered() && it->second.remainingNitro()) {
+			it->second.triggerNitro();
 		
-		// } else 
-		if (!(timer % NITRO_REFILL_FREQ)) {
+		} else if (!(timer % NITRO_REFILL_FREQ)) {
 			it->second.nitroRefill();
 		}
 	}
