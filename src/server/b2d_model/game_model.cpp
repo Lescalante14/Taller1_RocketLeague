@@ -29,8 +29,6 @@
 
 #define MAX_REC 5 /* how many seconds to record */
 
-#define MAX_SHOTS_STEPS 200
-
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),

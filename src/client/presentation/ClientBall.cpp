@@ -7,7 +7,7 @@
 #include <utility>
 #include "client/helpers/PositionConverter.h"
 
-#define MAX_SHOT_STEPS 300
+#define MAX_SHOT_STEPS 200
 
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
