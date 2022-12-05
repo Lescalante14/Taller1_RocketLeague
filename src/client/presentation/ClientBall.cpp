@@ -13,6 +13,7 @@
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 : texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))
 , shotTexture(renderer, SDL2pp::Surface("./assets/shotBall.png").SetColorKey(true, 255))
+, shotAirTexture(renderer, SDL2pp::Surface("./assets/shotBallAir.png").SetColorKey(true, 0))
 , state(std::move(state)){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
@@ -26,7 +27,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
                   SDL2pp::NullOpt,
                   SDL2pp::Rect(posX, posY, radiusBall*2, radiusBall*2),
                   -state.get_angle(),
-                  SDL2pp::NullOpt,    // rotation center - not needed
+                  SDL2pp::NullOpt,
                   SDL_FLIP_NONE
     );
 }
@@ -48,7 +49,7 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
             return;
 
 		case FLIP_SHOT:
-            // TODO: add other sprite
+            // Logic in copy because its other texture
 			break;
 		
 		case PURPLE_SHOT:
@@ -65,7 +66,7 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
 	}
 
     int diameter = int(((float)radius*2)*1.5); // 50% bigger than ball
-    renderer.Copy(shotTexture,
+    renderer.Copy(last_shot == shot_type::FLIP_SHOT ? shotAirTexture : shotTexture,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect((int)((float)posX-(float)radius/2), (int)((float)posY-(float)radius/2), diameter, diameter),
                   0.0,
