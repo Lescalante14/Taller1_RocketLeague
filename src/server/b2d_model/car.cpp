@@ -275,18 +275,18 @@ void Car::jump() {
 	
 	} else {
 		this->flipped = false;
-	}
 
-	// performs an impulse perpendicular to the body (locally)
-	// float rad_angle = this->chassis->GetAngle();
-	// b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
-	// i *= JUMP_IMPULSE;
-	
-	// if (this->flipped && this->_facing == facing::F_RIGHT) {
-		// i = b2Vec2(-i.x, i.y);
-	// }
-	b2Vec2 i(0, JUMP_IMPULSE);
-	this->chassis->ApplyLinearImpulseToCenter(i, true);
+		// performs an impulse perpendicular to the body (locally)
+		float rad_angle = this->chassis->GetAngle();
+		b2Vec2 i(sin(-rad_angle), cos(-rad_angle));
+		i *= JUMP_IMPULSE;
+		
+		// if (this->flipped && this->_facing == facing::F_RIGHT) {
+		// 	i = b2Vec2(-i.x, i.y);
+		// }
+		// b2Vec2 i(0, JUMP_IMPULSE);
+		this->chassis->ApplyLinearImpulseToCenter(i, true);
+	}
 
 }
 
@@ -300,6 +300,10 @@ b2Vec2 Car::getPosition() {
 float Car::getAngle() {
 	uint16_t deg_angle = (uint16_t) abs(this->chassis->GetAngle() * 180.0f / b2_pi + 360.0f);
 	return deg_angle % 360;
+}
+
+float Car::getRadAngle() {
+	return this->chassis->GetAngle();
 }
 
 facing Car::getFacing() {
@@ -332,5 +336,11 @@ uint8_t Car::remainingNitro() {
 	return this->nitro_ptge;
 }
 
+void Car::removeFromWorld(b2World &w) {
+	w.DestroyBody(this->chassis);
+	w.DestroyBody(this->rear_wh_bd);
+	w.DestroyBody(this->front_wh_bd);
+}
 
-Car::~Car() {}
+Car::~Car() {
+}

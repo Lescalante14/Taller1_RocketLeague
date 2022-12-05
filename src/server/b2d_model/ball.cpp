@@ -2,6 +2,8 @@
 #include <box2d/b2_contact.h>
 #include <box2d/b2_fixture.h>
 
+#include <iostream>
+
 #include "ball.h"
 
 #define SMALL_RADIUS 0.75f
@@ -13,10 +15,10 @@
 #define RED_SHOT_IMPULSE    60.0f
 #define GOLD_SHOT_IMPULSE   70.0f
 
-#define BALL_DENSITY 0.5f
+#define BALL_DENSITY 0.3f
 
-#define BASE_DISTANCE 0.40f
-#define CLOSE_DISTANCE  0.15f
+#define BASE_DISTANCE 6.0f
+#define CLOSE_DISTANCE  3.0f
 
 
 Ball::Ball(b2World &world, float x, float y, ball_size size) {
@@ -39,7 +41,7 @@ Ball::Ball(b2World &world, float x, float y, ball_size size) {
 	b2BodyDef ballDef;
 	ballDef.type = b2_dynamicBody;
 	ballDef.position.Set(x, y);
-	// ballDef.gravityScale = 0.0;
+	ballDef.gravityScale = 0.5f;
 	this->ball = world.CreateBody(&ballDef);
 	
 	b2CircleShape ballShape;
@@ -84,16 +86,17 @@ void Ball::resize(ball_size newsz) {
 }
 
 
-void Ball::applyShotEffect(shot_type type) {
-	b2Vec2 i(0, 0);
+void Ball::applyShotEffect(shot_type type, b2Vec2 &dir) {
+	b2Vec2 i = dir;
+	i.Normalize();
 	
-	for (b2ContactEdge* c = this->ball->GetContactList(); c; c = c->next) {
-		b2Vec2 dir = c->other->GetLinearVelocity();
-		dir.Normalize();
-		i += dir;
-		i.Normalize();
-	}
-	this->ball->GetContactList();
+	// for (b2ContactEdge* c = this->ball->GetContactList(); c; c = c->next) {
+	// 	b2Vec2 dir = c->other->GetLinearVelocity();
+	// 	dir.Normalize();
+	// 	i += dir;
+	// 	i.Normalize();
+	// }
+	// this->ball->GetContactList();
 
 	switch (type) {
 	case FLIP_SHOT:
@@ -120,37 +123,47 @@ void Ball::applyShotEffect(shot_type type) {
 
 
 shot_type Ball::applyShotEffect(Car &car) {
-	float d = (car.getPosition() - this->ball->GetPosition()).Length();
+	b2Vec2 d = this->ball->GetPosition() - car.getPosition();
+	std::cout << "DISTANCE: " << d.Length() << ", ";
+	std::cout << "ANGLE: " << car.getRadAngle() << ", ";
 	
-	if (d > BASE_DISTANCE) {
+	if (d.Length() > BASE_DISTANCE) {
+		std::cout << "NONE SHOT 1\n";
 		return shot_type::NONE;
 	}
 
 	if (car.hasFlipped()) {
-		if (d <= CLOSE_DISTANCE) {
+		if (d.Length() <= CLOSE_DISTANCE) {
 			/* Flip Shot */
 			if (car.isPointingTo(this->ball->GetPosition())) {
-				this->applyShotEffect(shot_type::FLIP_SHOT);
+				this->applyShotEffect(shot_type::FLIP_SHOT, d);
+				std::cout << "FLIP SHOT\n";
 				return shot_type::FLIP_SHOT;
 			}
 			
 			/* Gold Shot */
 			/* the car is in oposite direction to the ball */
-			this->applyShotEffect(shot_type::GOLD_SHOT);
+			this->applyShotEffect(shot_type::GOLD_SHOT, d);
+			std::cout << "GOLD SHOT\n";
 			return shot_type::GOLD_SHOT;
 
 		}		
 		/* Red Shot */
-		this->applyShotEffect(shot_type::RED_SHOT);
+		this->applyShotEffect(shot_type::RED_SHOT, d);
+		std::cout << "RED SHOT\n";
 		return shot_type::RED_SHOT;
 
 	/* Purple Shot */
 	/* if angle is between 80 and 100 degrees (car is standing up) */
-	} else if (sin(car.getAngle()) > 0.9848f) {
-		this->applyShotEffect(shot_type::PURPLE_SHOT);
+	} else if (car.getRadAngle() > (car.getFacing() == facing::F_LEFT ? 
+								   -0.9848f : 0.9848f)) {
+		
+		this->applyShotEffect(shot_type::PURPLE_SHOT, d);
+		std::cout << "PURPLE SHOT\n";
 		return shot_type::PURPLE_SHOT;
 	}
 
+	std::cout << "NONE SHOT 2\n";
 	return shot_type::NONE;
 }
 
@@ -175,10 +188,6 @@ b2Vec2 Ball::getVelocity() {
 uint16_t Ball::getAngle() {
 	uint16_t deg_angle = (uint16_t) abs(this->ball->GetAngle() * 180.0f / b2_pi + 360.0f);
 	return deg_angle % 360;
-}
-
-shot_type Ball::getShot() {
-	return this->last_shot;
 }
 
 float Ball::getRadius() {

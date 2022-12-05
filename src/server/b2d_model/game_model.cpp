@@ -118,8 +118,9 @@ bool GameModel::isInsideRScorer(const b2Vec2 &pos) {
 
 void GameModel::resetCars() {
 	int xcar_offset = 0;
+	size_t cars_amount = this->cars.size();
 
-	for (uint8_t id = 0; id < this->cars.size(); id++) {
+	for (uint8_t id = 0; id < cars_amount; id++) {
 		facing f = facing::F_RIGHT;
 
 		if (id % 2) {
@@ -129,6 +130,7 @@ void GameModel::resetCars() {
 		} else {
 			xcar_offset += CAR_XPOS_OFFSET;
 		}
+		this->cars.at(id).removeFromWorld(this->world);
 		this->cars.erase(id);
 		this->cars.emplace(id, Car(this->world,
 								   xcar_offset,
@@ -154,7 +156,7 @@ void GameModel::updateGame(UserAction &a) {
 
 	} else if (a.is(UP_RELEASE) || a.is(DOWN_RELEASE)) {
 		car.stopRotation();
-		
+
 	} else if (a.is(UP_PUSH)) {
 		car.rotateUp();
 
@@ -163,7 +165,11 @@ void GameModel::updateGame(UserAction &a) {
 
 	} else if (a.is(JUMP)) {
 		car.jump();	
-		this->last_shot = this->ball.applyShotEffect(car);
+
+		if (this->last_shot == shot_type::NONE) {
+			std::cout << "PERFORMING FLIP...\n";
+			this->last_shot = this->ball.applyShotEffect(car);
+		}
 
 	} else if (a.is(NITRO_PUSH)) {
 		car.triggerNitro();
@@ -225,7 +231,7 @@ MatchState GameModel::getState() {
 	}
 
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
-					  this->ball.getAngle(), this->ball.getShot());
+					  this->ball.getAngle(), this->last_shot);
 
 	return MatchState(this->timer, !this->timer,
 					  this->l_scorer, this->r_scorer, cars.size(),

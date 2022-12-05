@@ -49,11 +49,14 @@ class Car{
 	void stopRotation();
 
 	void reset(float x, float y, facing f);
+	void removeFromWorld(b2World &w);
+
 
 	/* Stats */
 	b2Vec2 getPosition();
 	b2Vec2 getVelocity();
 	float getAngle(); /* in degrees */
+	float getRadAngle(); /* in radians */
 	facing getFacing();
 	bool hasFlipped();
 	bool nitroTriggered();
