@@ -1,9 +1,10 @@
 #include "thread_receiver.h"
 #include "../common/protocol.h"
+#include "../common/socket_closed_exception.h"
 #include <string>
 #include <sstream>
 
-void ThreadReceiver::run() {
+void ThreadReceiver::run() { try {
     bool in_match = false;
     bool was_closed = false;
     uint8_t car_id;
@@ -76,7 +77,9 @@ void ThreadReceiver::run() {
             match_input_queue->push(action);
         }
     }
-}
+} catch (const SocketClosedException &e) {
+    return;
+} }
 
 ThreadReceiver::ThreadReceiver(
     Protocol& _protocol, 

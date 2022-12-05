@@ -16,7 +16,8 @@ void ThreadConnectionHandler::run() {
     ThreadSender sender(protocol, this->lobby, to_send_queue);
     receiver.start();
     sender.start();
-    sender.join();
     receiver.join();
+    to_send_queue.close();
+    sender.join();
     this->finished = true;
 }
