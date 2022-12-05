@@ -16,10 +16,10 @@ ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &rende
         , nitroBar(renderer){}
 
 void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar) {
-    int posX = calculatePositionInXWithBorder(renderer, positionConverter);
-    int posY = calculatePositionInYWithBorder(renderer, positionConverter);
-    int carWidth = calculateCarWidthInPx(renderer, positionConverter);
-    int carHeight = calculateCarHeightInPx(renderer, positionConverter);
+    int posX = positionConverter.get_X_position_car_in_PX(state.get_position_x(), renderer);
+    int posY = positionConverter.get_Y_position_car_in_PX(state.get_position_y(), renderer);
+    int carWidth = positionConverter.get_car_width_in_PX(renderer);
+    int carHeight = positionConverter.get_car_height_in_PX(renderer);
 
     bool flipH = !state.is_oriented_right();
     renderer.Copy(texture,
@@ -43,24 +43,6 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
                       flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         );
     }
-}
-
-int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    return positionConverter.get_X_position_car_in_PX(state.get_position_x(), renderer);
-}
-
-int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    int cmPos = state.get_position_y();
-    int posPx = positionConverter.get_Y_position_car_in_PX(cmPos, renderer);
-    return posPx;
-}
-
-int ClientCar::calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
-    return converter.get_car_width_in_PX(renderer);
-}
-
-int ClientCar::calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
-    return converter.get_car_height_in_PX(renderer);
 }
 
 void ClientCar::updateState(ClientCarState newState) {

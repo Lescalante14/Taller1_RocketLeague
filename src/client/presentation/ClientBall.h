@@ -13,17 +13,11 @@ class ClientBall {
     SDL2pp::Texture texture;
     ClientBallState state;
 
-    int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
-
-    int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
-
 public:
 
     ClientBall(ClientBallState state, SDL2pp::Renderer &renderer);
 
     void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
-
-    int calculateRadiusBallInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
 
     void update(ClientBallState _state);
 };

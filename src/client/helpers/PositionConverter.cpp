@@ -7,6 +7,8 @@
 PositionConverter::PositionConverter(MatchSetup &setup)
 : matchSetup(setup) {}
 
+/********* POSITIONS *********/
+
 int PositionConverter::get_X_position_car_in_PX(int pos, SDL2pp::Renderer &renderer) {
     if (pos == 0)
         return 0;
@@ -35,7 +37,6 @@ int PositionConverter::get_Y_position_car_in_PX(int pos, SDL2pp::Renderer &rende
         return 0;
     return finalPos;
 }
-
 
 int PositionConverter::get_X_position_ball_in_PX(int cmPos, SDL2pp::Renderer &renderer) {
     if (cmPos == 0)
@@ -66,12 +67,16 @@ int PositionConverter::get_Y_position_ball_in_PX(int cmPos, SDL2pp::Renderer &re
     return finalPos;
 }
 
+/********* FIN POSITIONS *********/
+
+/********* DIMENSIONS *********/
+
 int PositionConverter::get_car_width_in_PX(SDL2pp::Renderer &renderer) {
     double ratioFactor = (double)matchSetup.get_field_length()/(double)renderer.GetOutputWidth();
     return (int)(matchSetup.get_car_size()/ratioFactor);
 }
 
-// TODO: we need the carHeight in setup
+/// Temporally is carWidth/2
 int PositionConverter::get_car_height_in_PX(SDL2pp::Renderer &renderer) {
     //double ratioFactor = (double)matchSetup.get_field_height()/(double)renderer.GetOutputHeight();
     return get_car_width_in_PX(renderer)/2;
@@ -86,3 +91,5 @@ int PositionConverter::get_goal_height_in_PX(SDL2pp::Renderer &renderer) {
     double ratioFactor = (double)matchSetup.get_field_height()/(double)renderer.GetOutputHeight();
     return (int)(matchSetup.get_goal_height()/ratioFactor);
 }
+
+/********* FIN DIMENSIONS *********/

@@ -19,14 +19,6 @@ private:
     ClientCarState state;
     ClientNitroBar nitroBar;
 
-    int calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
-
-    int calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
-
-    int calculateCarWidthInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
-
-    int calculateCarHeightInPx(SDL2pp::Renderer &renderer, PositionConverter &converter);
-
 public:
 
     ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer);

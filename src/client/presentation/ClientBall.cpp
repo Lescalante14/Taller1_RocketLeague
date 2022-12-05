@@ -3,16 +3,18 @@
 //
 
 #include "ClientBall.h"
+
+#include <utility>
 #include "client/helpers/PositionConverter.h"
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 : texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))
-        , state(state){}
+        , state(std::move(state)){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    int posY = calculatePositionInYWithBorder(renderer, positionConverter);
-    int posX = calculatePositionInXWithBorder(renderer, positionConverter);
-    int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
+    int posX = positionConverter.get_X_position_ball_in_PX(state.get_position_x(),renderer);
+    int posY = positionConverter.get_Y_position_ball_in_PX(state.get_position_y(), renderer);
+    int radiusBall = positionConverter.get_radius_ball_in_PX(renderer);
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
@@ -21,30 +23,6 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
                   SDL2pp::NullOpt,    // rotation center - not needed
                   SDL_FLIP_NONE
     );
-}
-
-int ClientBall::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    int cmPos = state.get_position_x();
-    int pos = positionConverter.get_X_position_ball_in_PX(cmPos, renderer); // maaal, tengo que llamar al de ball
-    int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
-
-    if (pos + radiusBall*2 > renderer.GetOutputWidth())
-        return renderer.GetOutputWidth()-radiusBall*2;
-    return pos;
-}
-
-int ClientBall::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    int cmPos = state.get_position_y();
-    int posPx = positionConverter.get_Y_position_ball_in_PX(cmPos, renderer);
-    int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
-
-    if (posPx + radiusBall*2 > renderer.GetOutputHeight())
-        return renderer.GetOutputHeight() - radiusBall*2;
-    return posPx;
-}
-
-int ClientBall::calculateRadiusBallInPx(SDL2pp::Renderer &renderer, PositionConverter &converter) {
-    return converter.get_radius_ball_in_PX(renderer);
 }
 
 void ClientBall::update(ClientBallState _state) {
