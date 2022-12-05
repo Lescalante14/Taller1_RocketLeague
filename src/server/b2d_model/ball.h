@@ -5,8 +5,8 @@
 #include <box2d/b2_body.h>
 
 #include "car.h"
+#include "common/ball_state.h"
 
-enum shot_type {NONE, FLIP_SHOT, PURPLE_SHOT, RED_SHOT, GOLD_SHOT};
 enum ball_size {SMALL_BALL, MED_BALL, BIG_BALL};
 
 

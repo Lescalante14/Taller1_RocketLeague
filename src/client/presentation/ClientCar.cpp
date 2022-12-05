@@ -8,8 +8,8 @@
 #include <utility>
 
 ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer)
-        : texture(renderer,
-                  isTeam1 ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
+        : texture(renderer,isTeam1
+                  ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
                   : SDL2pp::Surface("./assets/car.png").SetColorMod(255,0,0).SetColorKey(true, 0))
         , nitroTexture(renderer,SDL2pp::Surface("./assets/nitro.png").SetColorKey(true, 0))
         , state(std::move(state))

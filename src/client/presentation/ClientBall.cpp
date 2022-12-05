@@ -9,12 +9,15 @@
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 : texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))
-        , state(std::move(state)){}
+, shotTexture(renderer, SDL2pp::Surface("./assets/shotBall.png").SetColorKey(true, 255))
+, state(std::move(state)){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int posX = positionConverter.get_X_position_ball_in_PX(state.get_position_x(),renderer);
     int posY = positionConverter.get_Y_position_ball_in_PX(state.get_position_y(), renderer);
     int radiusBall = positionConverter.get_radius_ball_in_PX(renderer);
+
+    renderShot(renderer, posX, posY, radiusBall);
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
@@ -27,4 +30,20 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
 
 void ClientBall::update(ClientBallState _state) {
     state = std::move(_state);
+}
+
+// TODO: get color from a map depending the shotType and update texture
+void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius) {
+
+    if (state.get_shot_type() == shot_type::NONE) {
+        return;
+    }
+    int diameter = int(((float)radius*2)*1.5); // 50% bigger than ball
+    renderer.Copy(shotTexture,
+                  SDL2pp::NullOpt,
+                  SDL2pp::Rect((int)((float)posX-(float)radius/2), (int)((float)posY-(float)radius/2), diameter, diameter),
+                  0.0,
+                  SDL2pp::NullOpt,
+                  SDL_FLIP_NONE
+    );
 }

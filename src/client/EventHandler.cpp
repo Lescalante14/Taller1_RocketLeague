@@ -121,7 +121,7 @@ void EventHandler::pushAction(UserAction action) {
     std::string actionStr = action.serialize();
     if (exit_queue.size() < MAX_ACTIONS) {
 		exit_queue.push(actionStr);
-    	std::cout << unsigned(action.getCode()) << std::endl;
+    	//std::cout << unsigned(action.getCode()) << std::endl;
 	}
     // std::string popAction = exit_queue.pop();*/
 }

@@ -27,6 +27,8 @@
 
 #define DEFAULT_TIME 150 /* in seconds */
 
+#define MAX_SHOTS_STEPS 200
+
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),
@@ -207,7 +209,15 @@ void GameModel::step() {
 
 
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
-	this->last_shot = shot_type::NONE;
+    if (this->last_shot != shot_type::NONE) {
+        if (steps_count_with_shot >= MAX_SHOTS_STEPS) {
+            this->last_shot = shot_type::NONE;
+            steps_count_with_shot = 0;
+        } else {
+            steps_count_with_shot++;
+        }
+    }
+
 	this->step_count++;
 
 	if (!(this->step_count % this->step_freq)) {

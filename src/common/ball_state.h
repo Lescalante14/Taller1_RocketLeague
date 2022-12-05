@@ -4,6 +4,7 @@
 #include "transferable.h"
 
 #define BALL_STATE_SIZE 11
+enum shot_type {NONE, FLIP_SHOT, PURPLE_SHOT, RED_SHOT, GOLD_SHOT};
 
 class BallState : public Transferable {
 private:

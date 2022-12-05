@@ -11,7 +11,10 @@
 
 class ClientBall {
     SDL2pp::Texture texture;
+    SDL2pp::Texture shotTexture;
     ClientBallState state;
+
+    void renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius);
 
 public:
 
