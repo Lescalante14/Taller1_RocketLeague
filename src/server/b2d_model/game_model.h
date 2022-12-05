@@ -25,6 +25,7 @@ class GameModel {
 	float length = 0;
 	float scorer_height = 0;
 	shot_type last_shot = shot_type::NONE;
+    int steps_count_with_shot = 0;
 	
 	uint8_t l_scorer = 0;
 	uint8_t r_scorer = 0;

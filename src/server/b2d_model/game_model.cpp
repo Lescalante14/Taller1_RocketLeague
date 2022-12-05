@@ -29,6 +29,9 @@
 
 #define MAX_REC 5 /* how many seconds to record */
 
+#define MAX_SHOTS_STEPS 200
+
+
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),
 			  step_freq(_step_freq),
@@ -212,6 +215,7 @@ void GameModel::step() {
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
 	}
+	this->saveState();
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->last_shot = shot_type::NONE;
 	this->step_count++;
@@ -252,6 +256,10 @@ void GameModel::saveState() {
 
 
 MatchState GameModel::getState() {
+	if (!this->last_states.size()) {
+		this->saveState();
+	}
+
 	if (this->scored) {
 		MatchState state = this->last_states.front();
 		this->last_states.pop();
@@ -262,7 +270,6 @@ MatchState GameModel::getState() {
 		return state;
 	}
 	// std::cout << "Ball Pos y: " << state.get_ball().get_position_y() << "\n";
-	this->saveState();
 	return this->last_states.back();
 }
 

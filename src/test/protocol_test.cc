@@ -65,7 +65,7 @@ TEST(Protocolo, SendMatchState) {
     125,
     200, 
     45, 
-    3
+    shot_type::GOLD_SHOT
   );
   std::vector<CarState> cstates;
   cstates.push_back(cstate1);
@@ -95,7 +95,7 @@ TEST(Protocolo, SendMatchState) {
   EXPECT_EQ(recv_ball.get_position_x(), 12500);
   EXPECT_EQ(recv_ball.get_position_y(), 20000);
   EXPECT_EQ(recv_ball.get_angle(), 45);
-  EXPECT_EQ(recv_ball.get_shot_type(), 3);
+  EXPECT_EQ(recv_ball.get_shot_type(), shot_type::GOLD_SHOT);
 
   // CarStateChecks
   std::vector<CarState> recv_cars = recv.get_cars();

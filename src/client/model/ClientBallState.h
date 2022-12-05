@@ -21,6 +21,8 @@ public:
     // in Cm
     int get_position_y();
     int get_angle();
+
+    shot_type get_shot_type();
 };
 
 

@@ -20,3 +20,7 @@ int ClientBallState::get_position_y() {
 int ClientBallState::get_angle() {
     return wrappeeState.get_angle();
 }
+
+shot_type ClientBallState::get_shot_type() {
+    return static_cast<shot_type>(wrappeeState.get_shot_type());
+}
