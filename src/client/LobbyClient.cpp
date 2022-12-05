@@ -13,16 +13,15 @@ LobbyClient::LobbyClient(BlockingQueue<std::string> &received_queue, BlockingQue
 
 }
 
-void LobbyClient::run(std::istream &input) {
+bool LobbyClient::run(std::istream &input) {
     std::cout << "Hello lobby" << std::endl;
     std::string line;
-    bool in_lobby = true;
 
-    while (in_lobby && std::getline(std::cin, line)) {
+    while (std::getline(std::cin, line)) {
         std::string command;
         std::string payload;
         if (line == EXIT_COMMAND) {
-            in_lobby = false;
+            return false;
         } else {
             resolveAction(line, &command, &payload);
             auto code = command == "listar" ? LIST_CODE
@@ -39,10 +38,11 @@ void LobbyClient::run(std::istream &input) {
             std::cout << response.serialize() << std::endl;
             // creacion o union correcta
             if ((code == CREATE_CODE || code == JOIN_CODE) && response.get_code() == 0) {
-                in_lobby = false;
+                return true;
             }
         }
     }
+    return false;
 }
 
 void LobbyClient::resolveAction(const std::string& action, std::string *command, std::string *payload) {

@@ -29,12 +29,13 @@ void Client::run(
     sender.start();
 
     LobbyClient lobby(received_queue, to_send_queue);
-    lobby.run(std::cin);
+    bool readyToPlay = lobby.run(std::cin);
 
     try {
-        Game game(received_queue, to_send_queue);
-        game.run();
-
+        if (readyToPlay) {
+            Game game(received_queue, to_send_queue);
+            game.run();
+        }
     } catch (const std::exception &e) {
     std::cerr << "Exception caught in Game: '" << e.what() << "'" << std::endl;
     } catch (...) {

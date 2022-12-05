@@ -20,7 +20,7 @@ public:
 
     LobbyClient(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue);
 
-    void run(std::istream &input);
+    bool run(std::istream &input);
 };
 
 
