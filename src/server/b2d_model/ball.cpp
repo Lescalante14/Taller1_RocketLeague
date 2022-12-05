@@ -17,7 +17,7 @@
 
 #define BALL_DENSITY 0.3f
 
-#define BASE_DISTANCE 6.0f
+#define BASE_DISTANCE 5.0f
 #define CLOSE_DISTANCE  3.0f
 
 
@@ -124,6 +124,7 @@ void Ball::applyShotEffect(shot_type type, b2Vec2 &dir) {
 
 shot_type Ball::applyShotEffect(Car &car) {
 	b2Vec2 d = this->ball->GetPosition() - car.getPosition();
+	std::cout << "FACING: " << car.getFacing() << ", ";
 	std::cout << "DISTANCE: " << d.Length() << ", ";
 	std::cout << "ANGLE: " << car.getRadAngle() << ", ";
 	
@@ -133,30 +134,34 @@ shot_type Ball::applyShotEffect(Car &car) {
 	}
 
 	if (car.hasFlipped()) {
-		if (d.Length() <= CLOSE_DISTANCE) {
-			/* Flip Shot */
-			if (car.isPointingTo(this->ball->GetPosition())) {
+		if (car.isPointingTo(this->ball->GetPosition())) {
+			if (d.Length() > CLOSE_DISTANCE) {
 				this->applyShotEffect(shot_type::FLIP_SHOT, d);
 				std::cout << "FLIP SHOT\n";
 				return shot_type::FLIP_SHOT;
+
+			} else {
+				/* Red Shot */
+				this->applyShotEffect(shot_type::RED_SHOT, d);
+				std::cout << "RED SHOT\n";
+				return shot_type::RED_SHOT;
+
 			}
-			
+		
+		} else {
 			/* Gold Shot */
 			/* the car is in oposite direction to the ball */
 			this->applyShotEffect(shot_type::GOLD_SHOT, d);
 			std::cout << "GOLD SHOT\n";
 			return shot_type::GOLD_SHOT;
-
-		}		
-		/* Red Shot */
-		this->applyShotEffect(shot_type::RED_SHOT, d);
-		std::cout << "RED SHOT\n";
-		return shot_type::RED_SHOT;
+		}
+			
 
 	/* Purple Shot */
 	/* if angle is between 80 and 100 degrees (car is standing up) */
-	} else if (car.getRadAngle() > (car.getFacing() == facing::F_LEFT ? 
-								   -0.9848f : 0.9848f)) {
+	} else if (abs(d.y) < 0.2f &&
+			   ((sin(car.getRadAngle()) > 0.94f && d.x > 0) ||
+			   (sin(car.getRadAngle()) < -0.94f && d.x < 0))) {
 		
 		this->applyShotEffect(shot_type::PURPLE_SHOT, d);
 		std::cout << "PURPLE SHOT\n";

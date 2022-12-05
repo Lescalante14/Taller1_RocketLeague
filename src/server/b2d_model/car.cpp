@@ -321,7 +321,7 @@ bool Car::hasFlipped() {
 bool Car::isPointingTo(const b2Vec2 &coord) {
 	b2Vec2 d = coord - this->chassis->GetPosition();
 
-	if (d.y < 0) {
+	if (d.x < 0) {
 		return this->_facing == facing::F_LEFT;
 	}
 	return this->_facing == facing::F_RIGHT;

@@ -13,8 +13,8 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 16666 // 60Hz -> (1/60)*(1e^6)
-
+#define FRAME_RATE 60 // 60Hz -> (1/60)*(1e^6)
+#define SEC2MICRO(t) (t) * 1e6
 
 Game::Game(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
 : received_queue(received_queue), to_send_queue(to_send_queue) {}
@@ -78,11 +78,11 @@ void Game::run() {
 
         // Render
         match.render(renderer);
-        usleep(FRAME_RATE);
+        usleep(SEC2MICRO(1 / FRAME_RATE));
     }
 
     if (matchFinished) {
-        // Show stats and other stuffs
+        // Show stats and other stuff
     }
 }
 
