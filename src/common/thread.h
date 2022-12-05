@@ -19,7 +19,7 @@ private:
     void runExpecting();
 
 protected:
-    bool finished;
+    bool finished{};
     virtual void run() = 0;
 
 public:
