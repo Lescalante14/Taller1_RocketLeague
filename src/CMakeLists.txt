@@ -31,6 +31,7 @@ target_include_directories(rocket_league PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # enabling image and font handling
 set(SDL2PP_WITH_IMAGE YES)
 set(SDL2PP_WITH_TTF YES)
+SET(SDL2PP_WITH_MIXER YES)
 
 add_subdirectory(../lib/libSDL2pp ../build)
 

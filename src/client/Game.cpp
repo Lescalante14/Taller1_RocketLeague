@@ -13,8 +13,9 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 60 // 60Hz -> (1/60)*(1e^6)
+#define FRAME_RATE 60 // 60Hz
 #define SEC2MICRO(t) (t) * 1e6
+#define GAME_MUSIC_VOLUME 10
 
 Game::Game(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
 : received_queue(received_queue), to_send_queue(to_send_queue) {}
@@ -35,13 +36,23 @@ void Game::run() {
     std::string setupStr = received_queue.pop();
     std::cout << "starting match..." << std::endl;
 
-    SDL2pp::SDL sdl(SDL_INIT_VIDEO);
+    SDL2pp::SDL sdl(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     SDL2pp::Window window("Rocket League", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                           800, 600,
                           SDL_WINDOW_RESIZABLE);
     SDL2pp::Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+    // Init font library
     TTF_Init();
+
+    // Init mixer library
+    SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
+
+    SDL2pp::Chunk sound("./assets/gameMusic.mp3");
+    sound.SetVolume(GAME_MUSIC_VOLUME);
+
+    // Play our sound one time on a first available mixer channel and "infinite" loop
+    mixer.PlayChannel(-1, sound, -1);
 
     MatchSetup matchSetup(setupStr);
     std::string stateStr = received_queue.pop();
