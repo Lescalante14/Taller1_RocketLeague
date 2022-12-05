@@ -47,9 +47,22 @@ void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state) {
 }
 
 void Scorer::updateState(ClientScorerState state) {
+    // Update Time
     if (state.getTime() != time) {
-        textureTime.Update(SDL2pp::NullOpt,font.RenderText_Blended(GetFormattedTime(state.getTime()), SDL_Color{255, 255, 255, 255}));
         time = state.getTime();
+        textureTime.Update(SDL2pp::NullOpt,font.RenderText_Blended(GetFormattedTime(time), SDL_Color{255, 255, 255, 255}));
+    }
+
+    // Update scorer team 1
+    if (state.getTeam1() != team1) {
+        team1 = state.getTeam1();
+        textureTeam1Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team1), SDL_Color{255, 255, 255, 255}));
+    }
+
+    // Update scorer team 2
+    if (state.getTeam2() != team2) {
+        team2 = state.getTeam2();
+        textureTeam2Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team2), SDL_Color{255, 255, 255, 255}));
     }
 }
 

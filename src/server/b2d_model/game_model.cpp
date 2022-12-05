@@ -195,12 +195,12 @@ void GameModel::step() {
 	}
 
 	if (this->isInsideLScorer(this->ball.getPosition())) {
-		this->l_scorer++;
+		this->r_scorer++;
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
 
 	} else if (this->isInsideRScorer(this->ball.getPosition())) {
-		this->r_scorer++;
+		this->l_scorer++;
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
 	}
@@ -233,7 +233,7 @@ MatchState GameModel::getState() {
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
 					  this->ball.getAngle(), this->last_shot);
 
-	return MatchState(this->timer, !this->timer,
+	return MatchState(this->timer, this->timer,
 					  this->l_scorer, this->r_scorer, cars.size(),
 					  b_state, car_states);
 }

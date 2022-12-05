@@ -13,7 +13,7 @@
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
 
-#define FRAME_RATE 8400 // 60Hz
+#define FRAME_RATE 16666 // 60Hz -> (1/60)*(1e^6)
 
 
 Game::Game(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
@@ -52,15 +52,18 @@ void Game::run() {
     //MatchState matchState = mockProvider.getInitialMatchState(); //Esto me lo va a dar el protocolo luego
 
     ClientMatchState clientMatchState(matchState);
-    ClientMatch match(clientMatchState, renderer, matchSetup); // Primer capa de presentacion
+
+    //Principal presentation layer
+    ClientMatch match(clientMatchState, renderer, matchSetup);
 
     match.render(renderer);
 
     EventHandler eventHandler(to_send_queue);
     bool running = true;
+    bool matchFinished = false;
     std::string actualState = stateStr;
     
-	while (running) {
+	while (running && !matchFinished) {
         running = eventHandler.handleEvents(match); // push inside
 
         // multiple pops()
@@ -71,10 +74,15 @@ void Game::run() {
         MatchState newMatchState(newState);
         ClientMatchState newClientState(newMatchState);
         match.updateState(newClientState);
+        matchFinished = !newMatchState.get_playing();
 
         // Render
         match.render(renderer);
         usleep(FRAME_RATE);
+    }
+
+    if (matchFinished) {
+        // Show stats and other stuffs
     }
 }
 

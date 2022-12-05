@@ -21,8 +21,10 @@ void ClientMatch::render(SDL2pp::Renderer &renderer) {
     field.render(renderer, positionConverter, scorerState);
     ball.render(renderer, positionConverter);
 
+    int index = 0;
     for (auto &car : cars) {
-        car.render(renderer, positionConverter);
+        car.render(renderer, positionConverter, index == matchSetup.get_car_id_assigned());
+        index++;
     }
     renderer.Present();
 }
