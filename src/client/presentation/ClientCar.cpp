@@ -46,12 +46,12 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
 }
 
 int ClientCar::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
-    return positionConverter.convert_CM_to_PX_In_X_axis(state.get_position_x(), renderer);
+    return positionConverter.get_X_position_car_in_PX(state.get_position_x(), renderer);
 }
 
 int ClientCar::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_y();
-    int posPx = positionConverter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+    int posPx = positionConverter.get_Y_position_car_in_PX(cmPos, renderer);
     return posPx;
 }
 

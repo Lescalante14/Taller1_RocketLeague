@@ -16,8 +16,12 @@ public: // TODO: make &renderer attr
 
     explicit PositionConverter(MatchSetup &setup);
 
-    int convert_CM_to_PX_In_X_axis(int pos, SDL2pp::Renderer &renderer);
-    int convert_CM_to_PX_In_Y_axis(int pos, SDL2pp::Renderer &renderer);
+    int get_X_position_car_in_PX(int pos, SDL2pp::Renderer &renderer);
+    int get_Y_position_car_in_PX(int pos, SDL2pp::Renderer &renderer);
+
+    int get_X_position_ball_in_PX(int cmPos, SDL2pp::Renderer &renderer);
+
+    int get_Y_position_ball_in_PX(int cmPos, SDL2pp::Renderer &renderer);
 
     int get_car_width_in_PX(SDL2pp::Renderer &renderer);
 

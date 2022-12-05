@@ -25,7 +25,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
 
 int ClientBall::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_x();
-    int pos = positionConverter.convert_CM_to_PX_In_X_axis(cmPos, renderer); // maaal, tengo que llamar al de ball
+    int pos = positionConverter.get_X_position_ball_in_PX(cmPos, renderer); // maaal, tengo que llamar al de ball
     int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
 
     if (pos + radiusBall*2 > renderer.GetOutputWidth())
@@ -35,7 +35,7 @@ int ClientBall::calculatePositionInXWithBorder(SDL2pp::Renderer &renderer, Posit
 
 int ClientBall::calculatePositionInYWithBorder(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
     int cmPos = state.get_position_y();
-    int posPx = positionConverter.convert_CM_to_PX_In_Y_axis(cmPos, renderer);
+    int posPx = positionConverter.get_Y_position_ball_in_PX(cmPos, renderer);
     int radiusBall = calculateRadiusBallInPx(renderer, positionConverter);
 
     if (posPx + radiusBall*2 > renderer.GetOutputHeight())
