@@ -35,30 +35,33 @@ void ClientBall::update(ClientBallState _state) {
     state = std::move(_state);
 }
 
-// TODO: get color from a map depending the shotType and update texture
 void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius) {
-	if (this->last_shot == shot_type::NONE ||
-		this->shot_steps > MAX_SHOT_STEPS) {
+	if (last_shot == shot_type::NONE ||
+		shot_steps > MAX_SHOT_STEPS) {
 		
-		this->last_shot = state.get_shot_type();
-		this->shot_steps = 0;
+		last_shot = state.get_shot_type();
+		shot_steps = 0;
 	}
 
-	switch (this->last_shot) {
+	switch (last_shot) {
+        case NONE:
+            return;
+
 		case FLIP_SHOT:
+            // TODO: add other sprite
 			break;
 		
 		case PURPLE_SHOT:
+            shotTexture.SetColorMod(127,0,255);
 			break;
-		
+
 		case RED_SHOT:
+            shotTexture.SetColorMod(255,0,127);
 			break;
 		
 		case GOLD_SHOT:
+            shotTexture.SetColorMod(255,255,0);
 			break;
-
-		case NONE:
-			return;
 	}
 
     int diameter = int(((float)radius*2)*1.5); // 50% bigger than ball
