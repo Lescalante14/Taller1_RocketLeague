@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <vector>
+#include <queue>
 #include <map>
 
 #include "common/match_state.h"
@@ -27,10 +28,14 @@ class GameModel {
 	
 	uint8_t l_scorer = 0;
 	uint8_t r_scorer = 0;
+	bool scored = false;
 
 	std::map<uint8_t, Car> cars;
 	Ball ball;
+	
+	std::queue<MatchState> last_states;
 
+	void saveState();
 	void setLimits();
 	bool isInsideLScorer(const b2Vec2 &pos);
 	bool isInsideRScorer(const b2Vec2 &pos);

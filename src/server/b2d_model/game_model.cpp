@@ -27,6 +27,7 @@
 
 #define DEFAULT_TIME 150 /* in seconds */
 
+#define MAX_REC 5 /* how many seconds to record */
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),
@@ -142,6 +143,10 @@ void GameModel::resetCars() {
 
 
 void GameModel::updateGame(UserAction &a) {
+	if (this->scored) {
+		return;
+	}
+
 	uint8_t id = a.get_car_id();
 	Car &car = this->cars.at(id);
 
@@ -181,7 +186,7 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-	if (!timer) {
+	if (!timer || this->scored) {
 		return;
 	}
 
@@ -196,16 +201,17 @@ void GameModel::step() {
 
 	if (this->isInsideLScorer(this->ball.getPosition())) {
 		this->r_scorer++;
-		this->ball.reset(this->length / 2, this->height / 2);
-		this->resetCars();
+		this->scored = true;
 
 	} else if (this->isInsideRScorer(this->ball.getPosition())) {
 		this->l_scorer++;
+		this->scored = true;
+	}
+
+	if (this->scored) {
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
 	}
-
-
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->last_shot = shot_type::NONE;
 	this->step_count++;
@@ -216,7 +222,7 @@ void GameModel::step() {
 }
 
 
-MatchState GameModel::getState() {
+void GameModel::saveState() {
 	std::vector<CarState> car_states;
 	
 	for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
@@ -233,9 +239,31 @@ MatchState GameModel::getState() {
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
 					  this->ball.getAngle(), this->last_shot);
 
-	return MatchState(this->timer, this->timer,
-					  this->l_scorer, this->r_scorer, cars.size(),
-					  b_state, car_states);
+	MatchState m_state(this->timer, this->timer,
+					   this->l_scorer, this->r_scorer, 
+					   cars.size(), b_state, car_states); 
+	
+	/* save record of the last MAX_REC seconds */
+	if (this->last_states.size() >= MAX_REC * this->step_freq) {
+		this->last_states.pop();
+	}
+	this->last_states.push(m_state);
+}
+
+
+MatchState GameModel::getState() {
+	if (this->scored) {
+		MatchState state = this->last_states.front();
+		this->last_states.pop();
+
+		if (!this->last_states.size()) {
+			this->scored = false;
+		}
+		return state;
+	}
+	// std::cout << "Ball Pos y: " << state.get_ball().get_position_y() << "\n";
+	this->saveState();
+	return this->last_states.back();
 }
 
 
