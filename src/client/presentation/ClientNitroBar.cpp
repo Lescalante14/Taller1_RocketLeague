@@ -9,8 +9,8 @@
 #define MAX_HEIGHT 25
 
 ClientNitroBar::ClientNitroBar(SDL2pp::Renderer &renderer)
-: emptyNitroBar(renderer, SDL2pp::Surface("./assets/nitroEmpty.png").SetColorKey(true, 0))
-, fullNitroBar(renderer, SDL2pp::Surface("./assets/nitroFull.png").SetColorKey(true, 0)){}
+: emptyNitroBar(renderer, SDL2pp::Surface("/var/rocket_league/nitroEmpty.png").SetColorKey(true, 0))
+, fullNitroBar(renderer, SDL2pp::Surface("/var/rocket_league/nitroFull.png").SetColorKey(true, 0)){}
 
 void ClientNitroBar::render(SDL2pp::Renderer &renderer, uint8_t nitroPercentage, int posX, int posY, int carWidth,
                             int carHeight, bool isOrientedRight) {

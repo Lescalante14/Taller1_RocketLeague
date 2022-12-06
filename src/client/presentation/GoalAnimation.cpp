@@ -8,7 +8,7 @@
 #define SIZE_FRAME 181
 
 GoalAnimation::GoalAnimation(SDL2pp::Renderer &renderer)
-        : texture(renderer, SDL2pp::Surface("./assets/explosionGoalAnimation.png").SetColorKey(true, 255)){}
+        : texture(renderer, SDL2pp::Surface("/var/rocket_league/explosionGoalAnimation.png").SetColorKey(true, 255)){}
 
 void GoalAnimation::render(SDL2pp::Renderer &renderer, SDL2pp::Rect dest) {
     renderer.Copy(

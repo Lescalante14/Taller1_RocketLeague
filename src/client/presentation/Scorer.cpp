@@ -9,8 +9,8 @@
 #define SCORER_IMG_HEIGHT 120
 
 Scorer::Scorer(SDL2pp::Renderer &renderer, int time)
-: font("./assets/Vera.ttf", 26)
-, textureScorer(renderer, SDL2pp::Surface("./assets/scorer.png").SetColorKey(true, 0))
+: font("/var/rocket_league/Vera.ttf", 26)
+, textureScorer(renderer, SDL2pp::Surface("/var/rocket_league/scorer.png").SetColorKey(true, 0))
 , textureTime(renderer, font.RenderText_Blended(GetFormattedTime(time), SDL_Color{255, 255, 255, 255}))
 , textureTeam1Name(renderer, font.RenderText_Blended("Team 1", SDL_Color{0, 0, 255, 255}))
 , textureTeam2Name(renderer, font.RenderText_Blended("Team 2", SDL_Color{255, 0, 0, 255}))

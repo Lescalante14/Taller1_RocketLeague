@@ -11,9 +11,9 @@
 
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
-: texture(renderer, SDL2pp::Surface("./assets/ball.png").SetColorKey(true, 0))
-, shotTexture(renderer, SDL2pp::Surface("./assets/shotBall.png").SetColorKey(true, 255))
-, shotAirTexture(renderer, SDL2pp::Surface("./assets/shotBallAir.png").SetColorKey(true, 0))
+: texture(renderer, SDL2pp::Surface("/var/rocket_league/ball.png").SetColorKey(true, 0))
+, shotTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBall.png").SetColorKey(true, 255))
+, shotAirTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBallAir.png").SetColorKey(true, 0))
 , state(std::move(state)){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, MixerManager &mixerManager) {
