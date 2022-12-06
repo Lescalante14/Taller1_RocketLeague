@@ -11,6 +11,7 @@ enum facing {F_LEFT, F_RIGHT};
 class Car{
 	private:
 	bool d_jumpd = false;
+	bool jumpd = false;
 	bool flipped = false;
 	bool nitro_trigg = false;
 	facing _facing;
@@ -26,6 +27,7 @@ class Car{
 
 	void set_wheels(b2World &world, float x, float y);
 	void set_chassis(b2World &world, float x, float y);
+	bool touchingGround();
 
 	public:
 	Car(b2World &world, float x_pos, float y_pos, facing f);
@@ -62,7 +64,8 @@ class Car{
 	bool nitroTriggered();
 	uint8_t remainingNitro();
 	bool isPointingTo(const b2Vec2 &coord);
-
+	bool hasJumped();
+	bool hasDJumped();
 	~Car();
 };
 

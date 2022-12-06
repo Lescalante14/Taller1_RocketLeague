@@ -21,12 +21,13 @@ class GameModel {
 	uint16_t timer = 0; // in seconds
 	size_t step_freq = 0;
 	size_t step_count = 0;
+	size_t sleep_count = 0;
+
 	float height = 0;
 	float length = 0;
 	float scorer_height = 0;
 	shot_type last_shot = shot_type::NONE;
-    int steps_count_with_shot = 0;
-	
+
 	uint8_t l_scorer = 0;
 	uint8_t r_scorer = 0;
 	bool scored = false;
@@ -49,6 +50,7 @@ class GameModel {
 	void updateGame(UserAction &a);
 	MatchState getState();
 	MatchSetup getSetup();
+	bool finished();
 	~GameModel();
 };
 
