@@ -11,11 +11,15 @@ Dependencies:
 
 To install dependencies on Linux:
 ```shell
+sudo apt update
+sudo apt upgrade
+
 sudo apt install cmake
 sudo apt install libsdl2-dev
 sudo apt install libsdl2-image-dev
 sudo apt install libsdl2-mixer-dev
 sudo apt install libsdl2-ttf-dev
+sudo apt install qtbase5-dev qt5-qmake
 ```
 
 To build the project:
