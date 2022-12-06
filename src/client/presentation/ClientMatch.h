@@ -12,9 +12,11 @@
 #include "client/model/ClientMatchState.h"
 #include "client/helpers/PositionConverter.h"
 #include "common/match_setup.h"
+#include "client/MixerManager.h"
 
 class ClientMatch {
     ClientMatchState state;
+    MixerManager &mixerManager;
     Field field;
     MatchSetup &matchSetup;
     PositionConverter positionConverter;
@@ -22,7 +24,7 @@ class ClientMatch {
     std::vector<ClientCar> cars;
 
 public:
-    explicit ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MatchSetup &setup);
+    explicit ClientMatch(ClientMatchState _state, SDL2pp::Renderer &renderer, MixerManager &_mixerManager, MatchSetup &setup);
     void render(SDL2pp::Renderer &renderer);
 
     uint8_t getCarIdAssigned();
