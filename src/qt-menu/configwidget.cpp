@@ -20,9 +20,9 @@ configWidget::~configWidget()
 
 void configWidget::on_comboBox_currentIndexChanged(int index)
 {
-    YAML::Node config = YAML::LoadFile("../../.rl_config.yml");
+    YAML::Node config = YAML::LoadFile("/etc/rocket_league/.rl_config.yml");
     config["ball_size"] = index;
-    std::ofstream fout("../../.rl_config.yml");
+    std::ofstream fout("/etc/rocket_league/.rl_config.yml");
 
     if (fout.is_open()) {
         fout << config;

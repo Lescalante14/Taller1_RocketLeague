@@ -16,6 +16,6 @@ aboutWidget::~aboutWidget()
 void aboutWidget::on_goBack_clicked()
 {
 
-    emit goHome();
+    emit goHomeClicked();
 }
 

@@ -23,7 +23,7 @@ private:
 
 signals:
 
-    void goHome();
+    void goHomeClicked();
 
 };
 

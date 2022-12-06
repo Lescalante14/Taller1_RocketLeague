@@ -75,6 +75,9 @@
       <property name="styleSheet">
        <string notr="true">background-color: #E0DDD9</string>
       </property>
+      <property name="minimum">
+       <number>2</number>
+      </property>
       <property name="maximum">
        <number>8</number>
       </property>
