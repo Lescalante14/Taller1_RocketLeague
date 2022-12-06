@@ -7,9 +7,9 @@
 #define MAX_STEPS_ANIMATION 1000
 
 Field::Field(SDL2pp::Renderer &renderer, int time)
-: fieldTexture(renderer, SDL2pp::Surface("./assets/field.jpg").SetColorKey(true, 0))
-, goalTexture1(renderer, SDL2pp::Surface("./assets/goal1.png").SetColorKey(true, 0))
-, goalTexture2(renderer, SDL2pp::Surface("./assets/goal2.png").SetColorKey(true, 0))
+: fieldTexture(renderer, SDL2pp::Surface("/var/rocket_league/field.jpg").SetColorKey(true, 0))
+, goalTexture1(renderer, SDL2pp::Surface("/var/rocket_league/goal1.png").SetColorKey(true, 0))
+, goalTexture2(renderer, SDL2pp::Surface("/var/rocket_league/goal2.png").SetColorKey(true, 0))
 , scorer(renderer, time)
 , goalAnimation(renderer){}
 

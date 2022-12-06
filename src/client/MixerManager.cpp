@@ -21,14 +21,14 @@
 
 MixerManager::MixerManager()
 : mixer(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096)
-, gameMusic("./assets/gameMusic.mp3")
+, gameMusic("/var/rocket_league/gameMusic.mp3")
 , gameMusicChannel(NO_PLAYING_SOUND)
-, nitroSound("./assets/nitroActivation.mp3")
+, nitroSound("/var/rocket_league/nitroActivation.mp3")
 , nitroSoundChannel(NO_PLAYING_SOUND)
-, jumpSound("./assets/jumpSound.mp3")
-, simpleShotSound("./assets/simpleShotSound.mp3")
-, superShotSound("./assets/superShotSound.mp3")
-, goalSound("./assets/goalSound.mp3")
+, jumpSound("/var/rocket_league/jumpSound.mp3")
+, simpleShotSound("/var/rocket_league/simpleShotSound.mp3")
+, superShotSound("/var/rocket_league/superShotSound.mp3")
+, goalSound("/var/rocket_league/goalSound.mp3")
 {
     gameMusic.SetVolume(GAME_MUSIC_VOLUME);
     nitroSound.SetVolume(NITRO_VOLUME);
