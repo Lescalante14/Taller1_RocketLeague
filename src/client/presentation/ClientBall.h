@@ -18,7 +18,7 @@ class ClientBall {
 	shot_type last_shot = shot_type::NONE;
 	size_t shot_steps = 0;
 
-    void renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, MixerManager &manager);
+    void renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, int angle,MixerManager &manager);
 
 public:
 

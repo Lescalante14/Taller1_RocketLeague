@@ -21,7 +21,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
     int posY = positionConverter.get_Y_position_ball_in_PX(state.get_position_y(), renderer);
     int radiusBall = positionConverter.get_radius_ball_in_PX(renderer);
 
-    renderShot(renderer, posX, posY, radiusBall, mixerManager);
+    renderShot(renderer, posX, posY, radiusBall, state.get_angle(), mixerManager);
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
@@ -36,7 +36,7 @@ void ClientBall::update(ClientBallState _state) {
     state = std::move(_state);
 }
 
-void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, MixerManager &mixerManager) {
+void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, int angle, MixerManager &mixerManager) {
 	if (last_shot == shot_type::NONE ||
 		shot_steps > MAX_SHOT_STEPS) {
 		
@@ -81,7 +81,7 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
     renderer.Copy(last_shot == shot_type::FLIP_SHOT ? shotAirTexture : shotTexture,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect((int)((float)posX-(float)radius/2), (int)((float)posY-(float)radius/2), diameter, diameter),
-                  0.0,
+                  -angle,
                   SDL2pp::NullOpt,
                   SDL_FLIP_NONE
     );
