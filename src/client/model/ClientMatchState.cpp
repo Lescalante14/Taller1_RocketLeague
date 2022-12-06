@@ -43,3 +43,7 @@ std::vector<ClientCarState> ClientMatchState::get_cars() {
     return cars;
 }
 
+bool ClientMatchState::is_repetition() {
+    return wrappeeState.is_repetition();
+}
+

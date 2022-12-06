@@ -18,7 +18,7 @@ ball(state.get_ball_state(), renderer)
 void ClientMatch::render(SDL2pp::Renderer &renderer) {
     renderer.Clear();
     ClientScorerState scorerState(state.get_time(), state.get_scorer_1(), state.get_scorer_2());
-    field.render(renderer, positionConverter, scorerState, mixerManager);
+    field.render(renderer, positionConverter, scorerState, mixerManager, state.is_repetition());
     ball.render(renderer, positionConverter, mixerManager);
 
     int index = 0;

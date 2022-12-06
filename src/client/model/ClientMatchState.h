@@ -27,6 +27,7 @@ public:
     uint8_t get_cars_quantity();
     ClientBallState get_ball_state();
     std::vector<ClientCarState> get_cars();
+    bool is_repetition();
 };
 
 
