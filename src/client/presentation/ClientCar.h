@@ -19,6 +19,8 @@ private:
     SDL2pp::Texture nitroTexture;
     ClientCarState state;
     ClientNitroBar nitroBar;
+    bool playJumpSound = true;
+    bool playDoubleJumpSound = true;
 
     void playSounds(MixerManager &mixerManager, bool isSelfCar);
 

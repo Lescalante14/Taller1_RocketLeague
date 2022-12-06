@@ -63,9 +63,21 @@ void ClientCar::playSounds(MixerManager &mixerManager, bool isSelfCar) {
         } else {
             mixerManager.stopNitroSound();
         }
-        if (state.get_jumped() || state.get_double_jumped()) {
-            //mixerManager.playJumpSound();
-            std::cout << "sound jump, uncomment line :)" << std::endl;
+        if (state.get_jumped()) {
+            if (playJumpSound) {
+                mixerManager.playJumpSound();
+                playJumpSound = false;
+            }
+        } else {
+            playJumpSound = true;
+        }
+        if (state.get_double_jumped()) {
+            if (playDoubleJumpSound) {
+                mixerManager.playJumpSound();
+                playDoubleJumpSound = false;
+            }
+        } else {
+            playDoubleJumpSound = true;
         }
     }
 }

@@ -7,6 +7,7 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include "client/model/ClientScorerState.h"
+#include "client/MixerManager.h"
 
 class Scorer {
     SDL2pp::Font font;
@@ -22,9 +23,9 @@ class Scorer {
 public:
     explicit Scorer(SDL2pp::Renderer &renderer, int time);
 
-    void render(SDL2pp::Renderer &renderer, ClientScorerState state);
+    void render(SDL2pp::Renderer &renderer, ClientScorerState state, MixerManager &mixerManager);
 
-    void updateState(ClientScorerState state);
+    void updateState(ClientScorerState state, MixerManager &mixerManager);
 
     std::string GetFormattedTime(int _time);
 };
