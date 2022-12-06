@@ -13,3 +13,9 @@ Menu::~Menu()
     delete ui;
 }
 
+
+void Menu::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
