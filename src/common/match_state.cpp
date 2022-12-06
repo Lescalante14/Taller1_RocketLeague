@@ -8,6 +8,7 @@
 struct T {
     uint16_t time;
     uint8_t playing;
+    uint8_t repetition;
     uint8_t scorer_1;
     uint8_t scorer_2;
     uint8_t cars_quantity;
@@ -17,6 +18,7 @@ std::string MatchState::serialize() {
     struct T t = {
         htons(this->time),
         this->playing,
+        this->repetition,
         this->scorer_1,
         this->scorer_2,
         this->cars_quantity
@@ -48,6 +50,7 @@ MatchState::MatchState(std::string &state) {
     
     this->time = ntohs(t.time);
     this->playing = t.playing;
+    this->repetition = t.repetition;
     this->scorer_1 = t.scorer_1;
     this->scorer_2 = t.scorer_2;
     this->cars_quantity = t.cars_quantity;
@@ -73,6 +76,7 @@ MatchState::MatchState(std::string &state) {
 MatchState::MatchState(
     uint16_t _time,
     uint8_t _playing,
+    uint8_t _repetition,
     uint8_t _scorer_1,
     uint8_t _scorer_2,
     uint8_t _cars_quantity,
@@ -80,6 +84,7 @@ MatchState::MatchState(
     std::vector<CarState> _cars
 ) : time(_time),
     playing(_playing),
+    repetition(_repetition),
     scorer_1(_scorer_1),
     scorer_2(_scorer_2),
     cars_quantity(_cars_quantity),
@@ -92,6 +97,10 @@ uint16_t MatchState::get_time() {
 
 uint8_t MatchState::get_playing() {
     return this->playing;
+}
+
+uint8_t MatchState::is_repetition() {
+    return this->repetition;
 }
 
 uint8_t MatchState::get_scorer_1() {

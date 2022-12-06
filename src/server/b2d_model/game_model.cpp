@@ -241,7 +241,7 @@ void GameModel::saveState() {
 								c.remainingNitro(),
 								c.getFacing(),
 								c.getAngle(),
-								c.hasJumped(), // TODO: llenar bien jumped y double_jumped
+								c.hasJumped(),
 								c.hasDJumped(), 
 								c.getPosition().x,
 								c.getPosition().y);
