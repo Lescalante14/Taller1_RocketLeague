@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <QApplication>
 
 #include "client/threads/client_thread_receiver.h"
 #include "client/threads/client_thread_sender.h"
@@ -9,6 +10,8 @@
 #include "common/blocking_queue.h"
 #include "common/protocol.h"
 #include "common/socket.h"
+
+#include "qt-menu/menu.h"
 
 void Client::run(
         const char *hostname,
@@ -24,11 +27,19 @@ void Client::run(
     receiver.start();
     sender.start();
 
-    LobbyClient lobby(received_queue, to_send_queue);
-    bool readyToPlay = lobby.run(std::cin);
+    // LobbyClient lobby(received_queue, to_send_queue);
+	int _argc = 0;
+	char *_argv = NULL;
+
+	bool play = false;
+	
+	QApplication g_client(_argc, &_argv);
+    Menu m(&play, to_send_queue, received_queue);
+    m.show();
+    g_client.exec();
 
     try {
-        if (readyToPlay) {
+        if (play) {
             Game game(received_queue, to_send_queue);
             game.run();
         }

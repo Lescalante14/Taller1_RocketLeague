@@ -4,9 +4,9 @@
 #include "transferable.h"
 #include <string>
 
-#define LIST_CODE 0x00
-#define CREATE_CODE 0x01
-#define JOIN_CODE 0x02
+#define LIST_CODE 0
+#define CREATE_CODE 1
+#define JOIN_CODE 2
 #define COMMAND_SUCCESS_CODE 0
 #define COMMAND_FAILURE_CODE 1
 
