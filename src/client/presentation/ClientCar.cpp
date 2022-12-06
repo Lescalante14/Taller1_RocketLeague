@@ -7,6 +7,11 @@
 
 #include <utility>
 
+/// flag para evitar que en al tener N clientes levantados en local
+/// se ejecuten N sonidos de "JUMP" ante el "JUMP" de 1 solo cliente.
+/// setear en false si solo se levanta un cliente en local (multiplayer online)
+#define AVOID_REPEATED_SOUNDS true
+
 ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer)
         : texture(renderer,isTeam1
                   ? SDL2pp::Surface("./assets/car.png").SetColorMod(0,0,255).SetColorKey(true, 0)
@@ -15,7 +20,8 @@ ClientCar::ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &rende
         , state(std::move(state))
         , nitroBar(renderer){}
 
-void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar) {
+void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar,
+                       MixerManager &mixerManager) {
     int posX = positionConverter.get_X_position_car_in_PX(state.get_position_x(), renderer);
     int posY = positionConverter.get_Y_position_car_in_PX(state.get_position_y(), renderer);
     int carWidth = positionConverter.get_car_width_in_PX(renderer);
@@ -34,6 +40,9 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
         nitroBar.render(renderer, state.get_nitro_percentage(), posX, posY, carWidth, carHeight, state.is_oriented_right());
 
     if (state.get_nitro_activated()) {
+        if (!AVOID_REPEATED_SOUNDS || isSelfCar){
+            mixerManager.playNitroSound();
+        }
         int signPos = flipH ? carWidth : -carWidth;
         renderer.Copy(nitroTexture,
                       SDL2pp::NullOpt,
@@ -42,6 +51,10 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
                       SDL2pp::NullOpt,
                       flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         );
+    } else {
+        if (!AVOID_REPEATED_SOUNDS || isSelfCar){
+            mixerManager.stopNitroSound();
+        }
     }
 }
 

@@ -11,6 +11,7 @@
 #include "common/match_setup.h"
 #include "client/helpers/PositionConverter.h"
 #include "ClientNitroBar.h"
+#include "client/MixerManager.h"
 
 class ClientCar {
 private:
@@ -23,7 +24,7 @@ public:
 
     ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer);
 
-    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar);
+    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, bool isSelfCar, MixerManager &manager);
 
     void updateState(ClientCarState newState);
 };

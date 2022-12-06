@@ -12,10 +12,10 @@
 #include "client/model/ClientMatchState.h"
 #include "client/helpers/MockProvider.h"
 #include "common/match_setup.h"
+#include "MixerManager.h"
 
 #define FRAME_RATE 60 // 60Hz
 #define SEC2MICRO(t) (t) * 1e6
-#define GAME_MUSIC_VOLUME 10
 
 Game::Game(BlockingQueue<std::string> &received_queue, BlockingQueue<std::string> &to_send_queue)
 : received_queue(received_queue), to_send_queue(to_send_queue) {}
@@ -45,14 +45,8 @@ void Game::run() {
     // Init font library
     TTF_Init();
 
-    // Init mixer library
-    SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
-
-    SDL2pp::Chunk sound("./assets/gameMusic.mp3");
-    sound.SetVolume(GAME_MUSIC_VOLUME);
-
-    // Play our sound one time on a first available mixer channel and "infinite" loop
-    mixer.PlayChannel(-1, sound, -1);
+    MixerManager mixerManager;
+    mixerManager.playGameMusic();
 
     MatchSetup matchSetup(setupStr);
     std::string stateStr = received_queue.pop();
@@ -65,7 +59,7 @@ void Game::run() {
     ClientMatchState clientMatchState(matchState);
 
     //Principal presentation layer
-    ClientMatch match(clientMatchState, renderer, matchSetup);
+    ClientMatch match(clientMatchState, renderer, mixerManager, matchSetup);
 
     match.render(renderer);
 
