@@ -25,9 +25,8 @@ void ThreadMatchHandler::run() {
 	this->match.push_to_output_queues(game_model.getState());
 
 	float update_iter = 0;
-	bool match_finished = false;
 
-    while (!match_finished) {
+    while (!game_model.finished()) {
 		try {
 			UserAction action = input_queue.try_pop();
 			game_model.updateGame(action);			
@@ -40,9 +39,6 @@ void ThreadMatchHandler::run() {
 			game_model.step();
 			this->match.push_to_output_queues(game_model.getState());
 		}
-
-		uint16 time_left = game_model.getState().get_time();
-		match_finished = time_left <= 0;
 
 		usleep(MILI2MICRO(1 / UPDATE_FREQ));
     }

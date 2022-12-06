@@ -29,6 +29,7 @@
 
 #define MAX_REC 5 /* how many seconds to record */
 
+#define AFTER_SCORE_SLEEP 3 /* in secs */
 
 GameModel::GameModel(size_t cars_amount, size_t _step_freq) 
 			: world(b2Vec2(0.0f, -GRAVITY)),
@@ -187,8 +188,8 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
+
 	if (!timer || this->scored) {
-		this->saveState();
 		return;
 	}
 
@@ -213,15 +214,16 @@ void GameModel::step() {
 	if (this->scored) {
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
+		return;
 	}
-	this->saveState();
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
-	this->last_shot = shot_type::NONE;
 	this->step_count++;
 
 	if (!(this->step_count % this->step_freq)) {
 		this->timer--;
 	}
+	this->saveState();
+	this->last_shot = shot_type::NONE;
 }
 
 
@@ -235,8 +237,8 @@ void GameModel::saveState() {
 								c.remainingNitro(),
 								c.getFacing(),
 								c.getAngle(),
-								0, // TODO: llenar bien jumped y double_jumped
-								0, 
+								c.hasJumped(), // TODO: llenar bien jumped y double_jumped
+								c.hasDJumped(), 
 								c.getPosition().x,
 								c.getPosition().y);
 	}
@@ -261,12 +263,16 @@ MatchState GameModel::getState() {
 		this->saveState();
 	}
 
-	if (this->scored) {
+	if (this->scored &&
+		this->sleep_count++ > AFTER_SCORE_SLEEP * this->step_freq) {
+		
+		
 		MatchState state = this->last_states.front();
 		this->last_states.pop();
 
 		if (!this->last_states.size()) {
 			this->scored = false;
+			this->sleep_count = 0;
 		}
 		return state;
 	}
@@ -279,6 +285,11 @@ MatchSetup GameModel::getSetup() {
 	return MatchSetup((float) this->length, (float) this->height,
 					  (float) this->scorer_height, this->ball.getRadius(),
 					  4, this->cars.size());
+}
+
+
+bool GameModel::finished() {
+	return !this->timer;
 }
 
 

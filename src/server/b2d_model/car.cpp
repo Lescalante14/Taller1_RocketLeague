@@ -169,6 +169,12 @@ void Car::set_wheels(b2World &world, float x, float y) {
 }
 
 
+bool Car::touchingGround() {
+	return this->rear_wh_bd->GetWorldCenter().y < W_RADIUS + TOL 
+		|| this->front_wh_bd->GetWorldCenter().y < W_RADIUS + TOL;
+}
+
+
 /*    Actions    */
 
 void Car::reset(float x, float y, facing f) {
@@ -250,8 +256,7 @@ void Car::nitroRefill() {
 
 void Car::jump() {
 	// in the ground
-	if (this->rear_wh_bd->GetWorldCenter().y < W_RADIUS + TOL ||
-		this->front_wh_bd->GetWorldCenter().y < W_RADIUS + TOL) {
+	if (this->touchingGround()) {
 		this->d_jumpd = false;
 	
 	// in the air but not double jumped
@@ -287,7 +292,7 @@ void Car::jump() {
 		// b2Vec2 i(0, JUMP_IMPULSE);
 		this->chassis->ApplyLinearImpulseToCenter(i, true);
 	}
-
+	this->jumpd = true;
 }
 
 
@@ -315,7 +320,11 @@ b2Vec2 Car::getVelocity() {
 }
 
 bool Car::hasFlipped() {
-	return this->flipped;
+	if (this->flipped) {
+		this->flipped = false;
+		return true;
+	}
+	return false;
 }
 
 bool Car::isPointingTo(const b2Vec2 &coord) {
@@ -340,6 +349,22 @@ void Car::removeFromWorld(b2World &w) {
 	w.DestroyBody(this->chassis);
 	w.DestroyBody(this->rear_wh_bd);
 	w.DestroyBody(this->front_wh_bd);
+}
+
+bool Car::hasJumped() {
+	if (this->jumpd && this->touchingGround()) {
+		this->jumpd = false;
+		return true;
+	}
+	return false;
+}
+
+bool Car::hasDJumped() {
+	if (this->d_jumpd && this->touchingGround()) {
+		this->d_jumpd = false;
+		return true;
+	}
+	return false;
 }
 
 Car::~Car() {
