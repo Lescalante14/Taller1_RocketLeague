@@ -1,11 +1,8 @@
 #!/bin/sh
 
-if [ ! -d "./build" ]
-then
-	echo "'build' directory does not exist." 
-
-elif [ ! -f "./build/src/rl_server" ] || 
-     [ ! -f "./build/src/rocket_league" ]
+if [ ! -d "./build" ] ||
+   [ ! -f "./build/src/rl_server" ] || 
+   [ ! -f "./build/src/rocket_league" ]
 then
 	echo "first run ./build.sh"
 

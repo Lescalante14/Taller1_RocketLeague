@@ -209,6 +209,10 @@ void GameModel::step() {
 		this->l_scorer++;
 		this->scored = true;
 	}
+	
+	if (!(this->step_count % this->step_freq)) {
+		this->timer--;
+	}
 	this->saveState();
 
 	if (this->scored) {
@@ -218,10 +222,6 @@ void GameModel::step() {
 	}
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
 	this->step_count++;
-
-	if (!(this->step_count % this->step_freq)) {
-		this->timer--;
-	}
 	this->last_shot = shot_type::NONE;
 }
 
