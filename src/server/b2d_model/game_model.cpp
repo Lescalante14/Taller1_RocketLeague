@@ -236,7 +236,7 @@ void GameModel::saveState() {
 								c.remainingNitro(),
 								c.getFacing(),
 								c.getAngle(),
-								c.hasJumped(), // TODO: llenar bien jumped y double_jumped
+								c.hasJumped(),
 								c.hasDJumped(), 
 								c.getPosition().x,
 								c.getPosition().y);
@@ -245,7 +245,7 @@ void GameModel::saveState() {
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
 					  this->ball.getAngle(), this->last_shot);
 
-	MatchState m_state(this->timer, this->timer,
+	MatchState m_state(this->timer, this->timer, 0, // TODO: llenar bien el valor de repetition
 					   this->l_scorer, this->r_scorer, 
 					   cars.size(), b_state, car_states); 
 	

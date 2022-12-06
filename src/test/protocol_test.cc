@@ -76,8 +76,9 @@ TEST(Protocolo, SendMatchState) {
   cstates.push_back(cstate2);
   MatchState mstate(
     120,
+    0,
     1,
-    1,
+    3,
     2,
     4,
     bstate,
@@ -89,8 +90,9 @@ TEST(Protocolo, SendMatchState) {
 
   // MatchStateChecks
   EXPECT_EQ(recv.get_time(), 120);
-  EXPECT_EQ(recv.get_playing(), 1);
-  EXPECT_EQ(recv.get_scorer_1(), 1);
+  EXPECT_EQ(recv.get_playing(), 0);
+  EXPECT_EQ(recv.is_repetition(), 1);
+  EXPECT_EQ(recv.get_scorer_1(), 3);
   EXPECT_EQ(recv.get_scorer_2(), 2);
   EXPECT_EQ(recv.get_cars_quantity(), 4);
   

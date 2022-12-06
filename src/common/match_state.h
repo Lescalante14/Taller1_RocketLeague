@@ -11,6 +11,7 @@ class MatchState: public Transferable {
 private:
     uint16_t time;
     uint8_t playing;
+    uint8_t repetition;
     uint8_t scorer_1;
     uint8_t scorer_2;
     uint8_t cars_quantity;
@@ -21,6 +22,7 @@ public:
     MatchState(
         uint16_t _time,
         uint8_t _playing,
+        uint8_t _repetition,
         uint8_t _scorer_1,
         uint8_t _scorer_2,
         uint8_t _cars_quantity,
@@ -31,8 +33,9 @@ public:
 
     std::string serialize() override;
     
-    uint8_t get_playing();
     uint16_t get_time();
+    uint8_t get_playing();
+    uint8_t is_repetition();
     uint8_t get_scorer_1();
     uint8_t get_scorer_2();
     uint8_t get_cars_quantity();
