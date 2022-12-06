@@ -16,12 +16,12 @@ ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 , shotAirTexture(renderer, SDL2pp::Surface("./assets/shotBallAir.png").SetColorKey(true, 0))
 , state(std::move(state)){}
 
-void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter) {
+void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, MixerManager &mixerManager) {
     int posX = positionConverter.get_X_position_ball_in_PX(state.get_position_x(),renderer);
     int posY = positionConverter.get_Y_position_ball_in_PX(state.get_position_y(), renderer);
     int radiusBall = positionConverter.get_radius_ball_in_PX(renderer);
 
-    renderShot(renderer, posX, posY, radiusBall);
+    renderShot(renderer, posX, posY, radiusBall, mixerManager);
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
@@ -36,7 +36,7 @@ void ClientBall::update(ClientBallState _state) {
     state = std::move(_state);
 }
 
-void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius) {
+void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, MixerManager &mixerManager) {
 	if (last_shot == shot_type::NONE ||
 		shot_steps > MAX_SHOT_STEPS) {
 		
@@ -49,19 +49,31 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
             return;
 
 		case FLIP_SHOT:
-            // Logic in copy because its other texture
+            // Logic rendering in copy because its other texture
+            if(shot_steps == 0) {
+                mixerManager.playSimpleShotSound();
+            }
 			break;
-		
+
 		case PURPLE_SHOT:
             shotTexture.SetColorMod(127,0,255);
+            if(shot_steps == 0) {
+                mixerManager.playSuperShotSound();
+            }
 			break;
 
 		case RED_SHOT:
             shotTexture.SetColorMod(255,0,127);
+            if(shot_steps == 0) {
+                mixerManager.playSuperShotSound();
+            }
 			break;
-		
+
 		case GOLD_SHOT:
             shotTexture.SetColorMod(255,255,0);
+            if(shot_steps == 0) {
+                mixerManager.playSuperShotSound();
+            }
 			break;
 	}
 

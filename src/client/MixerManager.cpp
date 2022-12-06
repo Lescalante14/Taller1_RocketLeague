@@ -22,7 +22,8 @@ MixerManager::MixerManager()
 , nitroSound("./assets/nitroActivation.mp3")
 , nitroSoundChannel(NO_PLAYING_SOUND)
 , jumpSound("./assets/jumpSound.mp3")
-, jumpSoundChannel(NO_PLAYING_SOUND)
+, simpleShotSound("./assets/simpleShotSound.mp3")
+, superShotSound("./assets/superShotSound.mp3")
 {
     gameMusic.SetVolume(GAME_MUSIC_VOLUME);
     nitroSound.SetVolume(NITRO_MUSIC_VOLUME);
@@ -66,11 +67,24 @@ void MixerManager::stopNitroSound() {
 
 void MixerManager::playJumpSound() {
     try {
-        if (jumpSoundChannel == NO_PLAYING_SOUND) {
-            jumpSoundChannel = mixer.PlayChannel(FIRST_FREE_CHANNEL, nitroSound);
-        }
+        mixer.PlayChannel(FIRST_FREE_CHANNEL, jumpSound);
     } catch (SDL2pp::Exception &e) {
-        std::cerr << "Error in play nitro sound: '" << e.what() << "'." << std::endl;
-        jumpSoundChannel = NO_PLAYING_SOUND;
+        std::cerr << "Error in play jump sound: '" << e.what() << "'." << std::endl;
+    }
+}
+
+void MixerManager::playSuperShotSound() {
+    try {
+        mixer.PlayChannel(FIRST_FREE_CHANNEL, superShotSound);
+    } catch (SDL2pp::Exception &e) {
+        std::cerr << "Error in play superShot sound: '" << e.what() << "'." << std::endl;
+    }
+}
+
+void MixerManager::playSimpleShotSound() {
+    try {
+        mixer.PlayChannel(FIRST_FREE_CHANNEL, simpleShotSound);
+    } catch (SDL2pp::Exception &e) {
+        std::cerr << "Error in play simpleShot sound: '" << e.what() << "'." << std::endl;
     }
 }

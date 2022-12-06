@@ -8,6 +8,7 @@
 #include <SDL2pp/SDL2pp.hh>
 #include "client/model/ClientBallState.h"
 #include "client/helpers/PositionConverter.h"
+#include "client/MixerManager.h"
 
 class ClientBall {
     SDL2pp::Texture texture;
@@ -17,13 +18,13 @@ class ClientBall {
 	shot_type last_shot = shot_type::NONE;
 	size_t shot_steps = 0;
 
-    void renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius);
+    void renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, MixerManager &manager);
 
 public:
 
     ClientBall(ClientBallState state, SDL2pp::Renderer &renderer);
 
-    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter);
+    void render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, MixerManager &manager);
 
     void update(ClientBallState _state);
 };

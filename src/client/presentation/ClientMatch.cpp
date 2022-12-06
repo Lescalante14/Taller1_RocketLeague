@@ -19,7 +19,7 @@ void ClientMatch::render(SDL2pp::Renderer &renderer) {
     renderer.Clear();
     ClientScorerState scorerState(state.get_time(), state.get_scorer_1(), state.get_scorer_2());
     field.render(renderer, positionConverter, scorerState);
-    ball.render(renderer, positionConverter);
+    ball.render(renderer, positionConverter, mixerManager);
 
     int index = 0;
     for (auto &car : cars) {
