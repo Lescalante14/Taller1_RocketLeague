@@ -142,6 +142,54 @@ qt-menu_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu_autogen.dir/build.make CMakeFiles/qt-menu_autogen.dir/build
 .PHONY : qt-menu_autogen/fast
 
+creategamewidget.o: creategamewidget.cpp.o
+.PHONY : creategamewidget.o
+
+# target to build an object file
+creategamewidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/creategamewidget.cpp.o
+.PHONY : creategamewidget.cpp.o
+
+creategamewidget.i: creategamewidget.cpp.i
+.PHONY : creategamewidget.i
+
+# target to preprocess a source file
+creategamewidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/creategamewidget.cpp.i
+.PHONY : creategamewidget.cpp.i
+
+creategamewidget.s: creategamewidget.cpp.s
+.PHONY : creategamewidget.s
+
+# target to generate assembly for a file
+creategamewidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/creategamewidget.cpp.s
+.PHONY : creategamewidget.cpp.s
+
+joingamewidget.o: joingamewidget.cpp.o
+.PHONY : joingamewidget.o
+
+# target to build an object file
+joingamewidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/joingamewidget.cpp.o
+.PHONY : joingamewidget.cpp.o
+
+joingamewidget.i: joingamewidget.cpp.i
+.PHONY : joingamewidget.i
+
+# target to preprocess a source file
+joingamewidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/joingamewidget.cpp.i
+.PHONY : joingamewidget.cpp.i
+
+joingamewidget.s: joingamewidget.cpp.s
+.PHONY : joingamewidget.s
+
+# target to generate assembly for a file
+joingamewidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/joingamewidget.cpp.s
+.PHONY : joingamewidget.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -224,6 +272,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... qt-menu_autogen"
 	@echo "... qt-menu"
+	@echo "... creategamewidget.o"
+	@echo "... creategamewidget.i"
+	@echo "... creategamewidget.s"
+	@echo "... joingamewidget.o"
+	@echo "... joingamewidget.i"
+	@echo "... joingamewidget.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -76,6 +76,18 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.h",
+			"MU",
+			"EWIEGA46WW/moc_creategamewidget.cpp",
+			null
+		],
+		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.h",
+			"MU",
+			"EWIEGA46WW/moc_joingamewidget.cpp",
+			null
+		],
+		[
 			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/menu.h",
 			"MU",
 			"EWIEGA46WW/moc_menu.cpp",
@@ -134,6 +146,16 @@
 	"SETTINGS_FILE" : "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/qt-menu_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp",
+			"MU",
+			null
+		],
 		[
 			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/main.cpp",
 			"MU",

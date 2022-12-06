@@ -2,6 +2,10 @@
 file(GLOB_RECURSE SERVER_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/server/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/server/*.h)
 file(GLOB_RECURSE COMMON_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/common/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/common/*.h)
 file(GLOB_RECURSE CLIENT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/client/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/client/*.h)
+
+file(GLOB_RECURSE QT_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/qt-menu/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/client/*.h)
+file(GLOB_RECURSE QT_UI_FILES ${CMAKE_CURRENT_SOURCE_DIR}/qt-menu/*.ui)
+
 add_subdirectory(./test)
 
 
@@ -24,7 +28,17 @@ target_compile_options(rl_server PUBLIC
 
 # --------- Client build ---------
 
-add_executable(rocket_league ${CLIENT_SRC_FILES} ${COMMON_SRC_FILES} )
+find_package(Qt5Widgets REQUIRED)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+qt_wrap_ui(UIS_HEADERS ${QT_UI_FILES})
+
+add_executable(rocket_league ${CLIENT_SRC_FILES} ${COMMON_SRC_FILES} ${QT_SRC_FILES} ${UIS_HEADERS})
 
 target_include_directories(rocket_league PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -41,6 +55,11 @@ file(COPY client/assets DESTINATION ${CMAKE_BINARY_DIR}/src)
 # adding SDL2pp libary
 include_directories(${SDL2PP_INCLUDE_DIRS})
 target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
+
+#include qt
+include_directories(${PROJECT_BINARY_DIR})
+target_link_libraries(rocket_league PUBLIC Qt5::Widgets)
+
 
 target_compile_options(rocket_league PUBLIC
 	-Werror

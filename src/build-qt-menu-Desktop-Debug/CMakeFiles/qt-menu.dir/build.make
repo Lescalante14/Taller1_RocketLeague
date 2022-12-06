@@ -111,11 +111,41 @@ CMakeFiles/qt-menu.dir/menu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/qt-menu.dir/menu.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/menu.cpp -o CMakeFiles/qt-menu.dir/menu.cpp.s
 
+CMakeFiles/qt-menu.dir/joingamewidget.cpp.o: CMakeFiles/qt-menu.dir/flags.make
+CMakeFiles/qt-menu.dir/joingamewidget.cpp.o: /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp
+CMakeFiles/qt-menu.dir/joingamewidget.cpp.o: CMakeFiles/qt-menu.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/qt-menu.dir/joingamewidget.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qt-menu.dir/joingamewidget.cpp.o -MF CMakeFiles/qt-menu.dir/joingamewidget.cpp.o.d -o CMakeFiles/qt-menu.dir/joingamewidget.cpp.o -c /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp
+
+CMakeFiles/qt-menu.dir/joingamewidget.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/qt-menu.dir/joingamewidget.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp > CMakeFiles/qt-menu.dir/joingamewidget.cpp.i
+
+CMakeFiles/qt-menu.dir/joingamewidget.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/qt-menu.dir/joingamewidget.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp -o CMakeFiles/qt-menu.dir/joingamewidget.cpp.s
+
+CMakeFiles/qt-menu.dir/creategamewidget.cpp.o: CMakeFiles/qt-menu.dir/flags.make
+CMakeFiles/qt-menu.dir/creategamewidget.cpp.o: /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp
+CMakeFiles/qt-menu.dir/creategamewidget.cpp.o: CMakeFiles/qt-menu.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/qt-menu.dir/creategamewidget.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qt-menu.dir/creategamewidget.cpp.o -MF CMakeFiles/qt-menu.dir/creategamewidget.cpp.o.d -o CMakeFiles/qt-menu.dir/creategamewidget.cpp.o -c /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp
+
+CMakeFiles/qt-menu.dir/creategamewidget.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/qt-menu.dir/creategamewidget.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp > CMakeFiles/qt-menu.dir/creategamewidget.cpp.i
+
+CMakeFiles/qt-menu.dir/creategamewidget.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/qt-menu.dir/creategamewidget.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp -o CMakeFiles/qt-menu.dir/creategamewidget.cpp.s
+
 # Object files for target qt-menu
 qt__menu_OBJECTS = \
 "CMakeFiles/qt-menu.dir/qt-menu_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/qt-menu.dir/main.cpp.o" \
-"CMakeFiles/qt-menu.dir/menu.cpp.o"
+"CMakeFiles/qt-menu.dir/menu.cpp.o" \
+"CMakeFiles/qt-menu.dir/joingamewidget.cpp.o" \
+"CMakeFiles/qt-menu.dir/creategamewidget.cpp.o"
 
 # External object files for target qt-menu
 qt__menu_EXTERNAL_OBJECTS =
@@ -123,12 +153,14 @@ qt__menu_EXTERNAL_OBJECTS =
 qt-menu: CMakeFiles/qt-menu.dir/qt-menu_autogen/mocs_compilation.cpp.o
 qt-menu: CMakeFiles/qt-menu.dir/main.cpp.o
 qt-menu: CMakeFiles/qt-menu.dir/menu.cpp.o
+qt-menu: CMakeFiles/qt-menu.dir/joingamewidget.cpp.o
+qt-menu: CMakeFiles/qt-menu.dir/creategamewidget.cpp.o
 qt-menu: CMakeFiles/qt-menu.dir/build.make
 qt-menu: /home/santiago/anaconda3/lib/libQt5Widgets.so.5.9.7
 qt-menu: /home/santiago/anaconda3/lib/libQt5Gui.so.5.9.7
 qt-menu: /home/santiago/anaconda3/lib/libQt5Core.so.5.9.7
 qt-menu: CMakeFiles/qt-menu.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable qt-menu"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable qt-menu"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/qt-menu.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
