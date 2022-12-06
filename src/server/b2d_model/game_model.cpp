@@ -188,7 +188,6 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-
 	if (!timer || this->scored) {
 		return;
 	}
@@ -241,10 +240,6 @@ void GameModel::saveState() {
 								c.hasDJumped(), 
 								c.getPosition().x,
 								c.getPosition().y);
-
-	    if (car_states.at(it->first).get_double_jumped()) {
-			std::cout << "jumped!" << std::endl;
-		}
 	}
 
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
