@@ -21,6 +21,7 @@ Menu::Menu(bool *play,
     ui->setupUi(this);
     ui->stackedWidget->insertWidget(CREATE_GAME, &c_widg);
     ui->stackedWidget->insertWidget(JOIN_GAME, &j_widg);
+    ui->stackedWidget->insertWidget(CONFIG, &conf_widg);
 
     connect(&c_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
     connect(&j_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
@@ -54,5 +55,11 @@ void Menu::on_joinButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(JOIN_GAME);
     this->j_widg.updateGameList();
+}
+
+
+void Menu::on_configButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(CONFIG);
 }
 

@@ -5,6 +5,8 @@
 
 #include "creategamewidget.h"
 #include "joingamewidget.h"
+#include "configwidget.h"
+
 #include "../common/blocking_queue.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,10 +31,13 @@ private slots:
     void on_createButton_clicked();
     void on_joinButton_clicked();
 
+    void on_configButton_clicked();
+
 private:
     Ui::Menu *ui;
     bool *_play = nullptr;
     createGameWidget c_widg;
     joinGameWidget j_widg;
+    configWidget conf_widg;
 };
 #endif // MENU_H

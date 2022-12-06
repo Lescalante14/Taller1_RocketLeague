@@ -76,6 +76,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/configwidget.h",
+			"MU",
+			"EWIEGA46WW/moc_configwidget.cpp",
+			null
+		],
+		[
 			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.h",
 			"MU",
 			"EWIEGA46WW/moc_creategamewidget.cpp",
@@ -146,6 +152,11 @@
 	"SETTINGS_FILE" : "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/qt-menu_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/configwidget.cpp",
+			"MU",
+			null
+		],
 		[
 			"/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp",
 			"MU",

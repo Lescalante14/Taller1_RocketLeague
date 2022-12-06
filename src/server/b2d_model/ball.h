@@ -25,6 +25,8 @@ class Ball {
 	void applyShotEffect(shot_type type, b2Vec2 &dir);
 	shot_type applyShotEffect(Car &car);
 	void reset(float x, float y);
+	void freeze();
+	void unfreeze();
 
 	/*  Stats  */
 	b2Vec2 getPosition();

@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/qt-menu_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/qt-menu_autogen.dir/ParseCache.txt"
   "qt-menu_autogen"
+  "CMakeFiles/qt-menu.dir/configwidget.cpp.o"
+  "CMakeFiles/qt-menu.dir/configwidget.cpp.o.d"
   "CMakeFiles/qt-menu.dir/creategamewidget.cpp.o"
   "CMakeFiles/qt-menu.dir/creategamewidget.cpp.o.d"
   "CMakeFiles/qt-menu.dir/joingamewidget.cpp.o"

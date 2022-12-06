@@ -31,6 +31,7 @@ class GameModel {
 	uint8_t l_scorer = 0;
 	uint8_t r_scorer = 0;
 	bool scored = false;
+	bool playing_rec = false;
 
 	std::map<uint8_t, Car> cars;
 	Ball ball;
