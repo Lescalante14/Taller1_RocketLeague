@@ -122,3 +122,8 @@ BallState MatchState::get_ball() {
 std::vector<CarState> MatchState::get_cars() {
     return this->cars;
 }
+
+void MatchState::make_repetition() {
+	this->repetition = true;
+}
+
