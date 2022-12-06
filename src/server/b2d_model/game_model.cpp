@@ -210,6 +210,7 @@ void GameModel::step() {
 		this->l_scorer++;
 		this->scored = true;
 	}
+	this->saveState();
 
 	if (this->scored) {
 		this->ball.reset(this->length / 2, this->height / 2);
@@ -222,14 +223,13 @@ void GameModel::step() {
 	if (!(this->step_count % this->step_freq)) {
 		this->timer--;
 	}
-	this->saveState();
 	this->last_shot = shot_type::NONE;
 }
 
 
 void GameModel::saveState() {
 	std::vector<CarState> car_states;
-	
+
 	for (auto it = this->cars.begin(); it != this->cars.end(); ++it) {
 		Car &c = it->second;
 		car_states.emplace_back(it->first, 
@@ -241,6 +241,10 @@ void GameModel::saveState() {
 								c.hasDJumped(), 
 								c.getPosition().x,
 								c.getPosition().y);
+
+	    if (car_states.at(it->first).get_double_jumped()) {
+			std::cout << "jumped!" << std::endl;
+		}
 	}
 
 	BallState b_state(this->ball.getPosition().x, this->ball.getPosition().y,
@@ -255,6 +259,7 @@ void GameModel::saveState() {
 		this->last_states.pop();
 	}
 	this->last_states.push(m_state);
+
 }
 
 

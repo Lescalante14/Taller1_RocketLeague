@@ -4,6 +4,7 @@
 #include <box2d/b2_contact.h>
 
 #include "car.h"
+#include <iostream>
 
 #define CAR_WIDTH 4.0f
 #define CAR_HEIGHT 1.5f
@@ -258,14 +259,13 @@ void Car::jump() {
 	// in the ground
 	if (this->touchingGround()) {
 		this->d_jumpd = false;
+		this->jumpd = false;
 	
-	// in the air but not double jumped
-	} else if (!this->d_jumpd) {
-		this->d_jumpd = true;
-	
-	} else {
+	// in the air but not double jumped nor flipped
+	} else if (this->flipped || this->d_jumpd) {
 		return;
 	}
+
 	// if the car has significative angular velocity,
 	// performs a flip, i.e. increase angular velocity
 	if (abs(this->chassis->GetAngularVelocity()) > 3) {
@@ -278,8 +278,16 @@ void Car::jump() {
 
 		this->flipped = true;
 	
+	/* First or double jump */
 	} else {
 		this->flipped = false;
+
+		if (this->jumpd) {
+			this->d_jumpd = true;
+		
+		} else {
+			this->jumpd = true;
+		}
 
 		// performs an impulse perpendicular to the body (locally)
 		float rad_angle = this->chassis->GetAngle();
@@ -292,7 +300,6 @@ void Car::jump() {
 		// b2Vec2 i(0, JUMP_IMPULSE);
 		this->chassis->ApplyLinearImpulseToCenter(i, true);
 	}
-	this->jumpd = true;
 }
 
 
@@ -352,11 +359,14 @@ void Car::removeFromWorld(b2World &w) {
 }
 
 bool Car::hasJumped() {
-	if (this->jumpd && this->touchingGround()) {
+	if (this->jumpd && 
+		this->touchingGround() && 
+		this->chassis->GetLinearVelocity().y < 0) {
+		
 		this->jumpd = false;
-		return true;
+		// return true;
 	}
-	return false;
+	return this->jumpd;
 }
 
 bool Car::hasDJumped() {
@@ -364,7 +374,7 @@ bool Car::hasDJumped() {
 		this->d_jumpd = false;
 		return true;
 	}
-	return false;
+	return this->d_jumpd;
 }
 
 Car::~Car() {
