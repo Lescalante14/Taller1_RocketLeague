@@ -2,15 +2,8 @@
 #include <cstring>
 #include <netinet/in.h>
 
-struct T {
-    uint32_t position_x;
-    uint32_t position_y;
-    uint16_t angle;
-    uint8_t shot_type;
-} __attribute__((packed));
-
 std::string BallState::serialize() {
-    struct T t = {
+    struct ball_struct t = {
         htonl(this->position_x),
         htonl(this->position_y),
         htons(this->angle),
@@ -18,13 +11,13 @@ std::string BallState::serialize() {
     };
     
     char* buf = (char*)&t;
-    std::string message(buf, sizeof(T));
+    std::string message(buf, sizeof(ball_struct));
     return message;
 }
 
 BallState::BallState(std::string &state) {
     const char* buf = state.c_str();
-    struct T t;
+    struct ball_struct t;
     memcpy(&t, buf, state.size());
     
     this->position_x = ntohl(t.position_x);

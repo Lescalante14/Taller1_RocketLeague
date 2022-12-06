@@ -55,18 +55,18 @@ MatchState::MatchState(std::string &state) {
     std::string rem(
         &buf[sizeof(T)], state.size() - sizeof(T));
 
-    std::string ball_string(rem.substr(0, BALL_STATE_SIZE));
+    std::string ball_string(rem.substr(0, sizeof(ball_struct)));
 
     BallState ball(ball_string);
     this->ball = ball;
 
-    std::string cars_string(rem.substr(BALL_STATE_SIZE));
+    std::string cars_string(rem.substr(sizeof(ball_struct)));
 
     while (cars_string.size() > 0) {
-        std::string car_serialized(cars_string.substr(0, CAR_STATE_SIZE));
+        std::string car_serialized(cars_string.substr(0, sizeof(car_struct)));
         CarState car(car_serialized);
         this->cars.push_back(car);
-        cars_string = cars_string.substr(CAR_STATE_SIZE);
+        cars_string = cars_string.substr(sizeof(car_struct));
     }
 }
 

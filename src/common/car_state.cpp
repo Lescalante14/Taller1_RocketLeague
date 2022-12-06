@@ -2,35 +2,27 @@
 #include <netinet/in.h>
 #include <cstring>
 
-struct T {
-    uint8_t id;
-    uint8_t nitro_activated;
-    uint8_t nitro_percentage;
-    uint8_t oriented_right;
-    uint16_t angle;
-    uint32_t position_x;
-    uint32_t position_y;
-} __attribute__((packed));
-
 std::string CarState::serialize() {
-    struct T t = {
+    struct car_struct t = {
         this->id,
         this->nitro_activated,
         this->nitro_percentage,
         this->oriented_right,
         htons(this->angle),
+        this->jumped,
+        this->double_jumped,
         htonl(this->position_x),
-        htonl(this->position_y),
+        htonl(this->position_y)
     };
     
     char* buf = (char*)&t;
-    std::string message(buf, sizeof(T));
+    std::string message(buf, sizeof(car_struct));
     return message;
 }
 
 CarState::CarState(std::string &state) {
     const char* buf = state.c_str();
-    struct T t;
+    struct car_struct t;
     memcpy(&t, buf, state.size());
     
     this->id = t.id;
@@ -38,6 +30,8 @@ CarState::CarState(std::string &state) {
     this->nitro_percentage = t.nitro_percentage;
     this->oriented_right = t.oriented_right;
     this->angle = ntohs(t.angle);
+    this->jumped = t.jumped;
+    this->double_jumped = t.double_jumped;
     this->position_x = ntohl(t.position_x);
     this->position_y = ntohl(t.position_y);
 }
@@ -48,6 +42,8 @@ CarState::CarState(
     uint8_t _nitro_percentage,
     uint8_t _oriented_right,
     uint16_t _angle,
+    uint8_t _jumped,
+    uint8_t _double_jumped,
     float _position_x,
     float _position_y
 ) : id(_id),
@@ -55,6 +51,8 @@ CarState::CarState(
     nitro_percentage(_nitro_percentage),
     oriented_right(_oriented_right),
     angle(_angle),
+    jumped(_jumped),
+    double_jumped(_double_jumped),
     position_x(_position_x * 100),
     position_y(_position_y * 100) {}
 
@@ -84,5 +82,13 @@ uint8_t CarState::is_oriented_right() {
 
 uint16_t CarState::get_angle() {
     return this->angle;
+}
+
+uint8_t CarState::get_jumped() {
+    return this->jumped;
+}
+
+uint8_t CarState::get_double_jumped() {
+    return this->double_jumped;
 }
 
