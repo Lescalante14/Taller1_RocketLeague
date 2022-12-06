@@ -12,8 +12,8 @@
 
 class ClientBall {
     SDL2pp::Texture texture;
-    SDL2pp::Texture shotTexture;
-    SDL2pp::Texture shotAirTexture;
+    SDL2pp::Texture superShotTexture;
+    SDL2pp::Texture simpleShotTexture;
     ClientBallState state;
 	shot_type last_shot = shot_type::NONE;
 	size_t shot_steps = 0;
