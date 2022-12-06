@@ -41,6 +41,7 @@ public:
     uint8_t get_cars_quantity();
     BallState get_ball();
     std::vector<CarState> get_cars();
+	void make_repetition();
 };
 
 #endif

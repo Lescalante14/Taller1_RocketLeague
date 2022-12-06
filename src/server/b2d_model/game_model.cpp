@@ -270,6 +270,8 @@ MatchState GameModel::getState() {
 
 	if (this->playing_rec) {
 		MatchState state = this->last_states.front();
+		state.make_repetition();
+		
 		this->last_states.pop();
 
 		if (!this->last_states.size()) {
