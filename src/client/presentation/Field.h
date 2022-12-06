@@ -20,6 +20,7 @@ class Field {
     SDL2pp::Texture goalTexture1;
     SDL2pp::Texture goalTexture2;
     SDL2pp::Texture repetitionTexture;
+    int repetitionSteps = 0;
     Scorer scorer;
     GoalAnimation goalAnimation;
     size_t shotStepsAnimation= 0;

@@ -5,12 +5,13 @@
 #include "Field.h"
 
 #define MAX_STEPS_ANIMATION 1000
+#define REPETITION_INTERVAL 200
 
 Field::Field(SDL2pp::Renderer &renderer, int time)
 : fieldTexture(renderer, SDL2pp::Surface("/var/rocket_league/field.jpg").SetColorKey(true, 0))
 , goalTexture1(renderer, SDL2pp::Surface("/var/rocket_league/goal1.png").SetColorKey(true, 0))
 , goalTexture2(renderer, SDL2pp::Surface("/var/rocket_league/goal2.png").SetColorKey(true, 0))
-, repetitionTexture(renderer, SDL2pp::Surface("/var/rocket_league/repetitionCamera.png").SetColorKey(true, 0))
+, repetitionTexture(renderer, SDL2pp::Surface("/var/rocket_league/repetitionCamera.png").SetColorKey(true, 255))
 , scorer(renderer, time)
 , goalAnimation(renderer){}
 
@@ -58,7 +59,14 @@ void Field::renderGoalAnimation(SDL2pp::Renderer &renderer, ClientScorerState sc
 }
 
 void Field::renderRepetitionSignal(SDL2pp::Renderer &renderer) {
-    renderer.Copy(repetitionTexture,
-                  SDL2pp::NullOpt,
-                  SDL2pp::Rect(50, 50, 200, 200));
+    if (repetitionSteps >= 0 && repetitionSteps < REPETITION_INTERVAL) {
+        renderer.Copy(repetitionTexture,
+                      SDL2pp::NullOpt,
+                      SDL2pp::Rect(50, 50, 200, 200));
+        repetitionSteps++;
+    } else if (repetitionSteps == REPETITION_INTERVAL){
+        repetitionSteps = -REPETITION_INTERVAL;
+    } else {
+        repetitionSteps++;
+    }
 }
