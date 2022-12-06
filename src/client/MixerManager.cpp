@@ -13,7 +13,10 @@
 
 /* Defined by our team*/
 #define GAME_MUSIC_VOLUME 10
-#define NITRO_MUSIC_VOLUME 30
+#define NITRO_VOLUME 30
+#define GOAL_VOLUME 30
+#define SUPER_SHOT_VOLUME 50
+#define SIMPLE_SHOT_VOLUME 50
 
 MixerManager::MixerManager()
 : mixer(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096)
@@ -24,9 +27,13 @@ MixerManager::MixerManager()
 , jumpSound("./assets/jumpSound.mp3")
 , simpleShotSound("./assets/simpleShotSound.mp3")
 , superShotSound("./assets/superShotSound.mp3")
+, goalSound("./assets/goalSound.mp3")
 {
     gameMusic.SetVolume(GAME_MUSIC_VOLUME);
-    nitroSound.SetVolume(NITRO_MUSIC_VOLUME);
+    nitroSound.SetVolume(NITRO_VOLUME);
+    goalSound.SetVolume(GOAL_VOLUME);
+    superShotSound.SetVolume(SUPER_SHOT_VOLUME);
+    simpleShotSound.SetVolume(SIMPLE_SHOT_VOLUME);
 }
 
 void MixerManager::playGameMusic() {
@@ -86,5 +93,13 @@ void MixerManager::playSimpleShotSound() {
         mixer.PlayChannel(FIRST_FREE_CHANNEL, simpleShotSound);
     } catch (SDL2pp::Exception &e) {
         std::cerr << "Error in play simpleShot sound: '" << e.what() << "'." << std::endl;
+    }
+}
+
+void MixerManager::playGoalSound() {
+    try {
+        mixer.PlayChannel(FIRST_FREE_CHANNEL, goalSound);
+    } catch (SDL2pp::Exception &e) {
+        std::cerr << "Error in play goal sound: '" << e.what() << "'." << std::endl;
     }
 }

@@ -12,6 +12,7 @@
 #include "client/helpers/PositionConverter.h"
 #include "Scorer.h"
 #include "client/model/ClientScorerState.h"
+#include "client/MixerManager.h"
 
 class Field {
     SDL2pp::Texture fieldTexture;
@@ -21,7 +22,7 @@ class Field {
 public:
     explicit Field(SDL2pp::Renderer &renderer, int time);
 
-    void render(SDL2pp::Renderer &renderer, PositionConverter &converter, ClientScorerState scorerState);
+    void render(SDL2pp::Renderer &renderer, PositionConverter &converter, ClientScorerState scorerState, MixerManager &mixerManager);
 };
 
 

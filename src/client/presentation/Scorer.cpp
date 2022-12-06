@@ -19,8 +19,8 @@ Scorer::Scorer(SDL2pp::Renderer &renderer, int time)
 , time(time), team1(0), team2(0)
 {}
 
-void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state) {
-    updateState(state);
+void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state, MixerManager &mixerManager) {
+    updateState(state, mixerManager);
     renderer.Copy(textureScorer,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect((renderer.GetOutputWidth()/2)-SCORER_IMG_WIDTH/2, 0, SCORER_IMG_WIDTH, SCORER_IMG_HEIGHT));
@@ -46,7 +46,7 @@ void Scorer::render(SDL2pp::Renderer &renderer, ClientScorerState state) {
                       SDL2pp::Rect((renderer.GetOutputWidth()/2)+(SCORER_IMG_WIDTH/2)-40, 30, textureTeam2Scorer.GetWidth(), textureTeam2Scorer.GetHeight()));
 }
 
-void Scorer::updateState(ClientScorerState state) {
+void Scorer::updateState(ClientScorerState state, MixerManager &mixerManager) {
     // Update Time
     if (state.getTime() != time) {
         time = state.getTime();
@@ -55,12 +55,14 @@ void Scorer::updateState(ClientScorerState state) {
 
     // Update scorer team 1
     if (state.getTeam1() != team1) {
+        mixerManager.playGoalSound();
         team1 = state.getTeam1();
         textureTeam1Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team1), SDL_Color{255, 255, 255, 255}));
     }
 
     // Update scorer team 2
     if (state.getTeam2() != team2) {
+        mixerManager.playGoalSound();
         team2 = state.getTeam2();
         textureTeam2Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team2), SDL_Color{255, 255, 255, 255}));
     }
