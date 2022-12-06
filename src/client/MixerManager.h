@@ -15,6 +15,8 @@ class MixerManager {
     int gameMusicChannel;
     SDL2pp::Chunk nitroSound;
     int nitroSoundChannel;
+    SDL2pp::Chunk jumpSound;
+    int jumpSoundChannel;
 
 public:
     MixerManager();
@@ -25,6 +27,9 @@ public:
     void playNitroSound();
 
     void stopNitroSound();
+
+    void playJumpSound();
+
 };
 
 

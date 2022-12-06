@@ -21,6 +21,8 @@ MixerManager::MixerManager()
 , gameMusicChannel(NO_PLAYING_SOUND)
 , nitroSound("./assets/nitroActivation.mp3")
 , nitroSoundChannel(NO_PLAYING_SOUND)
+, jumpSound("./assets/jumpSound.mp3")
+, jumpSoundChannel(NO_PLAYING_SOUND)
 {
     gameMusic.SetVolume(GAME_MUSIC_VOLUME);
     nitroSound.SetVolume(NITRO_MUSIC_VOLUME);
@@ -59,5 +61,16 @@ void MixerManager::stopNitroSound() {
     if (nitroSoundChannel != NO_PLAYING_SOUND) {
         mixer.HaltChannel(nitroSoundChannel);
         nitroSoundChannel = NO_PLAYING_SOUND;
+    }
+}
+
+void MixerManager::playJumpSound() {
+    try {
+        if (jumpSoundChannel == NO_PLAYING_SOUND) {
+            jumpSoundChannel = mixer.PlayChannel(FIRST_FREE_CHANNEL, nitroSound);
+        }
+    } catch (SDL2pp::Exception &e) {
+        std::cerr << "Error in play nitro sound: '" << e.what() << "'." << std::endl;
+        jumpSoundChannel = NO_PLAYING_SOUND;
     }
 }

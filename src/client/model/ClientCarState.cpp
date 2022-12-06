@@ -36,3 +36,11 @@ int ClientCarState::get_angle() {
 bool ClientCarState::is_oriented_right() {
     return wrappeeState.is_oriented_right();
 }
+
+bool ClientCarState::get_jumped() {
+    return wrappeeState.get_jumped();
+}
+
+bool ClientCarState::get_double_jumped() {
+    return wrappeeState.get_double_jumped();
+}

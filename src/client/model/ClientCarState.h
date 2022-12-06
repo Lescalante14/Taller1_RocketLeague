@@ -27,6 +27,9 @@ public:
     int get_angle();
 
     bool is_oriented_right();
+
+    bool get_jumped();
+    bool get_double_jumped();
 };
 
 
