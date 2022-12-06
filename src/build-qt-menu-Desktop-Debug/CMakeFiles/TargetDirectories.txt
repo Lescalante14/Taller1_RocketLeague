@@ -1,0 +1,4 @@
+/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/qt-menu.dir
+/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/santiago/Documents/FIUBA/taller1/tps/rl/src/build-qt-menu-Desktop-Debug/CMakeFiles/qt-menu_autogen.dir
