@@ -1,5 +1,5 @@
 cd build
 rm -rf *
-cmake ..
+cmake -Wno-dev ..
 make
 

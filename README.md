@@ -22,12 +22,10 @@ sudo apt install libsdl2-ttf-dev
 sudo apt install qtbase5-dev qt5-qmake
 ```
 
-To build the project:
+Execute the scripts to build and install the project
 ```shell
-mkdir build
-cd build
-cmake ..
-make
+./build.sh
+./install.sh
 ```
 
 ## Usage 
