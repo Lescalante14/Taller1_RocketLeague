@@ -49,6 +49,8 @@ TEST(Protocolo, SendMatchState) {
     76,
     1,
     45,
+    1,
+    0,
     45,
     13
   );
@@ -58,6 +60,8 @@ TEST(Protocolo, SendMatchState) {
     100,
     0,
     15,
+    0,
+    1,
     37,
     8
   );
@@ -106,6 +110,8 @@ TEST(Protocolo, SendMatchState) {
   EXPECT_EQ(recv_car_1.get_nitro_activated(), 1);
   EXPECT_EQ(recv_car_1.is_oriented_right(), 1);
   EXPECT_EQ(recv_car_1.get_angle(), 45);
+  EXPECT_EQ(recv_car_1.get_jumped(), 1); 
+  EXPECT_EQ(recv_car_1.get_double_jumped(), 0); 
   EXPECT_EQ(recv_car_1.get_position_x(), 4500);
   EXPECT_EQ(recv_car_1.get_position_y(), 1300); 
 
@@ -114,6 +120,8 @@ TEST(Protocolo, SendMatchState) {
   EXPECT_EQ(recv_car_2.get_nitro_activated(), 0);
   EXPECT_EQ(recv_car_2.is_oriented_right(), 0);
   EXPECT_EQ(recv_car_2.get_angle(), 15);
+  EXPECT_EQ(recv_car_2.get_jumped(), 0); 
+  EXPECT_EQ(recv_car_2.get_double_jumped(), 1); 
   EXPECT_EQ(recv_car_2.get_position_x(), 3700);
   EXPECT_EQ(recv_car_2.get_position_y(), 800); 
 }

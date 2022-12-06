@@ -233,7 +233,9 @@ void GameModel::saveState() {
 								c.nitroTriggered(),
 								c.remainingNitro(),
 								c.getFacing(),
-								c.getAngle() , 
+								c.getAngle(),
+								0, // TODO: llenar bien jumped y double_jumped
+								0, 
 								c.getPosition().x,
 								c.getPosition().y);
 	}

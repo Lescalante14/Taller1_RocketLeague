@@ -1,7 +1,8 @@
 #include "client_thread_receiver.h"
+#include "../common/socket_closed_exception.h"
 #include <string>
 
-void ClientThreadReceiver::run() {
+void ClientThreadReceiver::run() { try {
     bool should_continue = true;
     bool was_closed = false;
 
@@ -14,7 +15,9 @@ void ClientThreadReceiver::run() {
             should_continue = false;
         }    
     }
-}
+} catch (const SocketClosedException &e) {
+    return;
+} }
 
 ClientThreadReceiver::ClientThreadReceiver(
     Protocol& _protocol, 
