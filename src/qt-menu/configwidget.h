@@ -20,8 +20,13 @@ private slots:
 
     void on_dial_sliderMoved(int position);
 
+    void on_goBack_clicked();
+
 private:
     Ui::configWidget *ui;
-};
 
+signals:
+    void goHomeClicked();
+
+};
 #endif // CONFIGWIDGET_H

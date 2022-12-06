@@ -23,7 +23,7 @@ else
 	fi
 	
 	sudo cp ./.rl_config.yml /etc/rocket_league/.rl_config.yml
-
+	sudo chmod 666 /etc/rocket_league/.rl_config.yml
 
 	# create data dir 
 	if [ ! -d "/var/rocket_league" ]

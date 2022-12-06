@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "menu.h"
 #include "./ui_menu.h"
 
@@ -22,9 +24,12 @@ Menu::Menu(bool *play,
     ui->stackedWidget->insertWidget(CREATE_GAME, &c_widg);
     ui->stackedWidget->insertWidget(JOIN_GAME, &j_widg);
     ui->stackedWidget->insertWidget(CONFIG, &conf_widg);
+    ui->stackedWidget->insertWidget(ABOUT, &a_widg);
 
     connect(&c_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
     connect(&j_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
+    connect(&conf_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
+    connect(&a_widg, SIGNAL(goHomeClicked()), this, SLOT(goHome()));
 
     connect(&c_widg, SIGNAL(exit()), this, SLOT(play()));
     connect(&j_widg, SIGNAL(exit()), this, SLOT(play()));
@@ -61,5 +66,11 @@ void Menu::on_joinButton_clicked()
 void Menu::on_configButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(CONFIG);
+}
+
+
+void Menu::on_aboutButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(ABOUT);
 }
 

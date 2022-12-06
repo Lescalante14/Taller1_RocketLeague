@@ -20,11 +20,16 @@ configWidget::~configWidget()
 
 void configWidget::on_comboBox_currentIndexChanged(int index)
 {
-    YAML::Node config = YAML::LoadFile("/etc/rocket_league/.rl_config.yml");
+    YAML::Node config = YAML::LoadFile("../../.rl_config.yml");
     config["ball_size"] = index;
-    std::ofstream fout("/etc/rocket_league/.rl_config.yml");
-    fout << config;
-    std::cout << "SAVED\n";
+    std::ofstream fout("../../.rl_config.yml");
+
+    if (fout.is_open()) {
+        fout << config;
+        fout.flush();
+        fout.close();
+    }
+
 }
 
 
@@ -33,9 +38,19 @@ void configWidget::on_dial_sliderMoved(int position)
     YAML::Node config = YAML::LoadFile("/etc/rocket_league/.rl_config.yml");
     config["match_duration"] = position;
     std::ofstream fout("/etc/rocket_league/.rl_config.yml");
-    fout << config;
 
+    if (fout.is_open()) {
+        fout << config;
+        fout.flush();
+        fout.close();
+    }
     QString pos = QString::fromStdString(std::to_string(position) + " sec");
     ui->durationLabel->setText(pos);
+}
+
+
+void configWidget::on_goBack_clicked()
+{
+    emit goHomeClicked();
 }
 

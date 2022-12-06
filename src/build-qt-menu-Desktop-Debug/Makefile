@@ -142,6 +142,30 @@ qt-menu_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu_autogen.dir/build.make CMakeFiles/qt-menu_autogen.dir/build
 .PHONY : qt-menu_autogen/fast
 
+aboutwidget.o: aboutwidget.cpp.o
+.PHONY : aboutwidget.o
+
+# target to build an object file
+aboutwidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/aboutwidget.cpp.o
+.PHONY : aboutwidget.cpp.o
+
+aboutwidget.i: aboutwidget.cpp.i
+.PHONY : aboutwidget.i
+
+# target to preprocess a source file
+aboutwidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/aboutwidget.cpp.i
+.PHONY : aboutwidget.cpp.i
+
+aboutwidget.s: aboutwidget.cpp.s
+.PHONY : aboutwidget.s
+
+# target to generate assembly for a file
+aboutwidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/aboutwidget.cpp.s
+.PHONY : aboutwidget.cpp.s
+
 configwidget.o: configwidget.cpp.o
 .PHONY : configwidget.o
 
@@ -296,6 +320,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... qt-menu_autogen"
 	@echo "... qt-menu"
+	@echo "... aboutwidget.o"
+	@echo "... aboutwidget.i"
+	@echo "... aboutwidget.s"
 	@echo "... configwidget.o"
 	@echo "... configwidget.i"
 	@echo "... configwidget.s"

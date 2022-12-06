@@ -75,6 +75,12 @@
       <property name="styleSheet">
        <string notr="true">background-color: #E0DDD9</string>
       </property>
+      <property name="maximum">
+       <number>8</number>
+      </property>
+      <property name="singleStep">
+       <number>2</number>
+      </property>
      </widget>
     </item>
    </layout>

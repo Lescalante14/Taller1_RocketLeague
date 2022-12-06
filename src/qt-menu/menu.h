@@ -6,6 +6,7 @@
 #include "creategamewidget.h"
 #include "joingamewidget.h"
 #include "configwidget.h"
+#include "aboutwidget.h"
 
 #include "../common/blocking_queue.h"
 
@@ -30,8 +31,8 @@ private slots:
     void play();
     void on_createButton_clicked();
     void on_joinButton_clicked();
-
     void on_configButton_clicked();
+    void on_aboutButton_clicked();
 
 private:
     Ui::Menu *ui;
@@ -39,5 +40,6 @@ private:
     createGameWidget c_widg;
     joinGameWidget j_widg;
     configWidget conf_widg;
+    aboutWidget a_widg;
 };
 #endif // MENU_H
