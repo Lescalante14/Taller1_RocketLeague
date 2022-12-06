@@ -142,6 +142,30 @@ qt-menu_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu_autogen.dir/build.make CMakeFiles/qt-menu_autogen.dir/build
 .PHONY : qt-menu_autogen/fast
 
+configwidget.o: configwidget.cpp.o
+.PHONY : configwidget.o
+
+# target to build an object file
+configwidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/configwidget.cpp.o
+.PHONY : configwidget.cpp.o
+
+configwidget.i: configwidget.cpp.i
+.PHONY : configwidget.i
+
+# target to preprocess a source file
+configwidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/configwidget.cpp.i
+.PHONY : configwidget.cpp.i
+
+configwidget.s: configwidget.cpp.s
+.PHONY : configwidget.s
+
+# target to generate assembly for a file
+configwidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qt-menu.dir/build.make CMakeFiles/qt-menu.dir/configwidget.cpp.s
+.PHONY : configwidget.cpp.s
+
 creategamewidget.o: creategamewidget.cpp.o
 .PHONY : creategamewidget.o
 
@@ -272,6 +296,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... qt-menu_autogen"
 	@echo "... qt-menu"
+	@echo "... configwidget.o"
+	@echo "... configwidget.i"
+	@echo "... configwidget.s"
 	@echo "... creategamewidget.o"
 	@echo "... creategamewidget.i"
 	@echo "... creategamewidget.s"

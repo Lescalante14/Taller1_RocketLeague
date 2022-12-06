@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/configwidget.cpp" "CMakeFiles/qt-menu.dir/configwidget.cpp.o" "gcc" "CMakeFiles/qt-menu.dir/configwidget.cpp.o.d"
   "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/creategamewidget.cpp" "CMakeFiles/qt-menu.dir/creategamewidget.cpp.o" "gcc" "CMakeFiles/qt-menu.dir/creategamewidget.cpp.o.d"
   "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/joingamewidget.cpp" "CMakeFiles/qt-menu.dir/joingamewidget.cpp.o" "gcc" "CMakeFiles/qt-menu.dir/joingamewidget.cpp.o.d"
   "/home/santiago/Documents/FIUBA/taller1/tps/rl/src/qt-menu/main.cpp" "CMakeFiles/qt-menu.dir/main.cpp.o" "gcc" "CMakeFiles/qt-menu.dir/main.cpp.o.d"

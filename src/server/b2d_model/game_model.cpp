@@ -188,7 +188,7 @@ void GameModel::updateGame(UserAction &a) {
 
 
 void GameModel::step() {
-	if (!timer || this->scored) {
+	if (!this->timer || this->playing_rec) {	
 		return;
 	}
 
@@ -201,23 +201,28 @@ void GameModel::step() {
 		}
 	}
 
-	if (this->isInsideLScorer(this->ball.getPosition())) {
+	if (!this->scored && this->isInsideLScorer(this->ball.getPosition())) {
 		this->r_scorer++;
+		this->ball.freeze();
 		this->scored = true;
 
-	} else if (this->isInsideRScorer(this->ball.getPosition())) {
+	} else if (!this->scored && this->isInsideRScorer(this->ball.getPosition())) {
 		this->l_scorer++;
+		this->ball.freeze();
 		this->scored = true;
 	}
 	
-	if (!(this->step_count % this->step_freq)) {
+	if (!this->scored && !(this->step_count % this->step_freq)) {
 		this->timer--;
 	}
 	this->saveState();
 
-	if (this->scored) {
+	if (this->scored &&
+		this->sleep_count++ > AFTER_SCORE_SLEEP * this->step_freq) {
+
 		this->ball.reset(this->length / 2, this->height / 2);
 		this->resetCars();
+		this->playing_rec = true;
 		return;
 	}
 	this->world.Step(TIME_STEP, VEL_ITER, POS_ITER);
@@ -263,15 +268,13 @@ MatchState GameModel::getState() {
 		this->saveState();
 	}
 
-	if (this->scored &&
-		this->sleep_count++ > AFTER_SCORE_SLEEP * this->step_freq) {
-		
-		
+	if (this->playing_rec) {
 		MatchState state = this->last_states.front();
 		this->last_states.pop();
 
 		if (!this->last_states.size()) {
 			this->scored = false;
+			this->playing_rec = false;
 			this->sleep_count = 0;
 		}
 		return state;

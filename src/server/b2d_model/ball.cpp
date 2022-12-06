@@ -173,6 +173,7 @@ shot_type Ball::applyShotEffect(Car &car) {
 }
 
 void Ball::reset(float x, float y) {
+	this->unfreeze();
 	this->move(x, y);
 	this->ball->SetAngularVelocity(0);
 	this->ball->SetLinearVelocity(b2Vec2(0, 0));
@@ -198,6 +199,16 @@ uint16_t Ball::getAngle() {
 float Ball::getRadius() {
 	return this->_radius;
 }
+
+void Ball::freeze() {
+	this->ball->SetActive(false);
+}
+
+
+void Ball::unfreeze() {
+	this->ball->SetActive(true);
+}
+
 
 Ball::~Ball() {}
 
