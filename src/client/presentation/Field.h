@@ -13,16 +13,25 @@
 #include "Scorer.h"
 #include "client/model/ClientScorerState.h"
 #include "client/MixerManager.h"
+#include "GoalAnimation.h"
 
 class Field {
     SDL2pp::Texture fieldTexture;
     SDL2pp::Texture goalTexture1;
     SDL2pp::Texture goalTexture2;
     Scorer scorer;
+    GoalAnimation goalAnimation;
+    size_t shotStepsAnimation= 0;
+    int scorerTeam1 = 0;
+    int scorerTeam2 = 0;
+    bool team1Goal = false;
+    bool team2Goal = false;
 public:
     explicit Field(SDL2pp::Renderer &renderer, int time);
 
     void render(SDL2pp::Renderer &renderer, PositionConverter &converter, ClientScorerState scorerState, MixerManager &mixerManager);
+
+    void renderGoalAnimation(SDL2pp::Renderer &renderer, ClientScorerState scorerState, int goalHeight);
 };
 
 
