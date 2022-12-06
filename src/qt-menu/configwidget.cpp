@@ -26,6 +26,6 @@ void configWidget::on_comboBox_currentIndexChanged(int index)
 void configWidget::on_dial_sliderMoved(int position)
 {
     YAML::Node config = YAML::LoadFile("/etc/rocket_league/.rl_config.yml");
-    config["match_duration"] = index;
+    config["match_duration"] = position;
 }
 

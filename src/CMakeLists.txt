@@ -61,6 +61,8 @@ target_link_libraries(rocket_league PUBLIC ${SDL2PP_LIBRARIES})
 include_directories(${PROJECT_BINARY_DIR})
 target_link_libraries(rocket_league PUBLIC Qt5::Widgets)
 
+#include yaml-cpp in client
+target_link_libraries(rocket_league PUBLIC yaml-cpp)
 
 target_compile_options(rocket_league PUBLIC
 	-Werror

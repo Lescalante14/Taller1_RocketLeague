@@ -15,6 +15,11 @@ public:
     explicit configWidget(QWidget *parent = nullptr);
     ~configWidget();
 
+private slots:
+    void on_comboBox_currentIndexChanged(int index);
+
+    void on_dial_sliderMoved(int position);
+
 private:
     Ui::configWidget *ui;
 };

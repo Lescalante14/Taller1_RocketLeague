@@ -201,12 +201,12 @@ float Ball::getRadius() {
 }
 
 void Ball::freeze() {
-	this->ball->SetActive(false);
+	this->ball->SetEnabled(false);
 }
 
 
 void Ball::unfreeze() {
-	this->ball->SetActive(true);
+	this->ball->SetEnabled(true);
 }
 
 
