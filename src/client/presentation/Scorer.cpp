@@ -54,14 +54,14 @@ void Scorer::updateState(ClientScorerState state, MixerManager &mixerManager) {
     }
 
     // Update scorer team 1
-    if (state.getTeam1() != team1) {
+    if (state.getTeam1() > team1) {
         mixerManager.playGoalSound();
         team1 = state.getTeam1();
         textureTeam1Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team1), SDL_Color{255, 255, 255, 255}));
     }
 
     // Update scorer team 2
-    if (state.getTeam2() != team2) {
+    if (state.getTeam2() > team2) {
         mixerManager.playGoalSound();
         team2 = state.getTeam2();
         textureTeam2Scorer.Update(SDL2pp::NullOpt, font.RenderText_Blended(std::to_string(team2), SDL_Color{255, 255, 255, 255}));
