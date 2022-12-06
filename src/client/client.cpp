@@ -1,16 +1,12 @@
 #include <string>
 #include <iostream>
-#include <utility>
 
-#include "client_thread_receiver.h"
-#include "client_thread_sender.h"
+#include "client/threads/client_thread_receiver.h"
+#include "client/threads/client_thread_sender.h"
 #include "LobbyClient.h"
 #include "client.h"
 #include "Game.h"
-
 #include "common/blocking_queue.h"
-#include "common/lobby_command.h"
-#include "common/custom_error.h"
 #include "common/protocol.h"
 #include "common/socket.h"
 

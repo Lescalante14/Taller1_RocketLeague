@@ -1,5 +1,5 @@
 #include "client_thread_receiver.h"
-#include "../common/socket_closed_exception.h"
+#include "common/socket_closed_exception.h"
 #include <string>
 
 void ClientThreadReceiver::run() { try {
