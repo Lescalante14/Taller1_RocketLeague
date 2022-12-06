@@ -28,6 +28,7 @@ target_compile_options(rl_server PUBLIC
 
 # --------- Client build ---------
 
+
 find_package(Qt5Widgets REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
