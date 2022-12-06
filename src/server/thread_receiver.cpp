@@ -7,7 +7,7 @@
 void ThreadReceiver::run() { 
     bool in_match = false;
     std::string match_name("");
-    uint8_t car_id;
+    uint8_t car_id = 0;
 try {
     bool was_closed = false;
     BlockingQueue<UserAction>* match_input_queue = nullptr;

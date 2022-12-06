@@ -20,6 +20,8 @@ private:
     ClientCarState state;
     ClientNitroBar nitroBar;
 
+    void playSounds(MixerManager &mixerManager, bool isSelfCar);
+
 public:
 
     ClientCar(ClientCarState state, bool isTeam1, SDL2pp::Renderer &renderer);

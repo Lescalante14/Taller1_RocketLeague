@@ -39,10 +39,8 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
     if (isSelfCar)
         nitroBar.render(renderer, state.get_nitro_percentage(), posX, posY, carWidth, carHeight, state.is_oriented_right());
 
+    playSounds(mixerManager, isSelfCar);
     if (state.get_nitro_activated()) {
-        if (!AVOID_REPEATED_SOUNDS || isSelfCar){
-            mixerManager.playNitroSound();
-        }
         int signPos = flipH ? carWidth : -carWidth;
         renderer.Copy(nitroTexture,
                       SDL2pp::NullOpt,
@@ -51,13 +49,19 @@ void ClientCar::render(SDL2pp::Renderer &renderer, PositionConverter &positionCo
                       SDL2pp::NullOpt,
                       flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE
         );
-    } else {
-        if (!AVOID_REPEATED_SOUNDS || isSelfCar){
-            mixerManager.stopNitroSound();
-        }
     }
 }
 
 void ClientCar::updateState(ClientCarState newState) {
     state = std::move(newState);
+}
+
+void ClientCar::playSounds(MixerManager &mixerManager, bool isSelfCar) {
+    if (!AVOID_REPEATED_SOUNDS || isSelfCar) {
+        if (state.get_nitro_activated()) {
+            mixerManager.playNitroSound();
+        } else {
+            mixerManager.stopNitroSound();
+        }
+    }
 }

@@ -10,7 +10,6 @@
 #define FIRST_FREE_CHANNEL (-1)
 #define INFINITE_LOOPS (-1)
 #define NO_PLAYING_SOUND (-1)
-#define STOP_CHANNEL_IMMEDIATELY (-1)
 
 /* Defined by our team*/
 #define GAME_MUSIC_VOLUME 10
