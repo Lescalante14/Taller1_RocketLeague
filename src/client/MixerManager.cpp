@@ -14,6 +14,7 @@
 /* Defined by our team*/
 #define GAME_MUSIC_VOLUME 10
 #define NITRO_VOLUME 30
+#define JUMP_VOLUME 20
 #define GOAL_VOLUME 30
 #define SUPER_SHOT_VOLUME 50
 #define SIMPLE_SHOT_VOLUME 50
@@ -31,6 +32,7 @@ MixerManager::MixerManager()
 {
     gameMusic.SetVolume(GAME_MUSIC_VOLUME);
     nitroSound.SetVolume(NITRO_VOLUME);
+    jumpSound.SetVolume(JUMP_VOLUME);
     goalSound.SetVolume(GOAL_VOLUME);
     superShotSound.SetVolume(SUPER_SHOT_VOLUME);
     simpleShotSound.SetVolume(SIMPLE_SHOT_VOLUME);
