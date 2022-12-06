@@ -15,6 +15,7 @@ private:
     size_t players_limit;
     BlockingQueue<UserAction> input_queue;
     std::vector<BlockingQueue<std::string>*> output_queues;
+    std::mutex mutex;
 
 public:
     LobbyMatch(
@@ -44,5 +45,7 @@ public:
     void push_to_output_queues(MatchSetup state);
 
     void push_to_output_queues(MatchState state);
+
+    void remove_player(uint8_t id);
 };
 #endif

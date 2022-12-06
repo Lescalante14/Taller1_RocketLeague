@@ -4,6 +4,7 @@
 #include <sstream>
 #include <utility>
 #include <functional>
+#include <iostream>
 
 Lobby::Lobby(BlockingQueue<LobbyMatch*>& _matchs_to_start_queue)
     : matchs_to_start_queue(_matchs_to_start_queue) { }
@@ -38,13 +39,28 @@ BlockingQueue<UserAction>* Lobby::add_player_to_match(
 
     bool has_to_start = false; 
     bool car_id = this->matches.at(match_name)->add_player(output_queue, &has_to_start); 
+    BlockingQueue<UserAction>* input_queue = 
+        this->matches.at(match_name)->get_match_input_queue();
+    *car_id_asigned = car_id;
 
     if (has_to_start) {
         this->matchs_to_start_queue.push(this->matches.at(match_name));
-        *car_id_asigned = car_id;
-        return this->matches.at(match_name)->get_match_input_queue();
     }
-    return nullptr;
+
+    return input_queue;
+}
+
+void Lobby::remove_player_from_match(
+    const std::string& match_name, 
+    uint8_t car_id
+) {
+    std::lock_guard<std::mutex> lock(this->mutex);
+
+    if (this->matches.count(match_name) == 0) {
+        throw LobbyMatchError("There is no match with that name.");
+    }
+
+    this->matches.at(match_name)->remove_player(car_id);
 }
 
 std::string Lobby::get_matches_list() {

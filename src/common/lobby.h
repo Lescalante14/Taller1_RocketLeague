@@ -36,6 +36,14 @@ public:
         uint8_t* car_id_asigned);
 
     /*
+    * Quita el jugador de id "car_id" de la partida de
+    * nombre "match_name"
+    * */
+    void remove_player_from_match(
+        const std::string& match_name, 
+        uint8_t car_id);
+
+    /*
     * Devuelve un listado con las partidas del lobby
     * indicando nombre, cantidad de jugadores actuales
     * y el límite de jugadores

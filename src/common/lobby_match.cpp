@@ -32,6 +32,7 @@ uint8_t LobbyMatch::add_player(
     BlockingQueue<std::string>* output_queue,
     bool* has_to_start
 ) {
+    std::lock_guard<std::mutex> lock(this->mutex);
     if (this->players >= this->players_limit) {
         throw LobbyMatchError("The match is full.");
     }
@@ -52,10 +53,12 @@ UserAction LobbyMatch::pop_from_input_queue() {
 }
 
 void LobbyMatch::push_to_output_queues(MatchState state) {
+    std::lock_guard<std::mutex> lock(this->mutex);
     std::for_each(
         this->output_queues.begin(), 
         this->output_queues.end(), 
         [&state] (BlockingQueue<std::string>* queue) { 
+            if (queue == nullptr) return;
             std::string ser(state.serialize());
             if (queue->size() > MAX_STATES) {
 				queue->pop();
@@ -65,6 +68,7 @@ void LobbyMatch::push_to_output_queues(MatchState state) {
 }
 
 void LobbyMatch::push_to_output_queues(MatchSetup setup) {
+    std::lock_guard<std::mutex> lock(this->mutex);
     uint8_t i = 0;
     std::for_each(
         this->output_queues.begin(), 
@@ -77,4 +81,7 @@ void LobbyMatch::push_to_output_queues(MatchSetup setup) {
         });
 }
 
-
+void LobbyMatch::remove_player(uint8_t id) {
+    std::lock_guard<std::mutex> lock(this->mutex);
+    this->output_queues[id] = nullptr;
+}

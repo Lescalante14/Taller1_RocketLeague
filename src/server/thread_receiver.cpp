@@ -4,10 +4,12 @@
 #include <string>
 #include <sstream>
 
-void ThreadReceiver::run() { try {
+void ThreadReceiver::run() { 
     bool in_match = false;
-    bool was_closed = false;
+    std::string match_name("");
     uint8_t car_id;
+try {
+    bool was_closed = false;
     BlockingQueue<UserAction>* match_input_queue = nullptr;
 
     while (not was_closed) {
@@ -34,13 +36,14 @@ void ThreadReceiver::run() { try {
                     players_limit = limit;
                     std::string rem;
                     std::getline(ss, rem);
-                    std::string match_name(rem.substr(1));
+                    std::string new_match_name(rem.substr(1));
                     match_input_queue = 
                         this->lobby.create_match(
-                            match_name, 
+                            new_match_name, 
                             players_limit,
                             &(this->to_send_queue));
                     in_match = true;
+                    match_name = new_match_name;
                     car_id = 0;
                     break;
                 }
@@ -57,6 +60,7 @@ void ThreadReceiver::run() { try {
                         match_input_queue = input_queue;
                         car_id = car_id_asigned;
                         in_match = true;
+                        match_name = command.get_payload();
                     }
                     break;
                 }
@@ -77,7 +81,13 @@ void ThreadReceiver::run() { try {
             match_input_queue->push(action);
         }
     }
+    if (in_match) {
+        this->lobby.remove_player_from_match(match_name, car_id);
+    }
 } catch (const SocketClosedException &e) {
+    if (in_match) {
+        this->lobby.remove_player_from_match(match_name, car_id);
+    }
     return;
 } }
 

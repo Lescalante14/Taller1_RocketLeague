@@ -188,6 +188,7 @@ void GameModel::updateGame(UserAction &a) {
 
 void GameModel::step() {
 	if (!timer || this->scored) {
+		this->saveState();
 		return;
 	}
 
