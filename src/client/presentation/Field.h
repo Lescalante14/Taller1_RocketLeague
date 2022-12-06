@@ -19,6 +19,8 @@ class Field {
     SDL2pp::Texture fieldTexture;
     SDL2pp::Texture goalTexture1;
     SDL2pp::Texture goalTexture2;
+    SDL2pp::Texture repetitionTexture;
+    int repetitionSteps = 0;
     Scorer scorer;
     GoalAnimation goalAnimation;
     size_t shotStepsAnimation= 0;
@@ -29,9 +31,12 @@ class Field {
 public:
     explicit Field(SDL2pp::Renderer &renderer, int time);
 
-    void render(SDL2pp::Renderer &renderer, PositionConverter &converter, ClientScorerState scorerState, MixerManager &mixerManager);
+    void render(SDL2pp::Renderer &renderer, PositionConverter &converter, ClientScorerState scorerState,
+                MixerManager &mixerManager, bool isRepetition);
 
     void renderGoalAnimation(SDL2pp::Renderer &renderer, ClientScorerState scorerState, int goalHeight);
+
+    void renderRepetitionSignal(SDL2pp::Renderer &renderer);
 };
 
 

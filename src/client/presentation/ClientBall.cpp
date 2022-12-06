@@ -12,8 +12,8 @@
 
 ClientBall::ClientBall(ClientBallState state, SDL2pp::Renderer &renderer)
 : texture(renderer, SDL2pp::Surface("/var/rocket_league/ball.png").SetColorKey(true, 0))
-, shotTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBall.png").SetColorKey(true, 255))
-, shotAirTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBallAir.png").SetColorKey(true, 0))
+, superShotTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBall.png").SetColorKey(true, 255))
+, simpleShotTexture(renderer, SDL2pp::Surface("/var/rocket_league/shotBallAir.png").SetColorKey(true, 0))
 , state(std::move(state)){}
 
 void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionConverter, MixerManager &mixerManager) {
@@ -21,7 +21,7 @@ void ClientBall::render(SDL2pp::Renderer &renderer, PositionConverter &positionC
     int posY = positionConverter.get_Y_position_ball_in_PX(state.get_position_y(), renderer);
     int radiusBall = positionConverter.get_radius_ball_in_PX(renderer);
 
-    renderShot(renderer, posX, posY, radiusBall, mixerManager);
+    renderShot(renderer, posX, posY, radiusBall, state.get_angle(), mixerManager);
 
     renderer.Copy(texture,
                   SDL2pp::NullOpt,
@@ -36,7 +36,7 @@ void ClientBall::update(ClientBallState _state) {
     state = std::move(_state);
 }
 
-void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, MixerManager &mixerManager) {
+void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int radius, int angle, MixerManager &mixerManager) {
 	if (last_shot == shot_type::NONE ||
 		shot_steps > MAX_SHOT_STEPS) {
 		
@@ -56,21 +56,21 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
 			break;
 
 		case PURPLE_SHOT:
-            shotTexture.SetColorMod(127,0,255);
+            superShotTexture.SetColorMod(127, 0, 255);
             if(shot_steps == 0) {
                 mixerManager.playSuperShotSound();
             }
 			break;
 
 		case RED_SHOT:
-            shotTexture.SetColorMod(255,0,127);
+            superShotTexture.SetColorMod(255, 0, 127);
             if(shot_steps == 0) {
                 mixerManager.playSuperShotSound();
             }
 			break;
 
 		case GOLD_SHOT:
-            shotTexture.SetColorMod(255,255,0);
+            superShotTexture.SetColorMod(255, 255, 0);
             if(shot_steps == 0) {
                 mixerManager.playSuperShotSound();
             }
@@ -78,10 +78,10 @@ void ClientBall::renderShot(SDL2pp::Renderer &renderer, int posX, int posY, int 
 	}
 
     int diameter = int(((float)radius*2)*1.5); // 50% bigger than ball
-    renderer.Copy(last_shot == shot_type::FLIP_SHOT ? shotAirTexture : shotTexture,
+    renderer.Copy(last_shot == shot_type::FLIP_SHOT ? simpleShotTexture : superShotTexture,
                   SDL2pp::NullOpt,
                   SDL2pp::Rect((int)((float)posX-(float)radius/2), (int)((float)posY-(float)radius/2), diameter, diameter),
-                  0.0,
+                  -angle,
                   SDL2pp::NullOpt,
                   SDL_FLIP_NONE
     );
