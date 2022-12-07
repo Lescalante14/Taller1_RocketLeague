@@ -30,7 +30,7 @@ Execute the scripts to build and install the project
 
 ## Usage 
 ```shell
-server_host@192.168.x.x
+server_host@<HOST>
 $ rl_server <PORT>
 
 client@192.168.x.x:
