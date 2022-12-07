@@ -31,38 +31,17 @@ Execute the scripts to build and install the project
 ## Usage 
 ```shell
 server_host@128.0.0.0
-$ ./rl_server <PORT>
+$ rl_server <PORT>
 
 client@192.168.x.x:
-$ ./rocket_league <HOST> <PORT>
-```
-**To run the client you must be in the build/src directory.**
-
-## Lobby Commands
-
-At the moment via standard input 
-
-#### Get matches
-
-```shell
-listar
-```
-#### Create match
-
-```shell
-crear <NumberOfPlayers> <MatchName>
-```
-#### Join match
-
-```shell
-unir <MatchName>
+$ rocket_league <HOST> <PORT>
 ```
 
 ## Game Commands
 
-* Up (Forward): Up arrow
-* Down (Backward): Down arrow
-* Steering Right (Right): Right arrow
-* Steering Left (Left): Left arrow
-* Boost: Left Shift
+* Rotate up (Forward): Up arrow
+* Rotate down (Backward): Down arrow
+* Move right (Right): Right arrow
+* Move left (Left): Left arrow
+* Turbo: Left Shift
 * Jump: Space bar
